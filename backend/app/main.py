@@ -1,11 +1,27 @@
 
 from uuid import uuid4
+
 from fastapi import FastAPI, BackgroundTasks, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
 
 app = FastAPI(
     title="Building Plan Compliance Pre-Check",
     version="0.1.0",
+)
+
+# Development-only origins for the local frontend.
+# The frontend will be served from http://127.0.0.1:5500.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+    ],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept"],
 )
 
 runs = {}
@@ -23,8 +39,11 @@ def validate_proposal(proposal: dict):
     findings = []
 
     for field in [
-        "building_use", "plot_area", "road_width",
-        "proposed_height", "zone"
+        "building_use",
+        "plot_area",
+        "road_width",
+        "proposed_height",
+        "zone",
     ]:
         if field not in proposal:
             findings.append(f"Missing required field: {field}")
@@ -39,7 +58,9 @@ def validate_proposal(proposal: dict):
 def process_run(run_id: str, proposal: dict):
     findings = validate_proposal(proposal)
     runs[run_id]["findings"] = findings
-    runs[run_id]["status"] = "needs_review" if findings else "completed"
+    runs[run_id]["status"] = (
+        "needs_review" if findings else "completed"
+    )
 
 
 @app.get("/")
@@ -65,7 +86,10 @@ def check_proposal(proposal: BuildingProposal):
 
 
 @app.post("/runs", status_code=202)
-def start_run(proposal: BuildingProposal, background_tasks: BackgroundTasks):
+def start_run(
+    proposal: BuildingProposal,
+    background_tasks: BackgroundTasks,
+):
     run_id = str(uuid4())
 
     runs[run_id] = {
