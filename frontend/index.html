@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pre-check building proposals against applicable building regulations.">
+    <title>Building Plan Compliance Pre-Check</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Building Plan Compliance</h1>
+        <p>Pre-check your building proposal against applicable regulations.</p>
+    </header>
+
+    <main>
+        <section id="proposal-section">
+            <h2>Building Proposal Details</h2>
+            <p>Enter the details of your proposed building below.</p>
+
+            <form id="proposal-form">
+                <label for="building_use">Building use</label>
+                <select id="building_use" name="building_use" required>
+                    <option value="">Select building use</option>
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="mixed-use">Mixed-use</option>
+                    <option value="institutional">Institutional</option>
+                </select>
+
+                <label for="plot_area">Plot area (square metres)</label>
+                <input
+                    type="number"
+                    id="plot_area"
+                    name="plot_area"
+                    min="0.01"
+                    step="any"
+                    placeholder="e.g. 1200"
+                    required
+                >
+
+                <label for="road_width">Abutting road width (metres)</label>
+                <input
+                    type="number"
+                    id="road_width"
+                    name="road_width"
+                    min="0.01"
+                    step="any"
+                    placeholder="e.g. 9"
+                    required
+                >
+
+                <label for="proposed_height">Proposed building height (metres)</label>
+                <input
+                    type="number"
+                    id="proposed_height"
+                    name="proposed_height"
+                    min="0.01"
+                    step="any"
+                    placeholder="e.g. 12"
+                    required
+                >
+
+                <label for="zone">Zone</label>
+                <input
+                    type="text"
+                    id="zone"
+                    name="zone"
+                    placeholder="Enter the applicable zone"
+                    required
+                >
+
+                <button type="submit">Check Building Proposal</button>
+            </form>
+        </section>
+
+        <section id="results-section" aria-live="polite" hidden>
+            <h2>Pre-Check Results</h2>
+            <div id="results-content"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            This service provides preliminary findings only.
+            It does not certify legal compliance or replace review
+            by a licensed architect or engineer.
+        </p>
+    </footer>
+</body>
+</html>

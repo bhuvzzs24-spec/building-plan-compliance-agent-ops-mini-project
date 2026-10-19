@@ -2,12 +2,34 @@
 # Python cache files
 __pycache__/
 *.py[cod]
+*.pyo
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
 
 # Local Chroma vector databases
 data/chroma_db/
 data/chroma_test/
+data/chroma_validation_test/
+data/nonexistent_test_db/
 
 # Local building regulation PDFs
 data/bye_laws/*.pdf
-data/chroma_validation_test/
-data/nonexistent_test_db/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
