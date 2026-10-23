@@ -6,9 +6,10 @@ COMPLETED:
 3. Chroma vector indexing
 4. Clause retrieval with source and page citations
 5. Repeatable indexing and stale chunk removal
-6. Automated tests: 10 passed
+6. Automated tests: 18 passed
 7. PDF indexed: file_banglore.pdf
 8. GitHub changes pushed to main
+9. Workflow integration smoke test: retrieved 5 clauses with source and page metadata
 
 PENDING:
 Verify issuing authority, document title, current version, and official source URL.
