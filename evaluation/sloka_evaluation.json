@@ -1,0 +1,64 @@
+
+{
+  "title": "Sloka Building Bye-Law RAG Evaluation",
+  "version": "1.0",
+  "prompt_variants": [
+    {
+      "id": "A",
+      "name": "Direct retrieval",
+      "template": "Answer the building compliance question using retrieved bye-law passages. Include the source filename and PDF page for each supported claim. If evidence is missing, state that manual verification is required."
+    },
+    {
+      "id": "B",
+      "name": "Evidence-first",
+      "template": "Identify the relevant retrieved passage first. Answer only what the passage supports, cite its source filename and PDF page, distinguish explicit rules from interpretation, and request manual verification when evidence is insufficient."
+    }
+  ],
+  "metrics": {
+    "retrieval_hit_rate_at_5": "Fraction of scenarios where at least one relevant passage appears in the top five results",
+    "citation_completeness": "Fraction of answered claims with a source filename and page number",
+    "evidence_support_rate": "Fraction of answered claims directly supported by the cited passage",
+    "abstention_accuracy": "Fraction of insufficient-evidence scenarios correctly escalated for manual review",
+    "scenario_pass_rate": "Fraction of scenarios meeting their expected outcome"
+  },
+  "scenarios": [
+    {"id": 1, "category": "setback", "question": "What setback requirement applies to this residential proposal?", "expected": "Retrieve relevant setback clauses and cite source/page; do not invent a value."},
+    {"id": 2, "category": "plot_area", "question": "What minimum plot area is required for this building use?", "expected": "Return a supported rule and citation or request manual verification."},
+    {"id": 3, "category": "road_width", "question": "What road width is required for this proposal?", "expected": "Retrieve relevant clauses; do not assume the provided road width is compliant."},
+    {"id": 4, "category": "height", "question": "What maximum building height applies to this zone?", "expected": "Cite an explicit applicable rule or escalate."},
+    {"id": 5, "category": "FAR", "question": "What floor area ratio applies to this plot?", "expected": "Cite the applicable rule and its conditions or escalate."},
+    {"id": 6, "category": "ground_coverage", "question": "What ground coverage limit applies?", "expected": "Provide a sourced value or state that it is unverified."},
+    {"id": 7, "category": "parking", "question": "What parking requirement applies to this building use?", "expected": "Retrieve relevant parking provisions with citations."},
+    {"id": 8, "category": "building_use", "question": "Is this proposed use permitted in the specified zone?", "expected": "Use relevant zoning evidence or request authority review."},
+    {"id": 9, "category": "missing_evidence", "question": "Give the exact legal requirement when no relevant passage is retrieved.", "expected": "Do not fabricate a requirement; escalate for manual review."},
+    {"id": 10, "category": "citation", "question": "Show the source and page for the rule you retrieved.", "expected": "Return source filename and page number when available."},
+    {"id": 11, "category": "conflicting_rules", "question": "What should happen if two retrieved passages appear to conflict?", "expected": "Report the conflict and escalate; do not silently choose a rule."},
+    {"id": 12, "category": "out_of_scope", "question": "What is the market price of this plot?", "expected": "Recognize that this is outside building bye-law compliance scope."},
+    {"id": 13, "category": "document_version", "question": "Is the retrieved 2017 document currently applicable to this property?", "expected": "Do not claim current validity without authoritative verification."},
+    {"id": 14, "category": "authority", "question": "Which authority's rules apply to this property?", "expected": "Explain that jurisdiction and applicability must be established."},
+    {"id": 15, "category": "invalid_input", "question": "Check a proposal with negative plot area.", "expected": "Flag invalid input and require correction."},
+    {"id": 16, "category": "missing_fields", "question": "Check a proposal with the zone missing.", "expected": "Identify the missing required field."},
+    {"id": 17, "category": "numeric_input", "question": "Check a proposal with non-numeric building height.", "expected": "Reject or flag invalid numeric input."},
+    {"id": 18, "category": "multi_rule", "question": "Find relevant rules for setbacks, FAR, height and parking.", "expected": "Retrieve relevant passages and cite each returned passage."},
+    {"id": 19, "category": "interpretation", "question": "Does a general development-regulation passage alone prove this proposal complies?", "expected": "No; distinguish general text from a verified property-specific compliance decision."},
+    {"id": 20, "category": "empty_collection", "question": "Answer a rule question when the vector collection is empty.", "expected": "Handle missing evidence safely and request indexing or manual review."}
+  ],
+  "evaluation_protocol": {
+    "run_each_scenario_with": ["A", "B"],
+    "total_cases": 20,
+    "total_prompt_runs": 40,
+    "record_for_each_run": [
+      "scenario_id",
+      "prompt_variant",
+      "retrieved_passages",
+      "source_and_page",
+      "expected_outcome",
+      "actual_outcome",
+      "citation_complete",
+      "evidence_supported",
+      "manual_review_needed",
+      "pass_or_fail"
+    ],
+    "note": "Populate actual outcomes by running and reviewing the system. Do not report scores until the evaluation has been executed."
+  }
+}
