@@ -1,6 +1,6 @@
 {
   "evaluation_name": "Sloka Building Plan Compliance RAG Evaluation",
-  "generated_at_utc": "2026-10-23T20:55:45.877802+00:00",
+  "generated_at_utc": "2026-10-23T20:58:52.892580+00:00",
   "dataset": "evaluation\\sloka_evaluation.json",
   "total_scenarios_in_dataset": 20,
   "scenarios_processed": 20,
