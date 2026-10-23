@@ -1,0 +1,831 @@
+{
+  "evaluation_name": "Sloka Building Plan Compliance RAG Evaluation",
+  "generated_at_utc": "2026-10-23T20:37:43.187788+00:00",
+  "dataset": "evaluation\\sloka_evaluation.json",
+  "total_scenarios_in_dataset": 20,
+  "scenarios_processed": 20,
+  "scenarios_with_errors": 0,
+  "evaluation_scope": "Retrieval and citation-metadata checks only. This run does not execute LLM prompt variants and does not establish semantic evidence support, abstention accuracy, or overall compliance accuracy.",
+  "results": [
+    {
+      "scenario_id": 1,
+      "question": "What setback requirement applies to this residential proposal?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "in road. \n(142)  ‘Setback’  means the distance prescribed under the Zonal Regu lations of respective LPAs \nbetween the plot boundary and the plinth of the bui lding or the covered Cantilever projection \nof the building in any floor.  If cantilever projec tion of the building is proposed, the \nprescribed setback shall be provided between the pl ot boundary and such covered cantilever \nprojection. \n(143)  ‘Set7back Line’ means a line drawn at the setback distance, paralle l to the plot boundaries or \nroad widening line as prescribed in the Master Plan  / Zonal Regulations, or as decided by the \nAuthority (only road widening line), beyond which n othing can be constructed towards the \nplot boundaries except as prescribed in the Zonal Regulations. \n(144)  ‘Site Plan’ means a detailed Plan showing the proposed placemen t of structures, parking \nareas, open space, landscaping, and other developme nt features, on the plot as required by \nspecific sections of these Bye laws. \n(145)  ‘Solar",
+          "source": "file_banglore.pdf",
+          "page": 11
+        },
+        {
+          "text": "20 \nCHAPTER74 \n4.  DEVELOPMENT REGULATIONS.7 The provisions contained in Master Plan/Zonal \nRegulations shall apply and where these are silent on such issues or which require interpretation \nthe norms as decidedly the Authority, shall apply. The provisions include but are not limited to the \nuse/activity of premises, ground coverage, FAR, set backs, open space, height and parking standards \nfor Residential premises on plotted development, Gr oup housing, Resettlement colonies, Slums, In7\nsitu up gradation, Non7residential premises. The pe rmission of uses/use activities in use premises \nshall be permitted in accordance with provisions of  Master Plan and Zonal Regulations. The object of \nthese regulations is to provide control for buildin g/buildings within use premises excluding the \ninternal arrangement, which is covered and controlled by Building Bye7Laws.  \n \nCHAPTER – 5 \n5.  GENERAL BUILDING REQUIREMENTS AND SERVICES  \n5.1    Requirements for Parts of Buildings \n5.1.1  Plinth",
+          "source": "file_banglore.pdf",
+          "page": 21
+        },
+        {
+          "text": "nts’ means fully furnished room or suite or rooms with k itchen, which is \nintended to be used on rental basis. \n(141)  ‘Service Road’  means a road / lane provided adjacent to a plot fo r access or service purposes \nas the case may be and shall be parallel to the mai n road and may or may not be at grade \nwith the main road and shall be partly or fully fal ling within the proposed road width of the \nmain road. \n(142)  ‘Setback’  means the distance prescribed under the Zonal Regu lations of respective LPAs \nbetween the plot boundary and the plinth of the bui lding or the covered Cantilever projection \nof the building in any floor.  If cantilever projec tion of the building is proposed, the prescribed \nsetback shall be provided between the plot boundary and such covered cantilever projection. \n(143)  ‘Set0back Line’ means a line drawn at the setback distance, paralle l to the plot boundaries or \nroad widening line as prescribed in the Master Plan  / Zonal Regulations, or as decided by",
+          "source": "file_banglore.pdf",
+          "page": 137
+        },
+        {
+          "text": "and \nform an integral part of the Master Plan. It also e nsures solutions to problems of development under \nlocal conditions. \n The Master Plan along with the Zonal Regulations a pproved under sub section (3) of section \n13 of the Karnataka Town and Country Planning Act,1 961 approved by the Government, time to \ntime shall be applicable. \n \nCHAPTER 9  \n9.  PROVISIONS FOR DIFFERENTLY7ABLED, ELDERLY PERSONS AND CHILDREN \n9.1  Applicability.7 These regulations shall be applicable to all buildi ngs and facilities \nused by the public such as educational, institution al, assembly, commercial, business, mercantile \nbuildings and group housing constructed on plots ha ving an area of more than2000Sq.m. It shall \nnot apply to private residential buildings.  \n9.2  Guidelines and Provisions \n(1). Provisions in the following guidelines shall apply: \n(2). ‘Guidelines and Space Standards for Barrier Fr ee Built Environment for Disabled and Elderly \nPersons’, (1998), Central Public Works Department,",
+          "source": "file_banglore.pdf",
+          "page": 51
+        },
+        {
+          "text": "prescribed in Appendix7VII.  \n(4) If the building is not completed within the per iod of revalidation, he may avail further \nextension of the validity period after repeating the procedure specified in clause 3.15.4(3).  \n(5)Revalidation shall not be permitted if the construction has not commenced within period of \ntwo years from the date of sanction. In such cases the Applicant has to apply for revised sanction as \nper the Master Plan / Zonal Regulation and Building  Bye7laws as in force at the time of application \nof revised sanction. \n3.15.5  Revised Licence.7 The Applicant has to apply for revised building lic ence if the \nApplicant intents to make changes resulting in more  than 5% deviation from the sanctioned plans in \nany or all of the following, but within the provisi ons of the Zonal Regulations, Section 17 of \nKarnataka Town and Country Planning Act,1961 , and these Byelaws;  \n(i)  Setbacks; \n(ii)  Coverage;  \n(iii)  FAR; and \n(iv)  Car parking \n               If the",
+          "source": "file_banglore.pdf",
+          "page": 17
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 2,
+      "question": "What minimum plot area is required for this building use?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "provisions for new buildings on various plot sizes and construction \nareas are indicated in the table 11.1 \n \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non0Residential) \n \nPlot \nCategory \nApplicable \nplot area \n(Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non0Residential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 \nupto 250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \n \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a),",
+          "source": "file_banglore.pdf",
+          "page": 185
+        },
+        {
+          "text": "56 \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non7Residential) \nPlot \nCategory \nApplicable plot \narea (Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non7\nResidential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 upto \n250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(b),  1(d), 2(a), 4(a) \n1001 to 2000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a),4(b),",
+          "source": "file_banglore.pdf",
+          "page": 57
+        },
+        {
+          "text": "as retail display area, office \narea, work area, stores, toilet, etc. mentioned sep arately. The carpet area (excluding \nexterior wall and balcony of the premises) and plin th area (including exterior wall and \nbalcony of the premises) of the premises has to be mentioned. Area of exclusive balcony \nand terrace attached to each dwelling unit has to be mentioned. \n(b)  Room dimensions and details of doors, windows,  ventilators, duct doors and other \nopenings shall be shown. \n(c)  All common areas such as staircases and lifts,  corridors / passages, service / ventilation \nducts, stores, entrance lobby etc. have to be shown along with dimensions. \n(d)  Level of floor with reference to the ground le vel contiguous to the building or the road level \nwhichever is considered for the height of the building. \n(e)  Minimum Setback line from the boundary of the plot and balconies projecting beyond the \nsetback line. \n(f)  No. of premises in each floor and no. of typic al floors. \n(g)  Terrace",
+          "source": "file_banglore.pdf",
+          "page": 102
+        },
+        {
+          "text": "applicable.  \nThe section shall also cut across maximum earth cut  or fill areas of the plot showing the \noriginal ground level and the formed ground level w ith the proposed retaining wall details. \nThe section shall also show the general foundation details of the building. \nThe section drawings shall mark all the building co mponents and structural elements \n(foundation, walls, slab & beams, roof, etc.,) alon g with the dimensions. The type / \nspecification of material for each component shall also be mentioned. \nThe section drawing shall also show the ground leve ls contiguous to the building, average \nground level contiguous to the building and also th e levels of each floor. The section drawing \nshall also have the floor to floor height (includin g mezzanine floor, if applicable) and the \nheight of the building measured from the average gr ound level contiguous to the building or \nthe road level, as the case may be, to the terrace floor level or the roof level, as the case may",
+          "source": "file_banglore.pdf",
+          "page": 232
+        },
+        {
+          "text": "(4)  Title of drawing \n(5)  Survey nos., village name, Taluk name and district name where the plot is situated. \n(6)  Existing and proposed width of roads abutting the plot \n(7)  Extent of plot  \n(a)  Total extent (as per document, as per site conditio n and considered for building \nlicence) \n(b)  Extent to be surrendered for road widening (whether  compensation paid – monetary of \nin the form of DR) \n(c)  Extent to be surrendered for P and OS and CA, if applicable. \n(d)  Net area for development \n(e)  Net area considered for FAR calculation \n(8)  Land use analysis \n \n(a)  Land uses of plot as per Master Plan   \n(b)  Permitted land uses as per Zonal regulations  \n(c)  Existing land use of areas in the plot (% of area f or roads, Park and Open Space and \nCivic Amenities, if applicable and % of area for development). \n(9)  Summary of area statement of buildings with floor w ise area details and FAR (permitted \nand proposed including DR / TDR). \n(10)  Ground coverage (permitted and",
+          "source": "file_banglore.pdf",
+          "page": 106
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 3,
+      "question": "What road width is required for this proposal?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": ")  ‘Road/Street’  means as defined in clause (24) of the section 2 of the Act.  \n(136)  ‘Road/Street Level or Grade’  means the officially established elevation or grad e of the \ncentreline of street upon which a plot fronts, and if there is no officially established grade, \nthe existing elevation or grade of street at its mid7point, at the centre of the plot. \n(137)  ‘Road/Street Line’ means the line defining the side limits of a road/s treet, where existing \nroad width is considered and the road widening line  where proposed road width is \nconsidered. \n(138)  ‘Road Width or Width of Road/Street’ means the right of way/distance between the \nboundaries of the property on either side of the road including, carriageway, footways, service \nroad at same level or at different level and storm water drains as laid down in the city survey \nor Master Plan or the prescribed road lines by any act of law and measured at right angles to \nthe course or intended course of direction of such road.",
+          "source": "file_banglore.pdf",
+          "page": 11
+        },
+        {
+          "text": "/s treet, where existing \nroad width is considered and the road widening line where proposed road width is considered. \n(138)  ‘Road Width or Width of Road/Street’ means the right of way/distance between the \nboundaries of the property on either side of the ro ad including, carriageway, footways, service \nroad at same level or at different level and storm water drains as laid down in the city survey \nor Master Plan or the prescribed road lines by any act of law and measured at right angles to \nthe course or intended course of direction of such road. \n(139)  ‘Room Height’  means the vertical distance measured from the fini shed floor surface to the \nfinished ceiling surface. Where a finished ceiling is not provided, the underside of the joists or \nbeams or tie beams shall determine the upper point of measurement. \n(140)  ‘Service Apartments’ means fully furnished room or suite or rooms with k itchen, which is \nintended to be used on rental basis. \n(141)  ‘Service Road’  means a road /",
+          "source": "file_banglore.pdf",
+          "page": 137
+        },
+        {
+          "text": "89 \nSl. \nNo. \nMedium Environmental conditions \n8 Top Soil \nPreservation \nand Reuse \nTopsoil shall be stripped to a depth of 20cm from t he areas proposed for \nbuildings, roads, paved areas, and external service s. It shall be \nstockpiled appropriately in designated areas and re applied during \nplantation of the proposed vegetation on site. \n9 Transport A comprehensive mobility plan, as per M oUD best practices guidelines \n(URDPFI), shall be prepared to include motorized, n on-motorized, \npublic, and private networks. \nRoad shall be designed with due consideration for e nvironment, and \nsafety of users. The road system can be designed wi th these basic \ncriteria. \n1.  Hierarchy of roads with proper segregation of vehic ular and \npedestrian traffic. \n2.  Traffic calming measures. \n3.  Proper design of entry and exit points. \n4.  Parking norms as per local regulation. \n \nTable 15.3: Environmental Conditions for Building and Construction \n(Building Category ‘3’: ≥ 50,000Sq.m to",
+          "source": "file_banglore.pdf",
+          "page": 216
+        },
+        {
+          "text": "ut, compensatory plantation in the ratio of \n1:3 (i.e. planting of 3 trees for every 1 tree that  is cut) shall be done \nand maintained. \n \n8 Top Soil \nPreservation \nand Reuse \nTopsoil shall be stripped to a depth of 20cm from t he areas proposed \nfor buildings, roads, paved areas, and external ser vices. It shall be \nstockpiled appropriately in designated areas and re applied during \nplantation of the proposed vegetation on site. \n \n9 Transport A comprehensive mobility plan, as per M oUD best practices guidelines \n(URDPFI), shall be prepared to include motorized, n on-motorized, \npublic, and private networks. \nRoad shall be designed with due consideration for e nvironment, and \nsafety of users. The road system can be designed wi th these basic \ncriteria. \n \n1.  Hierarchy of roads with proper segregation of vehic ular and \npedestrian traffic. \n2.  Traffic calming measures. \n3.  Proper design of entry and exit points. \n4.  Parking norms as per local regulation. \n \n10 Environment",
+          "source": "file_banglore.pdf",
+          "page": 218
+        },
+        {
+          "text": "to be cut, compensatory plantation in the ratio of \n1:3 (i.e. planting of 3 trees for every 1 tree that  is cut) shall be done \nand maintained. \n8 Top Soil \nPreservation \nand Reuse \nTopsoil should be stripped to a depth of 20cm from the areas proposed \nfor buildings, roads, paved areas, and external ser vices. It should be \nstockpiled appropriately in designated areas and re applied during \nplantation of the proposed vegetation on site. \n9 Transport A comprehensive mobility plan, as per M oUD best practices guidelines \n(URDPFI), shall be prepared to include motorized, n on7motorized, \npublic, and private networks. \nRoad should be designed with due consideration for environment, and \nsafety of users. The road system can be designed wi th these basic \ncriteria. \n1.  Hierarchy of roads with proper segregation of vehic ular and \npedestrian traffic. \n2.  Traffic calming measures. \n3.  Proper design of entry and exit points. \n4.  Parking norms as per local regulation. \n10 Environment",
+          "source": "file_banglore.pdf",
+          "page": 89
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 4,
+      "question": "What maximum building height applies to this zone?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "d level. T he height of the stilt floor \nshall be a minimum of 2.4m and maximum of 2.7m heig ht (floor to beam bottom or ceiling \nwhichever is less).  The height shall be considered  for calculating the total height of the \nbuilding. In case of mechanical or multi7level park ing the maximum height of the stilt floor \nshall be 3.75m. \n(150)  ‘Storey’ means the space between the surface of one floor an d the surface of the other floor \nvertically above or below. The minimum floor to floor height shall not be less than 2.9m. \n(151)  ‘To Erect’7 in relation to a building means: \na)  To erect a new building on any plot whether previously built upon or not;",
+          "source": "file_banglore.pdf",
+          "page": 11
+        },
+        {
+          "text": "within whose jurisdiction such building is situated. \n(87)  ‘High7rise Building’  means a building having height of 15 m and above. \n(88)  ‘Height of Building’  means the vertical distance measured from the aver age level of the \nground around and contiguous to the building to the  top of the roof in case of flat roofs and \nin the case of sloped roofs up to the point where t he external surface of the outer wall \nintersects a finished surface of the sloping roof at the eave level  \n  In hilly areas, if the average level of the ground around and conti guous to the building is \nbelow the road level (road for which FAR is conside red), then the height of the building shall \nbe measured from such road level and not from the a verage ground level. The formed level \nmade by filling of natural ground, if considered fo r the height of the building, shall not be \nmore than 2.0m above the road level.  \n(89)  ‘Hilly Area’ for these Byelaws means those Local Planning Areas notified as hilly area",
+          "source": "file_banglore.pdf",
+          "page": 8
+        },
+        {
+          "text": "ction such building is situated. \n(87)  ‘High0rise Building’  means a building having height of 15 m and above. \n(88)  ‘Height of Building’  means the vertical distance measured from the aver age level of the ground \naround and contiguous to the building to the top of  the roof in case of flat roofs and in the case \nof sloped roofs up to the point where the external surface of the outer wall intersects a finished \nsurface of the sloping roof at the eave level  \n In hilly areas, if the average level of the ground around and conti guous to the building is below \nthe road level (road for which FAR is considered), then the height of the building shall be \nmeasured from such road level and not from the aver age ground level. The formed level made by \nfilling of natural ground, if considered for the he ight of the building, shall not be more than \n2.0m above the road level.  \n(89)  ‘Hilly Area’ for these Byelaws means those Local Planning Areas notified as hilly area by the \nGovernment from",
+          "source": "file_banglore.pdf",
+          "page": 134
+        },
+        {
+          "text": "ings in Zone0III Category(see Note 22 and 23) \nLegend \nI. Height 10 m and above up to 15 m \nII. Height 15 m and above up to 24 m \nIII. Height 24 m and above up to 30 m \nIV. Height above 30 m \nV. Covered area more than 500 m2 (for building height up to 15 m)  \nVI. Covered area more than 500 m2 (for building height above 15 m) \nVII. Covered area more than 500 m2 and up to 1000 m2 (for building height up to 15 m) \nVIII. Covered area more than 500 m2 and up to 1000 m2 (for building height above 15 m) \nIX. Covered area more than 1000 m2  \nP -To be provided. \nX -Not to be provided. \nS -Sprinklers to be installed in basement, if area of basement exceeds 200 Sq.m. \nFS -Fully Sprinklered. \n \nNOTES: \n1.  50,000 Litres capacity \n2.  75,000 Litres capacity \n3.  1,00,000 Litres capacity \n4.  1,50,000 Litres capacity \n5.  2,00,000 Litres capacity \n6.  5,000 Litres capacity per Riser \n7.  10,000 Litres capacity per Riser \n8.  20,000 Litres capacity per Riser \n9.  25,000 Litres capacity per Riser",
+          "source": "file_banglore.pdf",
+          "page": 224
+        },
+        {
+          "text": "94 \nAnnexure7BIII \nFire Protection Requirements for buildings in Zone7III Category(see Note 22 and 23) \nLegend  \nI. Height 10 m and above up to 15 m \nII. Height 15 m and above up to 24 m \nIII. Height 24 m and above up to 30 m \nIV. Height above 30 m \nV. Covered area more than 500 m2 (for building height up to 15 m)  \nVI. Covered area more than 500 m2 (for building height above 15 m) \nVII. Covered area more than 500 m2 and up to 1000 m2 (for building height up to 15 m) \nVIII. Covered area more than 500 m2 and up to 1000 m2 (for building height above 15 m) \nIX. Covered area more than 1000 m2  \nP 7To be provided. \nX 7Not to be provided. \nS 7Sprinklers to be installed in basement, if area of basement exceeds 200 Sq.m. \nFS 7Fully Sprinklered. \nNOTES:  \n1.  50,000 Litres capacity \n2.  75,000 Litres capacity \n3.  1,00,000 Litres capacity \n4.  1,50,000 Litres capacity \n5.  2,00,000 Litres capacity \n6.  5,000 Litres capacity per Riser \n7.  10,000 Litres capacity per Riser \n8.  20,000 Litres",
+          "source": "file_banglore.pdf",
+          "page": 95
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 5,
+      "question": "What floor area ratio applies to this plot?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "normally walks in a building \n(58)  ‘Floor Area’ means the area in each floor considered for calcula ting the FAR utilised in the \nbuilding. \n \n(59)  ‘Floor Area Ratio (FAR)’  means the quotient of the ratio of the combined gr oss floor area of all \nthe floors, excepting areas specifically, exempted under the Zonal Regulations, to the total area \nof the plot. Viz. \nFloor Area Ratio = Total floor area of all the floors                Plot Area",
+          "source": "file_banglore.pdf",
+          "page": 132
+        },
+        {
+          "text": "56 \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non7Residential) \nPlot \nCategory \nApplicable plot \narea (Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non7\nResidential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 upto \n250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(b),  1(d), 2(a), 4(a) \n1001 to 2000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a),4(b),",
+          "source": "file_banglore.pdf",
+          "page": 57
+        },
+        {
+          "text": "of \nfloor) \n(G+2) \n \n(G+ 3) \n \n(G+ 3) but less \nthan 15m  \nheight buildings \n \n(G+ 4) or above \n15m height \nbuildings \n \nUse of the \npremise  \nVarious \nCategories \nResidential \nPlotted \nResidential \nPlotted \nPlotted/ Group \nHousing \nGroup Housing",
+          "source": "file_banglore.pdf",
+          "page": 207
+        },
+        {
+          "text": "oor, if applicable.  \nThe section shall also cut across maximum earth cut  or fill areas of the plot showing the \noriginal ground level and the formed ground level w ith the proposed retaining wall details. The \nsection shall also show the general foundation details of the building. \nThe section drawings shall mark all the building co mponents and structural elements \n(foundation, walls, slab and beams, roof, etc.,) al ong with the dimensions. The type / \nspecification of material for each component shall also be mentioned. \nThe section drawing shall also show the ground leve ls contiguous to the building, average \nground level contiguous to the building and also th e levels of each floor. The section drawing",
+          "source": "file_banglore.pdf",
+          "page": 102
+        },
+        {
+          "text": "6\n(58)  ‘Floor Area’ means the area in each floor considered for calcula ting the FAR utilised in the \nbuilding. \n(59)  ‘Floor Area Ratio (FAR)’  means the quotient of the ratio of the combined gr oss floor area of \nall the floors, excepting areas specifically, exemp ted under the Zonal Regulations, to the total \narea of the plot. Viz. \nFloor Area Ratio =  \nTotal floor area of all the floors.  \n                Plot Area \n \n(60)  ‘Fire and/or Emergency Alarm System’ 7 means Fire alarm system comprises of \ncomponents for manually or automatically detecting a fire, initiating an alarm of fire and \ninitiating other actions as appropriate. \n(61)     ‘Fire Hazard Industries’ 7 \n(i)  ‘Low Fire Hazard Industries’ includes engineering i ndustries using/processing or \nassembling non7combustible materials i.e. lathe mac hines, steel works, steel components \netc. \n(ii)  Moderate Fire Hazard Industries’ includes industrie s using / processing combustible \nmaterials but not flammable liquid etc.,",
+          "source": "file_banglore.pdf",
+          "page": 7
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 6,
+      "question": "What ground coverage limit applies?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "94 \nAnnexure7BIII \nFire Protection Requirements for buildings in Zone7III Category(see Note 22 and 23) \nLegend  \nI. Height 10 m and above up to 15 m \nII. Height 15 m and above up to 24 m \nIII. Height 24 m and above up to 30 m \nIV. Height above 30 m \nV. Covered area more than 500 m2 (for building height up to 15 m)  \nVI. Covered area more than 500 m2 (for building height above 15 m) \nVII. Covered area more than 500 m2 and up to 1000 m2 (for building height up to 15 m) \nVIII. Covered area more than 500 m2 and up to 1000 m2 (for building height above 15 m) \nIX. Covered area more than 1000 m2  \nP 7To be provided. \nX 7Not to be provided. \nS 7Sprinklers to be installed in basement, if area of basement exceeds 200 Sq.m. \nFS 7Fully Sprinklered. \nNOTES:  \n1.  50,000 Litres capacity \n2.  75,000 Litres capacity \n3.  1,00,000 Litres capacity \n4.  1,50,000 Litres capacity \n5.  2,00,000 Litres capacity \n6.  5,000 Litres capacity per Riser \n7.  10,000 Litres capacity per Riser \n8.  20,000 Litres",
+          "source": "file_banglore.pdf",
+          "page": 95
+        },
+        {
+          "text": "ings in Zone0III Category(see Note 22 and 23) \nLegend \nI. Height 10 m and above up to 15 m \nII. Height 15 m and above up to 24 m \nIII. Height 24 m and above up to 30 m \nIV. Height above 30 m \nV. Covered area more than 500 m2 (for building height up to 15 m)  \nVI. Covered area more than 500 m2 (for building height above 15 m) \nVII. Covered area more than 500 m2 and up to 1000 m2 (for building height up to 15 m) \nVIII. Covered area more than 500 m2 and up to 1000 m2 (for building height above 15 m) \nIX. Covered area more than 1000 m2  \nP -To be provided. \nX -Not to be provided. \nS -Sprinklers to be installed in basement, if area of basement exceeds 200 Sq.m. \nFS -Fully Sprinklered. \n \nNOTES: \n1.  50,000 Litres capacity \n2.  75,000 Litres capacity \n3.  1,00,000 Litres capacity \n4.  1,50,000 Litres capacity \n5.  2,00,000 Litres capacity \n6.  5,000 Litres capacity per Riser \n7.  10,000 Litres capacity per Riser \n8.  20,000 Litres capacity per Riser \n9.  25,000 Litres capacity per Riser",
+          "source": "file_banglore.pdf",
+          "page": 224
+        },
+        {
+          "text": "95 \nAnnexure7C \n1.  Water Requirement Criterion (as notified by the  Government): Unless otherwise specified \nin Annexure B, water requirement for fire fighting in different categories of occupancies shall \nbe based on following. \nOccupancy \nCategory \nSprinkler Design \nDischarge \nDensity \n(lt./min/Sq.m) \nSprinkler \nDesign \nArea \n(Sq.m) \nMax. area \ncoverage/ \nSprinkler \n(Sq.m) \nNo. of House \nStreams* \nFully other \nSprinkled \nDuration of Discharge \n(Min.) \nFully \nSprinkled \nWet Riser \nSprinkled \nLEVEL7I 02.5 084 21 24 45 45 \nLEVEL7II 05.0 360 12 36 60 90 \nLEVEL7III 10.0 225 09 36 90 90 \nNote: The discharge through a standard hose stream shall be taken as 567 lt./min. \n2.  Estimation of Total Water Requirements Fully Sp rinklered Buildings (as notified by the \nGovernment) \nOccupancy \nCategory \nSprinkler(lt.) Riser(lt.) Total(lt.) Wet Riser cum Down \nComer (lt.) \nLEVEL7I 9,450 51,030 60,480 \n(60,000) \n1,02060 \n(1,00,000) \n \nLEVEL7II 1,08,000 1,02,060 2,10,060 \n(2,00,000) \n2,04,120",
+          "source": "file_banglore.pdf",
+          "page": 96
+        },
+        {
+          "text": "7\n(77)  ‘Garage7Private’ 7 means a building or a portion thereof designed an d used for the parking of \nvehicle. \n(78)  ‘Garage7Public ’ – means a building or portion thereof, designed o ther than as a private \ngarage, operated for gain, designed and/or used for  repairing, servicing, using, selling or \nstoring or parking motor driven or other vehicles. \n(79)  ‘Gas Go down ’ means premises where LPG cylinders are stored. \n(80)  'Government ’ means the Government of Karnataka. \n(81)  'Ground Floor ’ means the Floor immediately above the level of th e adjoining average ground \nlevel on all sides having approach directly from the road or above the basement floor. \n(82)  ‘Ground Coverage ’ means area covered by the building immediately ab ove the ground level \ncontiguous to the building. Covered area does not i nclude the space covered by ramps \naround the building, roof of basement floor beyond the plinth of the building projecting above \nthe ground level, structures for services",
+          "source": "file_banglore.pdf",
+          "page": 8
+        },
+        {
+          "text": "ps. \n19.  Pump Capacity 450 Litre/min. \n20.  Pump Capacity 900 Litre/min. \n21.  Additional 450 Litres/min. to be provided if basement area exceeds 200 m2 \n22.  Buildings above 15 m in height not to be permitted for G-3 occupancies \n23.  Buildings above 15 m in height not to be permitted for Group H Group J occupancies. However, \nbuildings above 45 m in height shall not be permitt ed for multi-level car parking (MLCP) \noccupancy. \n \nAnnexure0C \n1.  Water Requirement Criterion (as notified by the  Government): Unless otherwise specified \nin Annexure B, water requirement for fire fighting in different categories of occupancies shall \nbe based on following. \nOccupancy \nCategory \nSprinkler Design \nDischarge \nDensity \n(lt./min/Sq.m) \nSprinkler \nDesign \nArea \n(Sq.m) \nMax. area \ncoverage/ \nSprinkler \n(Sq.m) \nNo. of House \nStreams* \nFully other \nSprinkled \nDuration of Discharge \n(Min.) \nFully \nSprinkled \nWet Riser \nSprinkled \nLEVEL-I 02.5 084 21 24 45 45 \nLEVEL-II 05.0 360 12 36 60 90",
+          "source": "file_banglore.pdf",
+          "page": 225
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 7,
+      "question": "What parking requirement applies to this building use?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "provisions shall apply:  \n(a) Surface parking for two car spaces shall be pro vided near entrance for the physically \ndifferently7abled persons with maximum travel distance of 30.0m from building entrance. \n(b) The width of parking bay shall be minimum 3.6 metre. \n(c) The information stating that the space is reser ved for wheel chair users shall be \nconspicuously displayed. \nd) Guiding floor materials shall be provided or a d evice, which guides visually impaired \npersons with audible signals, or other devices, whi ch serves the same purpose, shall be provided. \n  \n9.4  Building requirements.7 The specified facilities in buildings for different ly abled persons \nshall be as follows:  \n9.4.1  Approach to plinth level.7 Every building should have at least one entrance \naccessible to the differently able and shall be ind icated by proper signage. This entrance shall be \napproached through ramp together with the stepped entry.  \n(1)  Ramped Approach : Ramp shall be finished with",
+          "source": "file_banglore.pdf",
+          "page": 52
+        },
+        {
+          "text": "ions shall apply: \n(a)  Surface parking for two car spaces shall be provide d near entrance for the physically \ndifferently-abled persons with maximum travel distance of 30.0m from building entrance. \n(b)  The width of parking bay shall be minimum 3.6 metre. \n(c)  The information stating that the space is reserved for wheel chair users shall be \nconspicuously displayed. \n(d)  Guiding floor materials shall be provided or a devi ce, which guides visually impaired \npersons with audible signals, or other devices, whi ch serves the same purpose, shall be \nprovided.  \n9.4  Building requirements \n The specified facilities in buildings for differen tly abled persons shall be as follows: \n9.4.1  Approach to plinth level \nEvery building shall have at least one entrance acc essible to the differently able and shall be \nindicated by proper signage. This entrance shall be  approached through ramp together with \nthe stepped entry. \n(1)   Ramped Approach : Ramp shall be finished with non-slip",
+          "source": "file_banglore.pdf",
+          "page": 180
+        },
+        {
+          "text": "rking spaces shall be provided as per th e provisions of Master Plan and Zonal \nRegulations as prevalent. The location of parking spaces shall be well ventilated. \n(2)  In case of high-rise buildings parking will be  permitted at any/all of the following: \n(a)  Basements \n(b)  Stilt floor \n(c)  Stacked/ Multi-level/ Automated parking \n6.4  Building components \n6.4.1  Doorways \n The doorway requirements shall be as prescribed in  Clause no.5.2.6",
+          "source": "file_banglore.pdf",
+          "page": 168
+        },
+        {
+          "text": "ss than 6.0m. The entrance gate shall fold back against the \ncompound wall of the premises, thus leaving the ext erior access way within the plot free for \nmovement of fire service vehicles. If archway is pr ovided over the main entrance the height of the \narchway shall not be at a height less than 4.5m. \n6.3  Parking Spaces \n(1) The parking spaces shall be provided as per the  provisions of Master Plan and Zonal \nRegulations as prevalent. The location of parking spaces shall be well ventilated. \n(2) In case of high7rise buildings parking will be permitted at any/all of the following: \n(a). Basements; \n(b). Stilt floor; and \n(c). Stacked/ Multi7level/ Automated parking. \n6.4  Building components \n6.4.1  Doorways.7 The doorway requirements shall be as prescribed in Clause no.5.2.6 \n6.4.2  Revolving Doors.7Revolving door shall not be provided as a means of fire exit  \n6.4.3  Stairways \n(1) A staircase shall not be arranged round a lift shaft. \n(2) The staircase shall be ventilated to",
+          "source": "file_banglore.pdf",
+          "page": 41
+        },
+        {
+          "text": "tters; \n(f)  Ensuring that self7closing fire/smoke check doors c lose properly and that the doors are \nnot wedged open; \n(g)  Ensuring that the entire structure of the building is maintained in good repairs; \n(h)  Ensuring that all electrical and mechanical service  equipment’s are maintained in good \nworking condition at all times; and  \n(i)  Ensuring that Cars /Scooters etc. are parked system atically in neat rows. It is \nadvisable to mark parking lines on the ground in th e parking areas near the building \nand in the parking area on ground floor and in base ment(s); as applicable, inside the \nbuilding. A parking attendant must ensure that vehi cles are parked in an orderly",
+          "source": "file_banglore.pdf",
+          "page": 69
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 8,
+      "question": "Is this proposed use permitted in the specified zone?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "reasonable limita tion on the development of land and \nbuildings. This is to ensure that most appropriate,  economical and healthy development of \nthe Town/City takes place in accordance with the la nd use plan, and its continued \nmaintenance over the years. For this purpose, the c ity is divided into number of use zones, \nsuch as residential, commercial, industrial, public  and semi-public etc. Each zone has its \nown regulations, as the same set of regulations can not be applied to the entire Town. Zonal \nRegulations protects residential areas from the har mful invasions of commercial and \nindustrial uses and at the same time promotes the o rderly development of industrial and \ncommercial areas, by suitable regulations on spacin g of buildings to provide adequate light, \nair, protection from fire, etc. It prevents overcro wding in buildings and on land to ensure \nadequate facilities and services. \n Zonal Regulations are not retrospective. It does n ot prohibit the uses of land and",
+          "source": "file_banglore.pdf",
+          "page": 178
+        },
+        {
+          "text": "12 \n3.6.4 Restrictions on use of land for construction of buildings \nNo piece of land shall be used as a site for the co nstruction of buildings under the following \ncircumstances  \n(a)  if the site is not drained properly or is incapable of being well drained;  \n(b)  if the Authority considers that the site is insanit ary or it is dangerous to construct a building \non it; \n(c)  if the building is proposed on any area filled up w ith filthy and offensive matter without a \ncertificate from the Health Officer and Corporation  Engineer to the effect that it is fit to be built \nupon from health and sanitary point of view; \n(d)  if the owner of the land has not shown to the satisfaction of the Authority that all the measures \nrequired to safeguard the construction from constantly getting damp are being taken; and \n(e)  if it violates any provisions of Section 17 of Karn ataka Town and Country Planning Act,1961  \nor any provisions of Zonal Regulations \nNote: If the proposed use of the",
+          "source": "file_banglore.pdf",
+          "page": 139
+        },
+        {
+          "text": "20 \nCHAPTER74 \n4.  DEVELOPMENT REGULATIONS.7 The provisions contained in Master Plan/Zonal \nRegulations shall apply and where these are silent on such issues or which require interpretation \nthe norms as decidedly the Authority, shall apply. The provisions include but are not limited to the \nuse/activity of premises, ground coverage, FAR, set backs, open space, height and parking standards \nfor Residential premises on plotted development, Gr oup housing, Resettlement colonies, Slums, In7\nsitu up gradation, Non7residential premises. The pe rmission of uses/use activities in use premises \nshall be permitted in accordance with provisions of  Master Plan and Zonal Regulations. The object of \nthese regulations is to provide control for buildin g/buildings within use premises excluding the \ninternal arrangement, which is covered and controlled by Building Bye7Laws.  \n \nCHAPTER – 5 \n5.  GENERAL BUILDING REQUIREMENTS AND SERVICES  \n5.1    Requirements for Parts of Buildings \n5.1.1  Plinth",
+          "source": "file_banglore.pdf",
+          "page": 21
+        },
+        {
+          "text": "reas unaffected by any of the \nrestrictions shall be clearly marked out and mapped , preferably on a GIS platform. Area \nzones of differential control regulations (within t he city) by any of these agencies may also be \nmapped accordingly. This will result in a composite  map of the city with various control \nregulations as per the various agencies clearly mar ked on the map. Thus, the sites which are \nlocated outside these restricted/regulated areas wo uld not require availing clearance from \nthe respective authorities, thereby reducing the clearance process significantly.",
+          "source": "file_banglore.pdf",
+          "page": 206
+        },
+        {
+          "text": "50 \nresidential areas from the harmful invasions of commercial and industrial uses and at the same time \npromotes the orderly development of industrial and commercial areas, by suitable regulations on \nspacing of buildings to provide adequate light, air , protection from fire, etc. It prevents overcrowdi ng \nin buildings and on land to ensure adequate facilities and services.  \nZonal Regulations are not retrospective. It does no t prohibit the uses of land and buildings \nthat are lawfully established prior to the coming into effect of the Zonal Regulations. \nIf the uses are contrary to the newly proposed uses , they are termed non7conforming uses \nand are gradually eliminated over years without inf licting unreasonable hardship upon the property \nowner. \nThe Zonal Regulations and its enforcement ensure pr oper land use and development and \nform an integral part of the Master Plan. It also e nsures solutions to problems of development under \nlocal conditions. \n The Master Plan along",
+          "source": "file_banglore.pdf",
+          "page": 51
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 9,
+      "question": "Give the exact legal requirement when no relevant passage is retrieved.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "essional on record are pre sent during the site inspection, the \nempanelled professional shall note the acceptance o r objections, as the case may be, of the \nobservations made by the empanelled professional in  the site inspection report, regarding \nthe missing items or deviations. \nThe empanelled professionals shall send the site in spection report with noting of deviations, if \nany, in the prescribed format, to the Authority, within the timelines specified in Appendix0VII.  \n \nAPPENDIX0X \n(see clause 3.15.4(1), 3.15.4(2))  \nVALIDITY PERIOD OF SANCTION AFTER COMMENCEMENT OF W ORK AT SITE AND \nEXTENSION OF VALIDITY. \n(1)  Validity period for commencement of work – 2 years from the date of sanction \n(2)  Initial validity period for completion of work \na) B1, B2 and B3 buildings – 4years from the date of sanction. \nc) B4 buildings – 5 years from the date of sanction  for buildings upto G + 9 floors. \nAdditional one year for every 5 floors or part thereof \nb) B5 buildings – 5 years from",
+          "source": "file_banglore.pdf",
+          "page": 243
+        },
+        {
+          "text": "rsement shall \nbe issued in Form0IV  to the applicant stating the discrepancy and the c oncerned \nprofessionals on record for drawings may rectify the same and resubmit to the Authority. \n3.10.5  Forwarding details to obtain NOCs and issuing NOCs: \n(1)  If the Technical drawing and details submitted  are complying with the provisions of the \nZonal Regulations (ZR) of the Master plan, and Bye- laws and the requirements for \nobtaining NOCs from different departments, the Comm issioner of the Authority shall \nforward the application, technical drawings and det ails submitted for NOCs to the \nconcerned departments stating the timelines within which the NOCs have to be issued, (as \ndetailed in Appendix0VIII ), failing which the NOCs would be deemed to have been issued.  \n(2)  All the respective departments shall verify the drawing and details submitted along with the \napplication of the NOC and if found in order shall issue NOC within the timelines specified \nin Appendix0VIII , with or",
+          "source": "file_banglore.pdf",
+          "page": 140
+        },
+        {
+          "text": "ich the sanction shall be deemed to hav e \nbeen accorded, provided that the failure to sanctio n the licence by the Authority within \nthe timelines is immediately brought to the notice of the Authority in writing by the \nperson who has applied for licence. On receiving su ch intimation from the applicant, if \nthe Commissioner fails to issue the licence within seven days, the licence shall be deemed \nto have been sanctioned and issued by the Authority . In such an event, the applicant \nshall submit an affidavit & undertaking to the Auth ority stating that drawings and details \nsubmitted by him for obtaining licence are prepared  as per the provisions of the Zonal \nRegulations of the jurisdictional Master plan, and these Building Byelaws and all other \napplicable laws, including those related to NOCs is sued for the project and he would \nexecute the works as per such drawings and details submitted and the applicable laws \nand he shall be responsible for any violations or d eviations.",
+          "source": "file_banglore.pdf",
+          "page": 142
+        },
+        {
+          "text": "in, the completion of various stages of construction prescribed in Appendix7XII , \nfor certification by Empanelled professional.  \n(2)On receiving the intimation from the Applicant , the Authority shall inform the selected \nEmpanelled professional to certify the stage of completion of work intimated. \n(3) The Empanelled professional shall inspect the s ite and after checking the work completed as \nindicated, certify the same in Form7X within three days of receiving intimation. \n(4) During inspection, according to the Empanelled professional, if the work executed by the \nApplicant is not as per the approved plans, specifi cations and other provisions of these Bye7laws, \nhe shall intimate the Authority in Form7X, stating the defects in the works executed, along with \nthe photos of such defective works. \n(5)On receiving intimation from the Empanelled prof essional regarding the defects in the works \nexecuted at site, the CEO of the Authority shall is sue endorsement to the Applicant in",
+          "source": "file_banglore.pdf",
+          "page": 18
+        },
+        {
+          "text": "rks within 6 days of receiving the \nintimation, he may intimate the same stating the re ason for his inability to inspect the site for \ncertification.  \n(2) On receiving intimation from the selected empan elled professional, the Authority shall select \nalternate empanelled professional and inform to ins pect the site and certify the work intimated by \nthe applicant . \n3.16.9  Action against works executed without intimation and works not rectified \n(1) Any works executed in the building without the certification of the preceding works specified in \nAppendix7XII and the works not rectified as intimated n Form7X,  shall be liable for penalty as per \nthe rules framed under Section 76F of Karnataka Town and Country Planning Act,1961. \n(2) In such cases, the owner or the promoter, as th e case may be, and the professional on record for \nsupervising such works shall also be liable for act ion as per the rules framed under Section 73 and \nSection 76FFF of Karnataka Town and Country Planning",
+          "source": "file_banglore.pdf",
+          "page": 19
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 10,
+      "question": "Show the source and page for the rule you retrieved.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "ertisement of the promoter). \n \n \nFORM7X \n(see clause 3.16.7(3 and 4), 3.16.9(1), 3.17.2(10 and 11)) \n \nDETAILS TO BE CONTAINED IN THE SITE INSPECTION REPOR T OF EMPANELLED \nPROFESSIONAL, CERTIFYING THE WORKS OR STATING THE DEF ECTS / DEVIATIONS IN \nWORKS EXECUTED AT SITE. \n1.  Name and address of the Applicant; \n2.  Name and address of the professional on record for supervision; \n3.  Name and address of contractor executing work; \n4.  Name and address of empanelled professional; \n5.  Name and address of the Authority; \n6.  Particulars of the Plot; \n7.  Noting of site inspection (stating the defects / de viations in works executed, from the \napproved plans, specifying the related drawing); \n8.  Acknowledgement of applicant and professional on record; \n9.  Date of inspection; and \n10.  Date of submission of report. \n \nFORM7XI  \n(see clause 3.16.7(5)) \n \nDETAILS TO BE CONTAINED IN THE ENDORSEMENT ISSUED BY  THE AUTHORITY TO THE \nAPPLICANT TO RECTIFY THE DEFECTS IN WORKS EXECUTED. \n1.",
+          "source": "file_banglore.pdf",
+          "page": 125
+        },
+        {
+          "text": "127 \nFORM0X \n(see clause 3.16.7(3&4), 3.16.9(1), 3.17.2(10&11))  \nDETAILS TO BE CONTAINED IN THE SITE INSPECTION REPOR T OF EMPANELLED \nPROFESSIONAL, CERTIFYING THE WORKS OR STATING THE DEF ECTS / DEVIATIONS IN \nWORKS EXECUTED AT SITE. \n(1)  Name and address of the Applicant. \n(2)  Name and address of the professional on record for supervision \n(3)  Name and address of contractor executing work \n(4)  Name and address of empanelled professional \n(5)  Name and address of the Authority \n(6)  Particulars of the Plot \n(7)  Noting of site inspection (stating the defects / de viations in works executed, from the \napproved plans, specifying the related drawing) \n(8)  Acknowledgement of applicant and professional on record \n(9)  Date of inspection \n(10)  Date of submission of report \nFORM0XI \n(see clause 3.16.7(5))  \nDETAILS TO BE CONTAINED IN THE ENDORSEMENT ISSUED BY  THE AUTHORITY TO THE \nAPPLICANT TO RECTIFY THE DEFECTS IN WORKS EXECUTED. \n(1)  Name and address of the Applicant; \n(2)",
+          "source": "file_banglore.pdf",
+          "page": 254
+        },
+        {
+          "text": "use 3.16.7(5)) \n \nDETAILS TO BE CONTAINED IN THE ENDORSEMENT ISSUED BY  THE AUTHORITY TO THE \nAPPLICANT TO RECTIFY THE DEFECTS IN WORKS EXECUTED. \n1.  Name and address of the Applicant; \n2.  Details of the application for building licence; \n3.  Name and address of the Professional on record for supervision; \n4.  Name and address of the empanelled professional who has submitted the inspection report;  \n5.  Works having defects / deviations from approved dra wings (specify for each drawing \nseparately); \n6.  Details of discrepancy in works executed (specify for each drawing separately); and \n7.  Details of rectification proposed, if any. \n \nFORM7XII  \n(see clause 3.16.7(9 and 11), 3.17.2(8), 3.17.2(10)) \n \nDETAILS TO BE CONTAINED IN INSPECTION REPORT OF CEO  REGARDING OBJECTIONS \nRAISED BY THE APPLICANT AGAINST THE INSPECTION REPORT  OF EMPANELLED \nPROFESSIONAL OR DEPARTMENT ISSUING NOCs. \n1.  Name and address of the Applicant; \n2.  Name and address of the professional on record for",
+          "source": "file_banglore.pdf",
+          "page": 125
+        },
+        {
+          "text": "123 \nFORM7VI  \n(see clause 3.10.6 (2)) \n \nDETAILS TO BE CONTAINED IN THE SITE INSPECTION REPORT \n1.  Name and the address of the Applicant; \n2.  Name and the address of the professional on record for drawings;  \n3.  Name and the address of the Empanelled professional or designated officer; \n4.  Particulars of the Plot; \n5.  Date of inspection; \n6.  Noting of site inspection; \n7.  Acknowledgement of applicant and professional on record; and \n8.  Date of submission of report. \n \nFORM7VII  \n(see clause 3.10.7) \n \nDETAILS TO BE CONTAINED IN THE ENDORSEMENT ISSUED BY  THE AUTHORITY TO THE \nAPPLICANT REGARDING DISCREPANCY IN THE SITE INSPECTION REPORT \n1.  Name and address of the Applicant; \n2.  Details of the application for building licence; \n3.  Name and address of the Professional on record for preparing drawing; \n4.  Name and address of the empanelled professional who has submitted the inspection report;  \n5.  Drawings having discrepancy (specify for each drawing separately); \n6.",
+          "source": "file_banglore.pdf",
+          "page": 124
+        },
+        {
+          "text": "125 \n7.  Particulars of the Plot; \n8.  Noting of site inspection (stating the changes to b e made by the applicant in works executed, \nif applicable, or certifying the works executed); \n9.  Acknowledgement of applicant, professional on recor d and designated officer of the \ndepartment (if applicable); \n10.  Date of inspection; and  \n11.  Date of submission of report. \n \n \nFORM7XIII  \n(see clause 3.17.1(1), 3.18)  \nDETAILS TO BE CONTAINED IN COMPLETION CERTIFICATE I SSUED BY THE PRINCIPAL \nPROFESSIONAL ON RECORD, SUPERVISING THE WORKS. \n1.  Name and address of ULB with logo; \n2.  Type of building licence issued; \n3.  Building licence no. and date; \n4.  Plot approval details; \n5.  Particulars of Plot; \n6.  Name and address of Applicant; \n7.  Name and address of Professionals on record for drawings; \n8.  Name and address of Professionals on record for supervision; \n9.  Particulars of the building (floor area, construction area, parking details, etc.,) as built \nin site; \n10.  Details of",
+          "source": "file_banglore.pdf",
+          "page": 126
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 11,
+      "question": "What should happen if two retrieved passages appear to conflict?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "III  to the applicant stating the \ndiscrepancy and the applicant may rectify the same and resubmit to the Authority.  \n3.10.4  Evaluation of Technical details submitted: \n(1)  If the application is accepted after finding that t he documents submitted along with the \napplication are in order, the TPO of the Authority or the empanelled professional or the designated \nofficer notified by the Government shall evaluate t he Technical drawing and details submitted by the \nApplicant, for compliance with the provisions of th e Master plan, ZR and Bye7laws and compliance \nof the conditions incorporated for obtaining NOCs f rom different departments and submit the \nevaluation report to the CEO of the Authority, with  noting  of discrepancy, if any. The CEO shall \napprove the evaluation report with or without accepting the noting of discrepancy. \n(2)   In case the noting of discrepancy is accepted by the CEO an endorsement shall be issued \nin Form7IV  to the applicant stating the discrepancy and",
+          "source": "file_banglore.pdf",
+          "page": 14
+        },
+        {
+          "text": "ional in Form0V to inspect the site and \nsubmit Site Inspection Report for approval of site plan. \n(2)  On receipt of intimation from the Authority, t he selected Empanelled professional shall \ninspect the site and submit site inspection report (as detailed in Appendix0IX ) in Form0VI \nto the Authority, with noting of discrepancy, if an y. The Commissioner of the Authority \nshall approve the site inspection report \n3.10.7  Action in case of discrepancy in site inspection report. \nIf the noting of discrepancy in the Site Inspection  Report submitted by the Empanelled \nprofessional is accepted by the Commissioner, an en dorsement in Form0VII to the applicant \nstating the discrepancy and the concerned professio nals on record for drawings may rectify the \nsame and resubmit to the Authority. The TPO of the Authority shall verify the resubmitted \ndrawings and details for compliance of the noting o f discrepancy accepted by the \nCommissioner and forward the same to the Commission er and the",
+          "source": "file_banglore.pdf",
+          "page": 140
+        },
+        {
+          "text": "pting or \nrejecting the \nnoting of \ndiscrepancy, \nif any.  \n  A 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 \nC 8 8 8 9 9 9 11 11 11 14 14 14 13 13 13 \n13 \n  Issuing \nendorsement \nin case of \ndiscrepancy \nin the Site \nInspection \nReport \naccepted by \nthe \nCommissioner \nA 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 \n14 \n  Applicant to \nrectify the \ndefects and \nresubmit the \nrespective \ndrawing and \ndetail as per \nthe \nendorsement \nand \nacceptance of \nthe same by \nthe TPO \n - - - - - - - - - - - - - - - \n15 \n Receipt of all \nrequired \nNOCs from \nthe respective \ndepartments. \n \n - - - - - - - - - - - - - - -",
+          "source": "file_banglore.pdf",
+          "page": 241
+        },
+        {
+          "text": "nd inform the Empanelled \nprofessional in Form7V to inspect the site and submit Site Inspection Rep ort for approval of site \nplan. \n(2) On receipt of intimation from the Authority, th e selected Empanelled professional shall \ninspect the site and submit site inspection report (as detailed in Appendix7IX ) in Form7VI to the \nAuthority, with noting of discrepancy, if any. The CEO of the Authority shall approve the site \ninspection report. \n \n3.10.7  Action in case of discrepancy in site inspection re port..7 If the noting of \ndiscrepancy in the Site Inspection Report submitted  by the Empanelled professional is accepted by \nthe CEO, an endorsement in Form7VII to the applicant stating the discrepancy and the co ncerned \nprofessionals on record for drawings may rectify th e same and resubmit to the Authority. The TPO of \nthe Authority shall verify the resubmitted drawings  and details for compliance of the noting of \ndiscrepancy accepted by the CEO and forward the sam e to the CEO and",
+          "source": "file_banglore.pdf",
+          "page": 14
+        },
+        {
+          "text": "rsement shall \nbe issued in Form0IV  to the applicant stating the discrepancy and the c oncerned \nprofessionals on record for drawings may rectify the same and resubmit to the Authority. \n3.10.5  Forwarding details to obtain NOCs and issuing NOCs: \n(1)  If the Technical drawing and details submitted  are complying with the provisions of the \nZonal Regulations (ZR) of the Master plan, and Bye- laws and the requirements for \nobtaining NOCs from different departments, the Comm issioner of the Authority shall \nforward the application, technical drawings and det ails submitted for NOCs to the \nconcerned departments stating the timelines within which the NOCs have to be issued, (as \ndetailed in Appendix0VIII ), failing which the NOCs would be deemed to have been issued.  \n(2)  All the respective departments shall verify the drawing and details submitted along with the \napplication of the NOC and if found in order shall issue NOC within the timelines specified \nin Appendix0VIII , with or",
+          "source": "file_banglore.pdf",
+          "page": 140
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 12,
+      "question": "What is the market price of this plot?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "56 \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non7Residential) \nPlot \nCategory \nApplicable plot \narea (Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non7\nResidential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 upto \n250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(b),  1(d), 2(a), 4(a) \n1001 to 2000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a),4(b),",
+          "source": "file_banglore.pdf",
+          "page": 57
+        },
+        {
+          "text": "s along with  the levels of the adjoining plots and of the \nabutting roads; \n(g) Location with dimensions and extent of Kharab l ands within the plot; \n(h) Location of roads of the Master Plan passing th rough the plot, if any;",
+          "source": "file_banglore.pdf",
+          "page": 100
+        },
+        {
+          "text": "f Site Plan (see clause 3.11.2)  \nThe site plan shall be prepared in a legible scale,  preferably of 1:200 or 1:500 with plan \noriented in North7South direction.  The site plan shall contain the following details, namely: 7 \n(a) All site boundaries with dimensions, by superim posing the survey sketch issued by \nRevenue Department, the sketch attached to the titl e document and the survey sketch \nprepared by conducting physical survey of plot usin g Total Intelligent Station. At least 3 \nboundary points of all the sketches should match wh en superimposed. The innermost \nboundaries of the plot derived by superimposing all  the sketches shall be considered as \nthe boundary of the plot and the area of the plot w ithin such boundary shall be \nconsidered as the extent of the plot as existing at site; \n(b) Extent of plot, which shall be lesser of the ex tent as per document, revenue sketch or as \nexisting at site (as derived from clause ‘a’ above); \n(c) All roads abutting the plot with",
+          "source": "file_banglore.pdf",
+          "page": 100
+        },
+        {
+          "text": "103 \nboundaries of the plot derived by superimposing all  the sketches shall be considered as \nthe boundary of the plot and the area of the plot w ithin such boundary shall be \nconsidered as the extent of the plot as existing at site; \n(b) Extent of plot, which shall be lesser of the ex tent as per document, revenue sketch or \nas existing at site (as derived from clause ‘a’ above); \n(c) All roads abutting the plot with existing width , proposed width and centerline of the \nroad. The road widening line and building line, if any, shall be marked on the plot, if \napplicable, showing the portion of the plot require d for road widening; (in case of \nvarying width of the road, the survey of the road u sing total intelligent station shall be \nattached showing the average width of the road as per the provisions of the ZR) \n(d)   Portion of Plot to be reserved for Park and O pen Spaces and Civic Amenities, if required \nas per Section 17 of Karnataka Town and Country Planning Act, 1961 \n(e)",
+          "source": "file_banglore.pdf",
+          "page": 230
+        },
+        {
+          "text": "provisions for new buildings on various plot sizes and construction \nareas are indicated in the table 11.1 \n \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non0Residential) \n \nPlot \nCategory \nApplicable \nplot area \n(Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non0Residential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 \nupto 250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \n \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a),",
+          "source": "file_banglore.pdf",
+          "page": 185
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 13,
+      "question": "Is the retrieved 2017 document currently applicable to this property?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "2017 (Kartika 8, Shaka Varsha 193 \nURBAN DEVELOPMENT SECRETARIAT \nNOTIFICATION0I \nTTP 2017 (P04), Bengaluru, Dated: 28 /10/2017 \n \nWhereas, the draft of the Karnataka Municipal Corpo rations Model Building Bye \nby sub -section (1) of 428 and sub- section (1) of 508 of the Karnataka \nMunicipal Corporations Act, 1976 (Karnataka Act 14 of 1977) in Notification No.UDD 14 TTP 2017   \n3), dated: 11.07.2017 in Part -IVA of the Karnataka extra- ordinary Gazette, No. 688, da \n15.07.2017 inviting objections and suggestions from  all the persons likely to be affected thereby  \nwithin one month from the date of its publication in the official Gazette.  \nAnd whereas, the said Gazette was made available to the public on 15.07.2017. \nAnd whereas, objections and suggestions have been received in this behalf and considered by \nNow, therefore, in exercise of the powers conferred  by clause (b) of sub \n508 read with section 428 of the Karnataka Mun icipal Corporations Act, 1976 (Karnataka Act 14 of",
+          "source": "file_banglore.pdf",
+          "page": 128
+        },
+        {
+          "text": "rs from the date of sanction  for buildings upto G + 9 floors. \nAdditional one year for every 5 floors or part thereof \nb) B5 buildings – 5 years from the date of sanction. \n(3)  Extension of validity \nExtension of validity may be permitted by paying ye arly revalidation fee as notified by the \ngovernment. \n \nAPPENDIX0XI \n(see clause 3.16.5(2))  \nDETAILS TO BE MAINTAINED IN THE SITE/ SITE OFFICE OF THE CONSTRUCTION SITE. \nThe person to whom a permit is issued shall, during  construction keep, posted in a \nconspicuous place on the property in respect of which the permit was issued  \n(a)  A copy of the building permit;  \n(b)  A copy of the approved drawings and specifications of the property in respect of which \nthe permit was issued.  \n(c)  Where tests of any materials are made to ensure con formity with the requirements of the \nBye-laws, records of test data shall be kept availa ble for inspection during the \nconstruction of the building and for such a period thereafter as required by",
+          "source": "file_banglore.pdf",
+          "page": 243
+        },
+        {
+          "text": "125 \n7.  Particulars of the Plot; \n8.  Noting of site inspection (stating the changes to b e made by the applicant in works executed, \nif applicable, or certifying the works executed); \n9.  Acknowledgement of applicant, professional on recor d and designated officer of the \ndepartment (if applicable); \n10.  Date of inspection; and  \n11.  Date of submission of report. \n \n \nFORM7XIII  \n(see clause 3.17.1(1), 3.18)  \nDETAILS TO BE CONTAINED IN COMPLETION CERTIFICATE I SSUED BY THE PRINCIPAL \nPROFESSIONAL ON RECORD, SUPERVISING THE WORKS. \n1.  Name and address of ULB with logo; \n2.  Type of building licence issued; \n3.  Building licence no. and date; \n4.  Plot approval details; \n5.  Particulars of Plot; \n6.  Name and address of Applicant; \n7.  Name and address of Professionals on record for drawings; \n8.  Name and address of Professionals on record for supervision; \n9.  Particulars of the building (floor area, construction area, parking details, etc.,) as built \nin site; \n10.  Details of",
+          "source": "file_banglore.pdf",
+          "page": 126
+        },
+        {
+          "text": "RNI No. KARBIL/2001/47147 \n∞¬Òûª∞ \n¨sÁUÀ–IVA  \nPart–IVA  \n¨ÉAUÀ¼ÀÆgÀÄ, s ¸ÉÆÃªÀÄ ªÁgÀ\nBengaluru,  Mon day, \nURBAN DEVELOPMENT \nNo. UDD 14 TTP \n \nWhereas, the draft of the Karnataka Municipalities Model Building Bye \npublished as required by sub7 section (1) of 325 of the Karnataka Municipalities Act, 1964 \n(Karnataka Act 22 of 1964) in Notification No. UDD 14 TTP 2017 (P \nIVA of the Karnataka extra7 ordinary Gazette, No. 687, dated: 15.07.2017 inviti ng objections and \nsuggestions from all the persons likely to be affec ted thereby within one month from the date of its \npublication in the official Gazette. \nAnd whereas, the said Gazette was made available to the public on 15.07.2017. \nAnd whereas, objections and suggestions \nthe State Government. \nNow, therefore, in exercise of the powers conferred  by section 325 of the Karnataka \nMunicipalities Act, 1964 (Karnataka Act 22 of 1964)  the Government of Karnataka hereby makes \nthe following building bye7laws namely: \n1.  Title,",
+          "source": "file_banglore.pdf",
+          "page": 2
+        },
+        {
+          "text": "RNI No. KARBIL/2001/47147 \n∞¬Òûª∞ \n¨sÁUÀ–IVA  \nPart–IVA  \n¨ÉAUÀ¼ÀÆgÀÄ, s ¸ÉÆÃªÀÄ ªÁgÀ\nBengaluru,  Mon day, \nURBAN DEVELOPMENT \nNo. UDD 14 TTP \n \nWhereas, the draft of the Karnataka Municipal Corpo rations Model Building Bye \nwas published as required by sub \nMunicipal Corporations Act, 1976 (Karnataka Act 14 of 1977) in Notification No.UDD 14 TTP 2017   \n(P-3), dated: 11.07.2017 in Part \n15.07.2017 inviting objections and suggestions from  all the persons likely to be affected thereby  \nwithin one month from the date of its publication in the official Gazette. \nAnd whereas, the said Gazette was made available to the public on 15.07.2017. \nAnd whereas, objections and suggestions have been received in this behalf and considered by \nthe State Government. \nNow, therefore, in exercise of the powers conferred  by clause (b) of sub \n508 read with section 428 of the Karnataka Mun \n1977), the Government of Karnataka hereby makes the following Model Building Bye \n1.  Title, commencement and",
+          "source": "file_banglore.pdf",
+          "page": 128
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 14,
+      "question": "Which authority's rules apply to this property?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "Responsibility of the owners of heritage buildings: \nIt shall be the duty of the owners of Heritage Buil dings and Buildings in Heritage precincts to \ncarryout regular repairs and maintenance of the buildings at their own cost. The Government \nor Local Authority shall not be responsible for suc h repairs and maintenance except for the \nbuildings owned by the Government, or Local Authority. \n13.8  Regulations for specified heritage precincts / listed natural features. \nIn cases of heritage precincts and where deemed nec essary by the Committee, natural \nfeatures notified as per the provision of this Regu lation, development permissions in the form \nof commencement certificate shall be granted in acc ordance with separate regulations \nprescribed for respective precincts / natural featu res which shall be framed by the AM&HD \nin consultation with the Local Authority on the advice of the Committee. \nThese regulations shall concern architectural appea rances, materials, the setting of",
+          "source": "file_banglore.pdf",
+          "page": 204
+        },
+        {
+          "text": "body on lands owned by them or placed at their disposal by the Government; or \n(b)  plots owned by such Authority or body or placed at their disposal by the \nGovernment; for the purpose of selling all or some of the Apartments or plots, or  \n(i)  An Apex State level co7operative housing finance so ciety and a primary co7\noperative housing society which constructs Apartmen ts or buildings for its \nmembers or in respect of the Allottees of such Apartments or buildings; or \n(ii)  Any other persons who acts himself as a builder, co loniser, contractor, developer, \nestate developer or by any other name or claims to be acting as the holder of a \npower of attorney from the owner of the land on whi ch the building or apartment \nis constructed or plot is developed for sale; or \n(iii)  such other person who constructs any building or ap artment for sale to the \ngeneral public \nExplanation  –  \n(i) For the purpose of this clause, where the perso n who constructs or converts a building into",
+          "source": "file_banglore.pdf",
+          "page": 10
+        },
+        {
+          "text": "74 \nLocal Authority. Before granting any such permissio n, the Local Authority shall consult the \nCommittee and shall act on its advice; \n(2)  Provided that before granting any permission for de molition or major alterations/ \nadditions to listing buildings (or buildings within  listed precincts), or construction at or near any \nlisted natural features, or alteration of boundarie s of any listed natural features, objections and \nsuggestions from the public shall be invited by pub lishing prominently in two local newspapers and \nduly considered by the Committee; \n(3)  Provided that only in exceptional cases, for reason s to be recorded in writing, to the \nPlanning / Local / Competent Authority may refer th e matter back to the Heritage Conservation \nCommittee for reconsideration; and  \n(4)  Heritage Buildings and Buildings in Heritage Precin cts which are under the control of \nPublic Works Department / Corporation /Universities  / Boards and any other Government \norganizations under",
+          "source": "file_banglore.pdf",
+          "page": 75
+        },
+        {
+          "text": "VIII  \nand the drawings. \n3.15.2  Sanction by Empanelled Professionals :  \nCompetent Professionals empanelled with the Authori ty, shall be authorized to issue building \nlicence as notified by the Government. \n3.15.3  Grant of Licence or Refusal \n(a)  The Authority shall either sanction or refuse sanct ion to the plans and specifications or \nmay sanction them with such modification or directi ons as it may deem necessary as per \nthese Byelaws. \n(b)  In case where the building scheme requires the clea rance of an Urban Art Commission, if \nconstituted for the city then the Authority shall i ssue the building license only after \ngetting the clearance from the Urban Art Commission. \n(c)  The licence shall be issued by the Authority for th e different types of buildings within the \ntimelines prescribed in Appendix0VIII , failing which the sanction shall be deemed to hav e \nbeen accorded, provided that the failure to sanctio n the licence by the Authority within \nthe timelines is",
+          "source": "file_banglore.pdf",
+          "page": 142
+        },
+        {
+          "text": "tary \nlist of natural features of environmental significa nce or scenic beauty including \nsacred groves, hills, hillocks, water bodies (and t he areas adjoining the same), open \nareas, wooded areas etc., to which this Regulation would apply from time to time, and \ngrade them according to the heritage value. \n(iii)  To advise whether any relaxation, modification, alt eration or variance of any of the \nZonal Regulations / Building Byelaws, is called for. \n(iv)  To assist the Archaeology, Museums and Heritage Dep artment (AM&HD) in framing \nregulations for specific precincts and if necessary  for natural features to guide the \nplanning / Local / competent Authority regarding issue of permissions. \n(v)  To advise on the extent of Development Rights Certificates to be granted. \n(vi)  To advise whether Development Right Certificates ma y be allowed to be consumed in \na heritage precinct. \n(vii)  To advise in terms of this regulations whether to a llow commercial / office / hotel use \nof a",
+          "source": "file_banglore.pdf",
+          "page": 201
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 15,
+      "question": "Check a proposal with negative plot area.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "56 \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non7Residential) \nPlot \nCategory \nApplicable plot \narea (Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non7\nResidential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 upto \n250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(b),  1(d), 2(a), 4(a) \n1001 to 2000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a),4(b),",
+          "source": "file_banglore.pdf",
+          "page": 57
+        },
+        {
+          "text": "f Site Plan (see clause 3.11.2)  \nThe site plan shall be prepared in a legible scale,  preferably of 1:200 or 1:500 with plan \noriented in North7South direction.  The site plan shall contain the following details, namely: 7 \n(a) All site boundaries with dimensions, by superim posing the survey sketch issued by \nRevenue Department, the sketch attached to the titl e document and the survey sketch \nprepared by conducting physical survey of plot usin g Total Intelligent Station. At least 3 \nboundary points of all the sketches should match wh en superimposed. The innermost \nboundaries of the plot derived by superimposing all  the sketches shall be considered as \nthe boundary of the plot and the area of the plot w ithin such boundary shall be \nconsidered as the extent of the plot as existing at site; \n(b) Extent of plot, which shall be lesser of the ex tent as per document, revenue sketch or as \nexisting at site (as derived from clause ‘a’ above); \n(c) All roads abutting the plot with",
+          "source": "file_banglore.pdf",
+          "page": 100
+        },
+        {
+          "text": "provisions for new buildings on various plot sizes and construction \nareas are indicated in the table 11.1 \n \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non0Residential) \n \nPlot \nCategory \nApplicable \nplot area \n(Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non0Residential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 \nupto 250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \n \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a),",
+          "source": "file_banglore.pdf",
+          "page": 185
+        },
+        {
+          "text": "103 \nboundaries of the plot derived by superimposing all  the sketches shall be considered as \nthe boundary of the plot and the area of the plot w ithin such boundary shall be \nconsidered as the extent of the plot as existing at site; \n(b) Extent of plot, which shall be lesser of the ex tent as per document, revenue sketch or \nas existing at site (as derived from clause ‘a’ above); \n(c) All roads abutting the plot with existing width , proposed width and centerline of the \nroad. The road widening line and building line, if any, shall be marked on the plot, if \napplicable, showing the portion of the plot require d for road widening; (in case of \nvarying width of the road, the survey of the road u sing total intelligent station shall be \nattached showing the average width of the road as per the provisions of the ZR) \n(d)   Portion of Plot to be reserved for Park and O pen Spaces and Civic Amenities, if required \nas per Section 17 of Karnataka Town and Country Planning Act, 1961 \n(e)",
+          "source": "file_banglore.pdf",
+          "page": 230
+        },
+        {
+          "text": "(4)  Title of drawing \n(5)  Survey nos., village name, Taluk name and district name where the plot is situated. \n(6)  Existing and proposed width of roads abutting the plot \n(7)  Extent of plot  \n(a)  Total extent (as per document, as per site conditio n and considered for building \nlicence) \n(b)  Extent to be surrendered for road widening (whether  compensation paid – monetary of \nin the form of DR) \n(c)  Extent to be surrendered for P and OS and CA, if applicable. \n(d)  Net area for development \n(e)  Net area considered for FAR calculation \n(8)  Land use analysis \n \n(a)  Land uses of plot as per Master Plan   \n(b)  Permitted land uses as per Zonal regulations  \n(c)  Existing land use of areas in the plot (% of area f or roads, Park and Open Space and \nCivic Amenities, if applicable and % of area for development). \n(9)  Summary of area statement of buildings with floor w ise area details and FAR (permitted \nand proposed including DR / TDR). \n(10)  Ground coverage (permitted and",
+          "source": "file_banglore.pdf",
+          "page": 106
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 16,
+      "question": "Check a proposal with the zone missing.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "90 \nZone7I Zone7II Zone7III \nD75 All other structures \nincluding temporary \nstructures designed for \nassembly of people not \ncovered by D71 to D7 4,  \nat ground level \nD76 Buildings having mixed \noccupancies of \nassembly and \nmercantile (for \nexample, shopping \nmalls providing \nfacilities such as \nshopping, cinema \ntheatres, multiplexes \nand restaurants/ food \ncourts) \nD77 Underground and \nelevated mass rapid \ntransit system           \nGROUP ‘E’ BUSINESS   \n \n  \nE71 Offices, Banks, \nprofessional \nestablishments, like offices \nof architects, engineers, \ndoctors, lawyers, post \noffices and police stations \n \n  \nGROUP ‘F’ MERCANTILE \n \n  \nF71 Shops, Stores, \ndepartmental stores, \nmarkets (any with covered \narea upto      500m 2) \nF72 Shops, Stores, \ndepartmental stores, \nmarkets (any with covered \narea more than      500m 2) \nF73Underground shopping \ncentres  \n  \n \nAnnexure7BI \nFire Protection Requirements for Buildings in Zone7I Category \nSl. \nNo \nMeasures Group7A: Residential  A73,",
+          "source": "file_banglore.pdf",
+          "page": 91
+        },
+        {
+          "text": "reas unaffected by any of the \nrestrictions shall be clearly marked out and mapped , preferably on a GIS platform. Area \nzones of differential control regulations (within t he city) by any of these agencies may also be \nmapped accordingly. This will result in a composite  map of the city with various control \nregulations as per the various agencies clearly mar ked on the map. Thus, the sites which are \nlocated outside these restricted/regulated areas wo uld not require availing clearance from \nthe respective authorities, thereby reducing the clearance process significantly.",
+          "source": "file_banglore.pdf",
+          "page": 206
+        },
+        {
+          "text": "ay or averting signs and outdoor display \nstructures on building and land shall be in accorda nce with Part X7Signs and Outdoor \nDisplay Structures of National Building Code of India. \nB.  Additional Conditions – In addition to sub7regulati on A, above, the following provisions shall \napply to advertisement signs in different land use zones: \n(i)  Residential Zone: the following non7flashing neon s igns with illumination not exceeding \n407watt light. \n(a)  One nameplate with an area not exceeding 0.1Sq.m for each dwelling unit; \n(b)  For other uses permissible in the zone, one identif ication sign or bulletin board with an area \nnot exceeding 10Sqm, provided the height does not exceed 1.5m; and \n(c)  ‘For sale’ or ‘for rent’ signs for real estate, not  exceeding 2 Sq.m in area provided they are \nlocated on the premises offered for sale or rent. \n(ii)  Residential Zones with shop lines: Non7flashing bus iness sign placed parallel to the \nwall and not exceeding 1 m in height per",
+          "source": "file_banglore.pdf",
+          "page": 76
+        },
+        {
+          "text": "C/ approval are to be received online so that the re is no need for building proponents to \npursue matter with local bodies or external agencie s. The specific requirements of the \nexternal bodies are to be added in the Common Appli cation Form (CAF) of the local body so \nthat building proponent has to file all information  at a single customized online application \n(as specified in Appendix0II).  The objective is to make the whole process simplif ied and \nstreamlined to ensure ease in getting the approvals  for building licence within stipulated \ntime. \n14.2  Clearances at Master Plan level \nIndividual construction proposals shall not general ly require separate clearances from \nvarious authorities each time. Such clearances shal l be integrated into the Zonal Regulations \nof the Master Plan of the concerned Local Planning Area. The areas unaffected by any of the \nrestrictions shall be clearly marked out and mapped , preferably on a GIS platform. Area \nzones of differential control",
+          "source": "file_banglore.pdf",
+          "page": 206
+        },
+        {
+          "text": "l Building Code of India. \nB.  Additional Conditions – In addition to sub-regulati on A, above, the following provisions \nshall apply to advertisement signs in different land use zones: \n(i)  Residential Zone: the following non-flashing neon s igns with illumination not \nexceeding 40-watt light. \n(a)  One nameplate with an area not exceeding 0.1Sq.m for each dwelling unit. \n(b)  For other uses permissible in the zone, one identif ication sign or bulletin board with \nan area not exceeding 10Sq.m, provided the height does not exceed 1.5m.",
+          "source": "file_banglore.pdf",
+          "page": 205
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 17,
+      "question": "Check a proposal with non-numeric building height.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "d level. T he height of the stilt floor \nshall be a minimum of 2.4m and maximum of 2.7m heig ht (floor to beam bottom or ceiling \nwhichever is less).  The height shall be considered  for calculating the total height of the \nbuilding. In case of mechanical or multi7level park ing the maximum height of the stilt floor \nshall be 3.75m. \n(150)  ‘Storey’ means the space between the surface of one floor an d the surface of the other floor \nvertically above or below. The minimum floor to floor height shall not be less than 2.9m. \n(151)  ‘To Erect’7 in relation to a building means: \na)  To erect a new building on any plot whether previously built upon or not;",
+          "source": "file_banglore.pdf",
+          "page": 11
+        },
+        {
+          "text": "booking agencies \nI.  Types of building based on design:  \n(a)  ‘Detached Building’ 7 means a building with walls and roofs independent  of any other \nbuilding and with open spaces on all sides within the same plot;  \n(b)  ‘Semi7detached Building’ 7 means two buildings, together having not more tha n 4 dwelling \nunits with a maximum of G+1 floor, attached to each  other with a common wall and each \nbuilding having setbacks only on three sides; and  \n(c)  ‘Row Housing’  – means two or more dwelling units with a maximum of G+1 floor, in a row \nattached to each other, where the intermediate dwel ling units have only front and rear \nsetbacks and the dwelling units on the extreme ends have setbacks on three sides.  \nII.  Types of building based on height: \n(a)  B17 means residential buildings of G+1 floors upto 4 dwelling units;  \n(b)  B27 means all buildings upto G+2 floors other than B1 buildings and Industrial buildings; \n(c)  B37 means all low7rise buildings other than B1 and B2",
+          "source": "file_banglore.pdf",
+          "page": 4
+        },
+        {
+          "text": "lled by Building Bye7Laws.  \n \nCHAPTER – 5 \n5.  GENERAL BUILDING REQUIREMENTS AND SERVICES  \n5.1    Requirements for Parts of Buildings \n5.1.1  Plinth \n5.1.1.1  The plinth or any part of a building or outhouse sh all be so located with \nrespect to the surrounding ground level that adequa te drainage of the site is assured. The height of \nthe plinth shall be not less than 450 mm from the s urrounding ground level, in case of independent \nhouses and not less than 300mm in case of other buildings.  \n5.1.1.2  Interior Courtyards and Covered Parking: Every inte rior courtyard shall be \nraised at least 150 mm above the determining ground level and shall be satisfactorily drained.  \n5.1.2  Habitable Rooms \n5.1.2.1  Height.7 The clear height of all rooms for human habitation shall not be less \nthan 2.75 m measured from the surface of the floor to the lowest point of the ceiling (bottom of slab)  \nprovided that the minimum clear headway under any b eam shall not be less than 2.4m In the case",
+          "source": "file_banglore.pdf",
+          "page": 21
+        },
+        {
+          "text": "s \n Types of building based on design:  \n(a)  ‘Detached Building’ - means a building with walls and roofs independent  of any other \nbuilding and with open spaces on all sides within the same plot  \n(b)  ‘Semi0detached Building’ - means two buildings, together having not more tha n 4 dwelling \nunits with a maximum of G+1 floor, attached to each  other with a Model wall and each \nbuilding having setbacks only on three sides.  \n(c)  ‘Row Housing’  – means two or more dwelling units with a maximum of G+1 floor, in a row \nattached to each other, where the intermediate dwel ling units have only front and rear \nsetbacks and the dwelling units on the extreme ends have setbacks on three sides.  \nTypes of building based on height: \n(a)  B1- means residential buildings of G+1 floors upto 4 dwelling units  \n(b)  B2- means all buildings upto G+2 floors other than B1 buildings and Industrial buildings \n(c)  B3- means all low-rise buildings other than B1 & B2 buildings and Industrial buildings.",
+          "source": "file_banglore.pdf",
+          "page": 130
+        },
+        {
+          "text": "provisions for new buildings on various plot sizes and construction \nareas are indicated in the table 11.1 \n \nTable 11.1 Provisions and applicability for various plot sizes (Residential and Non0Residential) \n \nPlot \nCategory \nApplicable \nplot area \n(Sq.m) \nApplicable \nconstruction \narea (Sq.m) \nProvisions for Residential Provisions for Non0Residential \nI Upto 100 Any extent 4(a) 4(a) \nII Above 100 \nupto 250 \nAbove 100 1(a), 4(a) 1(a), 4(a) \nIII 251 to 500 101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a),1(b), 2(a),4(a)  1(a), 4(a) \nAbove 500 1(a), 1(b),2(a),4(a) 1(a),1(b),2(a), 4(a)  \nII 501 to 1000 101 to 250 1(a), 4(a) 1(a),4(a) \n251 to 500 1(a),1(b), 1(d),2(a), 4(a) 1(a),1(d),2(a ), 4(a) \n501 to 1000 1(a),1(b), 1(d),2(a), 4(a) 1(a), 1(b), 1(d), 2(a), 4(a) \nAbove 1000 1(a), 1(b), 1(d), 2(a),3(a), \n3(c),4(a) \n1(a),1(b),1(d), 2(a),3(a), \n3(c), 4(a) \n \nIII Above 1000  101 to 250 1(a), 4(a) 1(a), 4(a) \n251 to 500 1(a), 1(b), 1(d), 2(a), 4(a) 1(a),1(d), 2(a), 4(a) \n501 to 1000 1(a),",
+          "source": "file_banglore.pdf",
+          "page": 185
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 18,
+      "question": "Find relevant rules for setbacks, FAR, height and parking.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "r \nportion of the floor) \na.  Details of entry / exit ramps (ramp from outside th e building to the parking floor and \nramp between parking floors, as applicable), such a s number of ramps, width of the ramp \nand slope. \nb.  Width of all driveways in the parking area and the width of each of the parking bay \nabutting the driveway. \nc.  Width of columns provided in the parking floors and  clear spacing between the columns, \nlocation of staircases, lifts and toilets, with dimensions. \nd.  Level of floor with reference to the ground level c ontiguous to the building or the road level \nwhichever is considered for the height of the building. \ne.  Minimum Setback line from the boundary of the plot and in case of basement floor, the \ndistance between the boundary and the parking floor periphery. \nf.  Details of any other uses proposed within the parking area / floor. \ng.  no. of parking bays provided (4 wheeler and 27wheel er), separately showing single parking, \ndouble parking (one behind",
+          "source": "file_banglore.pdf",
+          "page": 101
+        },
+        {
+          "text": "provisions shall apply:  \n(a) Surface parking for two car spaces shall be pro vided near entrance for the physically \ndifferently7abled persons with maximum travel distance of 30.0m from building entrance. \n(b) The width of parking bay shall be minimum 3.6 metre. \n(c) The information stating that the space is reser ved for wheel chair users shall be \nconspicuously displayed. \nd) Guiding floor materials shall be provided or a d evice, which guides visually impaired \npersons with audible signals, or other devices, whi ch serves the same purpose, shall be provided. \n  \n9.4  Building requirements.7 The specified facilities in buildings for different ly abled persons \nshall be as follows:  \n9.4.1  Approach to plinth level.7 Every building should have at least one entrance \naccessible to the differently able and shall be ind icated by proper signage. This entrance shall be \napproached through ramp together with the stepped entry.  \n(1)  Ramped Approach : Ramp shall be finished with",
+          "source": "file_banglore.pdf",
+          "page": 52
+        },
+        {
+          "text": "ions shall apply: \n(a)  Surface parking for two car spaces shall be provide d near entrance for the physically \ndifferently-abled persons with maximum travel distance of 30.0m from building entrance. \n(b)  The width of parking bay shall be minimum 3.6 metre. \n(c)  The information stating that the space is reserved for wheel chair users shall be \nconspicuously displayed. \n(d)  Guiding floor materials shall be provided or a devi ce, which guides visually impaired \npersons with audible signals, or other devices, whi ch serves the same purpose, shall be \nprovided.  \n9.4  Building requirements \n The specified facilities in buildings for differen tly abled persons shall be as follows: \n9.4.1  Approach to plinth level \nEvery building shall have at least one entrance acc essible to the differently able and shall be \nindicated by proper signage. This entrance shall be  approached through ramp together with \nthe stepped entry. \n(1)   Ramped Approach : Ramp shall be finished with non-slip",
+          "source": "file_banglore.pdf",
+          "page": 180
+        },
+        {
+          "text": "tters; \n(f)  Ensuring that self7closing fire/smoke check doors c lose properly and that the doors are \nnot wedged open; \n(g)  Ensuring that the entire structure of the building is maintained in good repairs; \n(h)  Ensuring that all electrical and mechanical service  equipment’s are maintained in good \nworking condition at all times; and  \n(i)  Ensuring that Cars /Scooters etc. are parked system atically in neat rows. It is \nadvisable to mark parking lines on the ground in th e parking areas near the building \nand in the parking area on ground floor and in base ment(s); as applicable, inside the \nbuilding. A parking attendant must ensure that vehi cles are parked in an orderly",
+          "source": "file_banglore.pdf",
+          "page": 69
+        },
+        {
+          "text": "and entry / exit arch details. \n(e)    Levels contiguous to the building and the boundaries / corners of the plot. \n(f)  Details for identification of neighbouring pro perties. \n(g)   Portion of the plot earmarked as unpaved area s as per clause and chapter \nwherever applicable. \n(c) Index of drawing as specified in Appendix0III . \n \nC – Requirements of Floor Plan for parking area (see clause 3.11.3)  \nThe following details shall be provided in the plan  of the floor showing parking area (for full \nor portion of the floor) \n(a)  Details of entry / exit ramps (ramp from outsi de the building to the parking floor and \nramp between parking floors, as applicable), such a s number of ramps, width of the ramp \nand slope. \n(b) Width of all driveways in the parking area and the width of each of the parking bay \nabutting the driveway. \n(c)  Width of columns provided in the parking floor s and clear spacing between the columns, \nlocation of staircases, lifts and toilets, with dimensions. \n(d)",
+          "source": "file_banglore.pdf",
+          "page": 230
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 19,
+      "question": "Does a general development-regulation passage alone prove this proposal complies?",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "20 \nCHAPTER74 \n4.  DEVELOPMENT REGULATIONS.7 The provisions contained in Master Plan/Zonal \nRegulations shall apply and where these are silent on such issues or which require interpretation \nthe norms as decidedly the Authority, shall apply. The provisions include but are not limited to the \nuse/activity of premises, ground coverage, FAR, set backs, open space, height and parking standards \nfor Residential premises on plotted development, Gr oup housing, Resettlement colonies, Slums, In7\nsitu up gradation, Non7residential premises. The pe rmission of uses/use activities in use premises \nshall be permitted in accordance with provisions of  Master Plan and Zonal Regulations. The object of \nthese regulations is to provide control for buildin g/buildings within use premises excluding the \ninternal arrangement, which is covered and controlled by Building Bye7Laws.  \n \nCHAPTER – 5 \n5.  GENERAL BUILDING REQUIREMENTS AND SERVICES  \n5.1    Requirements for Parts of Buildings \n5.1.1  Plinth",
+          "source": "file_banglore.pdf",
+          "page": 21
+        },
+        {
+          "text": "surrounding Heritage Grade-I \nshall be regulated and \ncontrolled, ensuring that it does \nnot mar the grandeur of, or view \nfrom Heritage Grade-1 \nAll development in areas \nsurrounding Heritage Grade-II \nshall be regulated and controlled, \nensuring that it does not mar the \ngrandeur of , or view from \nHeritage Grade - II \nAll development in areas \nsurrounding Heritage Grade – III \nshall be regulated and controlled, \nensuring that it does not mar the \ngrandeur of, or view from \nHeritage Grade-III.",
+          "source": "file_banglore.pdf",
+          "page": 203
+        },
+        {
+          "text": "ay enter into any \nagreement with any person or voluntary organization  or company, whether incorporated \nor not, willing to preserve and conserve any herita ge building or any other public spaces \nowned by Government on such terms and conditions as the Government may determine. \n \nCHAPTER 14  \n14.  STREAMLINING OF BUILDING PLAN APPROVALS  \n14.1  Streamlining the building approval/sanction procedure (Ease of Doing Business) \nIn order to attract investments into the country, e fforts are being made by the Government to \nimprove ‘Ease of Doing Business’. In this direction , the limit of Built-up Area (BUA) for \nForeign Direct Investment (FDI) has been reduced fr om 50,000Sq.m to 20,000Sq.m. In this \ncontext, the local bodies have to operate the entir e building approval process in online mode, \nso that the building plan applications are submitte d online along with building fees and \nother charges, and after due scrutiny, the approvals are also conveyed online. \nFurther, external bodies",
+          "source": "file_banglore.pdf",
+          "page": 206
+        },
+        {
+          "text": "52 \n If the uses are contrary to the newly proposed use s, they are termed non-conforming uses \nand are gradually eliminated over years without inf licting unreasonable hardship upon the \nproperty owner. \n The Zonal Regulations and its enforcement ensure p roper land use and development and \nform an integral part of the Master Plan. It also e nsures solutions to problems of \ndevelopment under local conditions. \n The Master Plan along with the Zonal Regulations a pproved under sub section (3) of section \n13 of the Karnataka Town and Country Planning Act, 1961 approved by the Government, \ntime to time shall be applicable. \n \nCHAPTER 9  \n9.   PROVISIONS FOR DIFFERENTLY0ABLED, ELDERLY PERSONS AND CHILDREN \n9.1  Applicability \nThese regulations shall be applicable to all buildings and facilities used by the public such as \neducational, institutional, assembly, commercial, b usiness, mercantile buildings and group \nhousing constructed on plots having an area of more  than2000Sq.m. It shall",
+          "source": "file_banglore.pdf",
+          "page": 179
+        },
+        {
+          "text": "C/ approval are to be received online so that the re is no need for building proponents to \npursue matter with local bodies or external agencie s. The specific requirements of the \nexternal bodies are to be added in the Common Appli cation Form (CAF) of the local body so \nthat building proponent has to file all information  at a single customized online application \n(as specified in Appendix0II).  The objective is to make the whole process simplif ied and \nstreamlined to ensure ease in getting the approvals  for building licence within stipulated \ntime. \n14.2  Clearances at Master Plan level \nIndividual construction proposals shall not general ly require separate clearances from \nvarious authorities each time. Such clearances shal l be integrated into the Zonal Regulations \nof the Master Plan of the concerned Local Planning Area. The areas unaffected by any of the \nrestrictions shall be clearly marked out and mapped , preferably on a GIS platform. Area \nzones of differential control",
+          "source": "file_banglore.pdf",
+          "page": 206
+        }
+      ],
+      "error": null
+    },
+    {
+      "scenario_id": 20,
+      "question": "Answer a rule question when the vector collection is empty.",
+      "prompt_variants_executed": [],
+      "prompt_variants_note": "This script evaluates retrieval only. It does not call an LLM or execute prompt variants.",
+      "retrieved_count": 5,
+      "retrieval_hit_at_5_source_proxy": null,
+      "citation_completeness": 1.0,
+      "evidence_support_rate": null,
+      "abstention_accuracy": null,
+      "scenario_pass_rate": null,
+      "manual_review_required": true,
+      "retrieved_passages": [
+        {
+          "text": "valuation of Technical details submitted: \n(1)  If the application is accepted after finding that t he documents submitted along with the \napplication are in order, the TPO of the Authority or the empanelled professional or the \ndesignated officer notified by the Government shall  evaluate the Technical drawing and \ndetails submitted by the Applicant, for compliance with the provisions of the Zonal \nRegulations (ZR) of the Master plan, and Bye-laws a nd compliance of the conditions \nincorporated for obtaining NOCs from different depa rtments and submit the evaluation \nreport to the Commissioner of the Authority, with n oting of discrepancy, if any. The \nCommissioner shall approve the evaluation report wi th or without accepting the noting of \ndiscrepancy. \n(2)  In case the noting of discrepancy is accepted by th e Commissioner, an endorsement shall \nbe issued in Form0IV  to the applicant stating the discrepancy and the c oncerned \nprofessionals on record for drawings may rectify the",
+          "source": "file_banglore.pdf",
+          "page": 140
+        },
+        {
+          "text": "he vertical shaft for treated fresh air shall be of masonry construction. \n(iv)  The air filters of the air-handling units shall be of non-combustible materials or fire rated \n(Refer Clause 12.7.1  of Chapter 12)",
+          "source": "file_banglore.pdf",
+          "page": 172
+        },
+        {
+          "text": "d with section 428 of the Karnataka Mun \n1977), the Government of Karnataka hereby makes the following Model Building Bye \n1.  Title, commencement and application \nMunicipal Corporations Model Building Bye \n(2)  They shall come into force from the date of their final publication in the official Gazette. \n(3)  All mandatory Master Plan or Zonal Regulations rega rding use, land use, coverage, FAR, \nor open space, height, number of stories, number of  dwelling units, parking standards etc. for \nvarious categories of buildings including modificat ion therein made from time to time shall be \napplicable mutatis mutandis in these Bye \nmodifications made in the aforesaid regulations sha ll automatically stand deemed to have been \nincluded as part of these Bye-laws. \n \n2.  Definitions:0 (a)  In these Bye -\n(1)  ‘Access’  – means a clear approach to a plot or a building. \n(2)  ‘Act’ - means the Karnataka Municipal Corporations Act, 1976 (Karnataka Act 14 of 1977); \n(3)  ‘Addition and/or",
+          "source": "file_banglore.pdf",
+          "page": 128
+        },
+        {
+          "text": "F EMPANELLED \nPROFESSIONAL OR DEPARTMENT ISSUING NOCs. \n1.  Name and address of the Applicant; \n2.  Name and address of the professional on record for supervision; \n3.  Name and address of contractor executing work; \n4.  Name and address of empanelled professional; \n5.  Name and address of the Authority; \n6.  Name and address of the Department which issued NOC  (if objection is raised against such \ndepartment);",
+          "source": "file_banglore.pdf",
+          "page": 125
+        },
+        {
+          "text": "rsement shall \nbe issued in Form0IV  to the applicant stating the discrepancy and the c oncerned \nprofessionals on record for drawings may rectify the same and resubmit to the Authority. \n3.10.5  Forwarding details to obtain NOCs and issuing NOCs: \n(1)  If the Technical drawing and details submitted  are complying with the provisions of the \nZonal Regulations (ZR) of the Master plan, and Bye- laws and the requirements for \nobtaining NOCs from different departments, the Comm issioner of the Authority shall \nforward the application, technical drawings and det ails submitted for NOCs to the \nconcerned departments stating the timelines within which the NOCs have to be issued, (as \ndetailed in Appendix0VIII ), failing which the NOCs would be deemed to have been issued.  \n(2)  All the respective departments shall verify the drawing and details submitted along with the \napplication of the NOC and if found in order shall issue NOC within the timelines specified \nin Appendix0VIII , with or",
+          "source": "file_banglore.pdf",
+          "page": 140
+        }
+      ],
+      "error": null
+    }
+  ]
+}
