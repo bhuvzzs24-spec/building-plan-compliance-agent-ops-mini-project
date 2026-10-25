@@ -293,3 +293,12 @@ These are configured evaluation requirements. Completion of all 40 runs and calc
 
 
 This is a collaborative college project. Contributions include frontend development, FastAPI backend implementation, RAG and ChromaDB indexing, workflow integration, citation verification, evaluation, and testing.
+
+## Basic API Smoke Test
+
+- Endpoint: `GET /health`
+- Requests sent: 20 sequential requests
+- Successful responses: 20 (`200 OK`)
+- Failed requests: 0
+- Result: Passed basic smoke test
+- Note: This was not a concurrent load or production performance test.
