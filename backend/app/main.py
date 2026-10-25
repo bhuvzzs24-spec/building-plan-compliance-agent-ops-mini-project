@@ -1,4 +1,5 @@
 
+import asyncio
 import sys
 from pathlib import Path
 from uuid import uuid4
@@ -7,13 +8,14 @@ from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-# Ensure the repository root is importable when the API starts.
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from agents.workflow import compliance_workflow
 
+
+WORKFLOW_TIMEOUT_SECONDS = 30
 
 app = FastAPI(
     title="Building Plan Compliance Pre-Check",
@@ -23,10 +25,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-    "https://building-plan-compliance-frontend.onrender.com",
-],
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "https://building-plan-compliance-frontend.onrender.com",
+    ],
     allow_credentials=False,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Accept"],
@@ -37,9 +39,9 @@ runs = {}
 
 class BuildingProposal(BaseModel):
     building_use: str
-    plot_area: float = Field(gt=0)
-    road_width: float = Field(gt=0)
-    proposed_height: float = Field(gt=0)
+    plot_area: float = Field(gt=0, allow_inf_nan=False)
+    road_width: float = Field(gt=0, allow_inf_nan=False)
+    proposed_height: float = Field(gt=0, allow_inf_nan=False)
     zone: str
 
 
@@ -64,15 +66,13 @@ def validate_proposal(proposal: dict):
     for field in ("plot_area", "road_width", "proposed_height"):
         value = proposal.get(field)
         if value is not None and value <= 0:
-            findings.append(
-                f"{field} must be greater than zero."
-            )
+            findings.append(f"{field} must be greater than zero.")
 
     return findings
 
 
-def process_run(run_id: str, proposal: dict):
-    """Validate the proposal and run the compliance workflow."""
+async def process_run(run_id: str, proposal: dict):
+    """Run the workflow with bounded waiting and safe error responses."""
     try:
         findings = validate_proposal(proposal)
 
@@ -85,6 +85,8 @@ def process_run(run_id: str, proposal: dict):
             })
             return
 
+        runs[run_id]["status"] = "running"
+
         initial_state = {
             "building_details": proposal,
             "findings": [],
@@ -93,7 +95,13 @@ def process_run(run_id: str, proposal: dict):
             "citations": [],
         }
 
-        result = compliance_workflow.invoke(initial_state)
+        result = await asyncio.wait_for(
+            asyncio.to_thread(
+                compliance_workflow.invoke,
+                initial_state,
+            ),
+            timeout=WORKFLOW_TIMEOUT_SECONDS,
+        )
 
         runs[run_id].update({
             "status": "completed",
@@ -104,8 +112,16 @@ def process_run(run_id: str, proposal: dict):
             "building_details": proposal,
         })
 
+    except asyncio.TimeoutError:
+        runs[run_id].update({
+            "status": "failed",
+            "error": "The compliance workflow timed out. Please try again.",
+            "findings": [],
+            "clauses": [],
+            "citations": [],
+        })
+
     except Exception:
-        # Keep internal exception details out of the API response.
         runs[run_id].update({
             "status": "failed",
             "error": "The compliance workflow failed.",
