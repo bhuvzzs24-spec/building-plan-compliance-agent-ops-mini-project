@@ -1,6 +1,7 @@
 
 from fastapi.testclient import TestClient
 
+import backend.app.main as main
 from backend.app.main import app, runs
 
 
@@ -103,3 +104,21 @@ def test_unknown_run_returns_404():
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Run not found"
+
+def test_failed_run_does_not_expose_internal_error(monkeypatch):
+    class FailingWorkflow:
+        def invoke(self, state):
+            raise RuntimeError("secret internal database details")
+
+    monkeypatch.setattr(main, "compliance_workflow", FailingWorkflow())
+
+    response = client.post("/runs", json=VALID_PROPOSAL)
+    assert response.status_code == 202
+
+    run_id = response.json()["run_id"]
+    result = client.get(f"/runs/{run_id}")
+
+    assert result.status_code == 200
+    assert result.json()["status"] == "failed"
+    assert "secret internal database details" not in result.text
+    assert result.json()["error"] == "The compliance workflow failed."
