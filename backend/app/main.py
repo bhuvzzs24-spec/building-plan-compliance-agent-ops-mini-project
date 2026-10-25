@@ -54,19 +54,24 @@ def validate_proposal(proposal: dict):
     ):
         if field not in proposal or proposal[field] is None:
             findings.append(f"Missing required field: {field}")
-        elif isinstance(proposal[field], str) and not proposal[field].strip():
+        elif (
+            isinstance(proposal[field], str)
+            and not proposal[field].strip()
+        ):
             findings.append(f"{field} must not be empty.")
 
     for field in ("plot_area", "road_width", "proposed_height"):
         value = proposal.get(field)
         if value is not None and value <= 0:
-            findings.append(f"{field} must be greater than zero.")
+            findings.append(
+                f"{field} must be greater than zero."
+            )
 
     return findings
 
 
 def process_run(run_id: str, proposal: dict):
-    """Validate the proposal and run Sloka's compliance retrieval workflow."""
+    """Validate the proposal and run the compliance workflow."""
     try:
         findings = validate_proposal(proposal)
 
@@ -89,23 +94,20 @@ def process_run(run_id: str, proposal: dict):
 
         result = compliance_workflow.invoke(initial_state)
 
-        workflow_findings = result.get("findings", [])
-        clauses = result.get("clauses", [])
-        citations = result.get("citations", [])
-
         runs[run_id].update({
             "status": "completed",
             "workflow_status": result.get("status", "unknown"),
-            "findings": workflow_findings,
-            "clauses": clauses,
-            "citations": citations,
+            "findings": result.get("findings", []),
+            "clauses": result.get("clauses", []),
+            "citations": result.get("citations", []),
             "building_details": proposal,
         })
 
-    except Exception as exc:
+    except Exception:
+        # Keep internal exception details out of the API response.
         runs[run_id].update({
             "status": "failed",
-            "error": f"{type(exc).__name__}: {exc}",
+            "error": "The compliance workflow failed.",
             "findings": [],
             "clauses": [],
             "citations": [],
@@ -114,7 +116,9 @@ def process_run(run_id: str, proposal: dict):
 
 @app.get("/")
 def home():
-    return {"message": "Building Plan Compliance API is running"}
+    return {
+        "message": "Building Plan Compliance API is running"
+    }
 
 
 @app.get("/health")
@@ -130,7 +134,9 @@ def check_proposal(proposal: BuildingProposal):
     return {
         "building_details": details,
         "findings": findings,
-        "status": "needs_review" if findings else "pending_rules_check",
+        "status": (
+            "needs_review" if findings else "pending_rules_check"
+        ),
     }
 
 
@@ -161,6 +167,9 @@ def start_run(
 @app.get("/runs/{run_id}")
 def get_run(run_id: str):
     if run_id not in runs:
-        raise HTTPException(status_code=404, detail="Run not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Run not found",
+        )
 
     return runs[run_id]
