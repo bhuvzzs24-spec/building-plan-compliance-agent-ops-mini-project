@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://building-plan-compliance-agent-ops-mini.onrender.com";
 
 const proposalForm = document.getElementById("proposal-form");
 const resultsSection = document.getElementById("results-section");
