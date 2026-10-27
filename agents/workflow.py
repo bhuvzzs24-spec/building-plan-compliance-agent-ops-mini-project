@@ -1,13 +1,12 @@
+from typing import Any, TypedDict
 
-from typing import TypedDict, Any
-
-from langgraph.graph import StateGraph, END
+from langgraph.graph import END, StateGraph
 from langgraph.types import RetryPolicy
 
 from agents.rag.retriever import retrieve_clauses
 
 
-class ComplianceState(TypedDict):
+class ComplianceState(TypedDict, total=False):
     building_details: dict[str, Any]
     findings: list[str]
     status: str
@@ -16,62 +15,86 @@ class ComplianceState(TypedDict):
     retry_count: int
 
 
-def validate_building_details(state):
+def validate_building_details(
+    state: ComplianceState,
+) -> dict[str, Any]:
     details = state.get("building_details", {})
     findings = list(state.get("findings", []))
 
-    for field in (
+    required_fields = (
         "building_use",
         "plot_area",
         "road_width",
         "proposed_height",
         "zone",
-    ):
-        if field not in details or details[field] in ("", None):
+    )
+
+    for field in required_fields:
+        value = details.get(field)
+        if value is None or (
+            isinstance(value, str) and not value.strip()
+        ):
             findings.append(f"Missing required field: {field}")
 
     for field in ("plot_area", "road_width", "proposed_height"):
-        if field in details:
+        value = details.get(field)
+        if value is not None:
             try:
-                if float(details[field]) <= 0:
+                if float(value) <= 0:
                     findings.append(
                         f"{field} must be greater than zero."
                     )
             except (TypeError, ValueError):
                 findings.append(f"{field} must be a number.")
 
+    findings = list(dict.fromkeys(findings))
     return {
-        "findings": list(dict.fromkeys(findings)),
+        "findings": findings,
         "status": "needs_review" if findings else "pending_rules_check",
         "retry_count": 0,
     }
 
 
-# Agent 1: retrieve relevant evidence.
-def retrieval_agent(state):
+def retrieval_agent(
+    state: ComplianceState,
+) -> dict[str, Any]:
     details = state.get("building_details", {})
     question = (
         "Building bye-laws relevant to this proposal: "
         + ", ".join(f"{key}: {value}" for key, value in details.items())
     )
 
-    clauses = retrieve_clauses(question, top_k=5)
+    try:
+        clauses = retrieve_clauses(question, top_k=5)
+    except Exception:
+        findings = list(state.get("findings", []))
+        findings.append(
+            "Building-code retrieval failed; manual review required."
+        )
+        return {
+            "clauses": [],
+            "citations": [],
+            "findings": list(dict.fromkeys(findings)),
+            "status": "needs_review",
+        }
+
     return {"clauses": clauses}
 
 
-# Agent 2: check citation metadata.
-# This is not an authoritative legal or semantic verifier.
-def citation_verification_agent(state):
-    clauses = state.get("clauses", [])
+def citation_verification_agent(
+    state: ComplianceState,
+) -> dict[str, Any]:
     findings = list(state.get("findings", []))
     citations = []
 
-    for clause in clauses:
+    for clause in state.get("clauses", []):
         text = str(clause.get("text", "")).strip()
         source = clause.get("source")
         page = clause.get("page")
 
-        if not text or not source or page is None:
+        if not text or not isinstance(source, str) or not source.strip():
+            continue
+        if not isinstance(page, int) or isinstance(page, bool) or page < 1:
             continue
 
         citations.append({
@@ -82,20 +105,19 @@ def citation_verification_agent(state):
 
     if not citations:
         findings.append(
-            "Evidence could not be verified; manual review required."
+            "No traceable building-code evidence was found; "
+            "manual review required."
         )
-        return {
-            "citations": [],
-            "findings": list(dict.fromkeys(findings)),
-            "status": "needs_review",
-        }
 
-    status = "needs_review" if findings else "rules_retrieved"
-
+    findings = list(dict.fromkeys(findings))
     return {
         "citations": citations,
-        "findings": list(dict.fromkeys(findings)),
-        "status": status,
+        "findings": findings,
+        "status": (
+            "needs_review"
+            if findings or not citations
+            else "rules_retrieved"
+        ),
     }
 
 
@@ -106,13 +128,11 @@ def build_compliance_workflow():
         "validate_building_details",
         validate_building_details,
     )
-
     graph.add_node(
         "retrieval_agent",
         retrieval_agent,
         retry_policy=RetryPolicy(max_attempts=3),
     )
-
     graph.add_node(
         "citation_verification_agent",
         citation_verification_agent,

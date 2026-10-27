@@ -96,15 +96,25 @@ def test_start_run_and_retrieve_result():
     assert result.status_code == 200
     assert result.json()["run_id"] == run_id
     assert result.json()["status"] == "completed"
-    assert result.json()["findings"] == []
-
-
+    assert result.json()["workflow_status"] == "needs_review"
+    assert any(
+        "evidence" in finding.lower()
+        or "retrieval" in finding.lower()
+        for finding in result.json()["findings"]
+    )
+    # Valid input does not guarantee compliance. Without a
+    # usable regulation index, the workflow must request review.
+    assert result.json()["workflow_status"] == "needs_review"
+    assert any(
+        "evidence" in finding.lower()
+        or "retrieval" in finding.lower()
+        for finding in result.json()["findings"]
+    )
 def test_unknown_run_returns_404():
     response = client.get("/runs/unknown-run-id")
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Run not found"
-
 def test_failed_run_does_not_expose_internal_error(monkeypatch):
     class FailingWorkflow:
         def invoke(self, state):
@@ -122,3 +132,4 @@ def test_failed_run_does_not_expose_internal_error(monkeypatch):
     assert result.json()["status"] == "failed"
     assert "secret internal database details" not in result.text
     assert result.json()["error"] == "The compliance workflow failed."
+
