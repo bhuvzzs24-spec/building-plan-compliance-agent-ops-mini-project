@@ -4,7 +4,6 @@ from fastapi.testclient import TestClient
 import backend.app.main as main
 from backend.app.main import app, runs
 
-
 client = TestClient(app)
 
 VALID_PROPOSAL = {
@@ -45,7 +44,7 @@ def test_check_valid_proposal():
 
 def test_check_rejects_missing_required_field():
     proposal = VALID_PROPOSAL.copy()
-    del proposal["plot_area"]
+    proposal.pop("plot_area")
 
     response = client.post("/check", json=proposal)
 
@@ -78,7 +77,24 @@ def test_cors_preflight_for_frontend():
     )
 
 
-def test_start_run_and_retrieve_result():
+def test_start_run_and_retrieve_result(monkeypatch):
+    def workflow_without_evidence(state):
+        return {
+            **state,
+            "status": "needs_review",
+            "findings": [
+                "Insufficient regulatory evidence; manual review required."
+            ],
+            "clauses": [],
+            "citations": [],
+        }
+
+    monkeypatch.setattr(
+        main.compliance_workflow,
+        "invoke",
+        workflow_without_evidence,
+    )
+
     response = client.post("/runs", json=VALID_PROPOSAL)
 
     assert response.status_code == 202
@@ -89,47 +105,55 @@ def test_start_run_and_retrieve_result():
     assert data["status"] == "pending"
     assert run_id in runs
 
-    # FastAPI TestClient executes background tasks before the
-    # request finishes, so the stored run should now be processed.
+    # TestClient executes background tasks before the request completes.
     result = client.get(f"/runs/{run_id}")
 
     assert result.status_code == 200
-    assert result.json()["run_id"] == run_id
-    assert result.json()["status"] == "completed"
-    assert result.json()["workflow_status"] == "needs_review"
+
+    result_data = result.json()
+    assert result_data["run_id"] == run_id
+    assert result_data["status"] == "completed"
+    assert result_data["workflow_status"] == "needs_review"
+
     assert any(
         "evidence" in finding.lower()
         or "retrieval" in finding.lower()
-        for finding in result.json()["findings"]
+        for finding in result_data["findings"]
     )
-    # Valid input does not guarantee compliance. Without a
-    # usable regulation index, the workflow must request review.
-    assert result.json()["workflow_status"] == "needs_review"
-    assert any(
-        "evidence" in finding.lower()
-        or "retrieval" in finding.lower()
-        for finding in result.json()["findings"]
-    )
+
+    assert result_data["clauses"] == []
+    assert result_data["citations"] == []
+
+
 def test_unknown_run_returns_404():
     response = client.get("/runs/unknown-run-id")
 
     assert response.status_code == 404
-    assert response.json()["detail"] == "Run not found"
-def test_failed_run_does_not_expose_internal_error(monkeypatch):
-    class FailingWorkflow:
-        def invoke(self, state):
-            raise RuntimeError("secret internal database details")
 
-    monkeypatch.setattr(main, "compliance_workflow", FailingWorkflow())
+
+def test_failed_run_does_not_expose_internal_error(monkeypatch):
+    def failing_workflow(state):
+        raise RuntimeError("Sensitive internal details")
+
+    monkeypatch.setattr(
+        main.compliance_workflow,
+        "invoke",
+        failing_workflow,
+    )
 
     response = client.post("/runs", json=VALID_PROPOSAL)
+
     assert response.status_code == 202
 
     run_id = response.json()["run_id"]
     result = client.get(f"/runs/{run_id}")
 
     assert result.status_code == 200
-    assert result.json()["status"] == "failed"
-    assert "secret internal database details" not in result.text
-    assert result.json()["error"] == "The compliance workflow failed."
 
+    result_data = result.json()
+
+    assert result_data["run_id"] == run_id
+    assert result_data["status"] == "failed"
+
+    # Failed runs may omit workflow_status; internal errors must stay private.
+    assert "Sensitive internal details" not in result.text

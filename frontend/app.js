@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "https://building-plan-compliance-agent-ops-mini.onrender.com";
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 const proposalForm = document.getElementById("proposal-form");
 const resultsSection = document.getElementById("results-section");
@@ -23,7 +23,13 @@ function addResultRow(container, label, value) {
 
     heading.textContent = `${label}: `;
     row.appendChild(heading);
-    row.appendChild(document.createTextNode(String(value)));
+    row.appendChild(
+        document.createTextNode(
+            value === undefined || value === null || value === ""
+                ? "Not provided"
+                : String(value)
+        )
+    );
 
     container.appendChild(row);
 }
@@ -36,17 +42,37 @@ function addHeading(container, text) {
 
 function getStatusPresentation(status) {
     const statusMap = {
+        pending: {
+            label: "Queued",
+            className: "pending"
+        },
         pending_rules_check: {
             label: "Awaiting regulatory checks",
             className: "pending"
+        },
+        running: {
+            label: "Checking regulatory rules",
+            className: "pending"
+        },
+        rules_retrieved: {
+            label: "Rules retrieved — review required",
+            className: "complete"
         },
         needs_review: {
             label: "Needs review",
             className: "review"
         },
         completed: {
-            label: "Completed",
+            label: "Workflow completed — review required",
             className: "complete"
+        },
+        failed: {
+            label: "Workflow failed",
+            className: "review"
+        },
+        error: {
+            label: "Workflow error",
+            className: "review"
         }
     };
 
@@ -56,11 +82,119 @@ function getStatusPresentation(status) {
     };
 }
 
-function displayResults(data) {
+function displayFindings(container, findings) {
+    addHeading(container, "Findings");
+
+    if (!Array.isArray(findings) || findings.length === 0) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No findings were returned by the workflow. This does not establish compliance.";
+        container.appendChild(message);
+        return;
+    }
+
+    const list = document.createElement("ul");
+
+    findings.forEach((finding) => {
+        const item = document.createElement("li");
+
+        if (typeof finding === "string") {
+            item.textContent = finding;
+        } else {
+            item.textContent =
+                finding.message ||
+                finding.description ||
+                JSON.stringify(finding);
+        }
+
+        list.appendChild(item);
+    });
+
+    container.appendChild(list);
+}
+
+function displayClauses(container, clauses) {
+    addHeading(container, "Retrieved Regulatory Clauses");
+
+    if (!Array.isArray(clauses) || clauses.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "No regulatory clauses were returned.";
+        container.appendChild(message);
+        return;
+    }
+
+    clauses.forEach((clause, index) => {
+        const article = document.createElement("article");
+        article.className = "result-clause";
+
+        const title = document.createElement("h4");
+        title.textContent = `Clause ${index + 1}`;
+        article.appendChild(title);
+
+        const source = clause.source || clause.filename || "Unknown source";
+        const page = clause.page ?? clause.page_number;
+
+        addResultRow(article, "Source", source);
+
+        if (page !== undefined && page !== null) {
+            addResultRow(article, "PDF page", page);
+        }
+
+        if (clause.distance !== undefined) {
+            addResultRow(article, "Retrieval distance", clause.distance);
+        }
+
+        const text = document.createElement("p");
+        text.textContent =
+            clause.text || clause.content || clause.clause || "No clause text supplied.";
+        article.appendChild(text);
+
+        container.appendChild(article);
+    });
+}
+
+function displayCitations(container, citations) {
+    addHeading(container, "Sources and Citations");
+
+    if (!Array.isArray(citations) || citations.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "No citations were returned by the workflow.";
+        container.appendChild(message);
+        return;
+    }
+
+    const list = document.createElement("ol");
+
+    citations.forEach((citation) => {
+        const item = document.createElement("li");
+        const source = citation.source || citation.filename || "Unknown source";
+        const page = citation.page ?? citation.page_number;
+
+        const label = document.createElement("strong");
+        label.textContent =
+            page !== undefined && page !== null
+                ? `${source}, PDF page ${page}`
+                : source;
+
+        item.appendChild(label);
+
+        if (citation.text) {
+            const excerpt = document.createElement("p");
+            excerpt.textContent = citation.text;
+            item.appendChild(excerpt);
+        }
+
+        list.appendChild(item);
+    });
+
+    container.appendChild(list);
+}
+
+function displayResults(data, proposal) {
     resultsSection.hidden = false;
     resultsContent.replaceChildren();
 
-    addHeading(resultsContent, "Compliance Check Status");
+    addHeading(resultsContent, "Compliance Workflow Status");
 
     const status = getStatusPresentation(data.status);
     const statusBadge = document.createElement("span");
@@ -71,11 +205,14 @@ function displayResults(data) {
 
     resultsContent.appendChild(statusBadge);
 
-    if (data.building_details) {
+    if (data.run_id) {
+        addResultRow(resultsContent, "Run ID", data.run_id);
+    }
+
+    const details = data.building_details || proposal;
+
+    if (details) {
         addHeading(resultsContent, "Submitted Building Details");
-
-        const details = data.building_details;
-
         addResultRow(resultsContent, "Building use", details.building_use);
         addResultRow(resultsContent, "Plot area (m²)", details.plot_area);
         addResultRow(resultsContent, "Road width (m)", details.road_width);
@@ -87,32 +224,22 @@ function displayResults(data) {
         addResultRow(resultsContent, "Zone", details.zone);
     }
 
-    addHeading(resultsContent, "Findings");
-
-    if (Array.isArray(data.findings) && data.findings.length > 0) {
-        const findingsList = document.createElement("ul");
-
-        data.findings.forEach((finding) => {
-            const item = document.createElement("li");
-            item.textContent = finding;
-            findingsList.appendChild(item);
-        });
-
-        resultsContent.appendChild(findingsList);
-    } else {
-        const noFindings = document.createElement("p");
-        noFindings.textContent = "No basic input validation findings.";
-        resultsContent.appendChild(noFindings);
-    }
+    displayFindings(resultsContent, data.findings);
+    displayClauses(resultsContent, data.clauses);
+    displayCitations(resultsContent, data.citations);
 
     const disclaimer = document.createElement("p");
     disclaimer.className = "result-disclaimer";
     disclaimer.textContent =
-        "This is a preliminary input-validation response, not a verified " +
-        "building compliance decision. Actual regulatory checks and citations " +
-        "are not yet provided by this endpoint.";
+        "These results show retrieved regulatory text, not a verified legal compliance decision. " +
+        "The applicable jurisdiction, current regulations, amendments, and site-specific requirements " +
+        "must be independently verified by a qualified professional or the relevant authority.";
 
     resultsContent.appendChild(disclaimer);
+}
+
+function sleep(milliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 proposalForm.addEventListener("submit", async (event) => {
@@ -129,7 +256,7 @@ proposalForm.addEventListener("submit", async (event) => {
         plot_area: Number(formData.get("plot_area")),
         road_width: Number(formData.get("road_width")),
         proposed_height: Number(formData.get("proposed_height")),
-        zone: formData.get("zone").trim()
+        zone: String(formData.get("zone") || "").trim()
     };
 
     if (
@@ -141,23 +268,19 @@ proposalForm.addEventListener("submit", async (event) => {
         proposal.proposed_height <= 0 ||
         !proposal.zone
     ) {
-        showMessage(
-            "Enter valid positive measurements and a zone.",
-            "error"
-        );
+        showMessage("Enter valid positive measurements and a zone.", "error");
         return;
     }
 
-    const submitButton = proposalForm.querySelector(
-        'button[type="submit"]'
-    );
+    const submitButton = proposalForm.querySelector('button[type="submit"]');
 
     submitButton.disabled = true;
     submitButton.textContent = "Checking proposal...";
-    showMessage("Sending your proposal to the backend...", "info");
 
     try {
-        const response = await fetch(`${API_BASE_URL}/check`, {
+        showMessage("Submitting proposal to the compliance workflow...", "info");
+
+        const response = await fetch(`${API_BASE_URL}/runs`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -166,28 +289,81 @@ proposalForm.addEventListener("submit", async (event) => {
             body: JSON.stringify(proposal)
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
-            const message =
-                typeof data.detail === "string"
-                    ? data.detail
-                    : "The API rejected the request.";
-
-            showMessage(
-                `Request failed (${response.status}): ${message}`,
-                "error"
-            );
-            return;
+            const errorText = await response.text();
+            throw new Error(`Submission failed (${response.status}): ${errorText}`);
         }
 
-        displayResults(data);
+        let data = await response.json();
+
+        if (!data.run_id) {
+            throw new Error("The API response did not include a run ID.");
+        }
+
+        displayResults(data, proposal);
+
+        const terminalStatuses = new Set([
+            "completed",
+            "rules_retrieved",
+            "needs_review",
+            "failed",
+            "error"
+        ]);
+
+        for (let attempt = 0; attempt < 60; attempt++) {
+            if (terminalStatuses.has(data.status)) {
+                break;
+            }
+
+            showMessage(
+                `Workflow status: ${data.status || "processing"}. Waiting for results...`,
+                "info"
+            );
+
+            await sleep(1000);
+
+            const statusResponse = await fetch(
+                `${API_BASE_URL}/runs/${encodeURIComponent(data.run_id)}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+            if (!statusResponse.ok) {
+                const errorText = await statusResponse.text();
+                throw new Error(
+                    `Status check failed (${statusResponse.status}): ${errorText}`
+                );
+            }
+
+            data = await statusResponse.json();
+            displayResults(data, proposal);
+        }
+
+        if (!terminalStatuses.has(data.status)) {
+            const message = document.createElement("p");
+            message.textContent =
+                "The workflow has not finished within 60 seconds. " +
+                "Submit again later or check the run ID with the backend.";
+            resultsContent.appendChild(message);
+        } else if (
+            data.status === "failed" ||
+            data.status === "error"
+        ) {
+            showMessage(
+                "The compliance workflow failed. Check the backend terminal for details.",
+                "error"
+            );
+        }
     } catch (error) {
-        console.error("Proposal request failed:", error);
+        console.error("Compliance workflow request failed:", error);
 
         showMessage(
-            "Could not connect to the backend. Check that FastAPI is " +
-            "running at http://127.0.0.1:8000.",
+            `Could not complete the workflow: ${error.message}. ` +
+            "Check that the local backend is running at http://127.0.0.1:8000.",
             "error"
         );
     } finally {
