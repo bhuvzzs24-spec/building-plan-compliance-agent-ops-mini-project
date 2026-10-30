@@ -1,0 +1,131 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  corpus-indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "-m", "agents.rag.index_pdfs"]
+    environment:
+      CORPUS_DIR: /app/data/bye_laws
+      CHROMA_PERSIST_DIR: /corpus/chroma_db
+      INDEX_MANIFEST_PATH: /corpus/index_manifest.json
+    volumes:
+      - corpus_data:/corpus
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      REDIS_QUEUE_NAME: building_compliance_runs
+      RUN_DB_PATH: /state/runs.sqlite3
+      CHROMA_PERSIST_DIR: /corpus/chroma_db
+      WORKFLOW_TIMEOUT_SECONDS: 30
+      CORS_ORIGINS: http://localhost:5500
+    ports:
+      - "8000:8000"
+    volumes:
+      - run_state:/state
+      - corpus_data:/corpus:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      corpus-indexer:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  agent-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["python", "-m", "backend.app.worker"]
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      REDIS_QUEUE_NAME: building_compliance_runs
+      RUN_DB_PATH: /state/runs.sqlite3
+      CHROMA_PERSIST_DIR: /corpus/chroma_db
+      WORKFLOW_TIMEOUT_SECONDS: 30
+      WORKER_HEALTH_PORT: 9101
+    expose:
+      - "9101"
+    volumes:
+      - run_state:/state
+      - corpus_data:/corpus:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      corpus-indexer:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9101/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      API_BASE_URL: http://localhost:8000
+    ports:
+      - "5500:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    depends_on:
+      api:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:12.1.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+
+volumes:
+  redis_data:
+  run_state:
+  corpus_data:
+  prometheus_data:
+  grafana_data:
+

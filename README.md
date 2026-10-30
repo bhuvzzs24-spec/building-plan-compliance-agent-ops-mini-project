@@ -1,185 +1,181 @@
 # Building Plan Compliance Pre-Check
 
-A college project for pre-checking building proposals using a FastAPI backend, a retrieval-augmented generation (RAG) pipeline, LangGraph workflow integration, and ChromaDB vector storage.
+A FastAPI and LangGraph prototype for evidence retrieval from building-rule PDFs. It validates structured proposals, runs targeted searches for setback, road-width/height, FAR/coverage, and permitted-use evidence, checks that citations resolve to stored passages, and routes results for professional review.
 
-> **Important:** This application is a pre-check prototype, not an official building approval system. A successful API response does not establish legal or regulatory compliance.
+> This service is not an approval system and does not certify compliance. Its indexed corpus snapshot is historical and has not been confirmed as the complete current rule set for a property. The application therefore routes every run to specialist-review.
 
-## Features
+## Run from a clean clone
 
-- FastAPI endpoints for health checks, proposal validation, and background compliance workflow runs.
-- Input validation for required building proposal fields and positive numeric values.
-- Background processing with run IDs and status retrieval.
-- PDF indexing and text chunking for building bye-laws.
-- ChromaDB storage and retrieval of passages with source and page metadata.
-- Retrieval retry configuration and generic error responses for unexpected workflow failures.
-- Automated API and RAG tests.
-- Frontend and backend deployed on Render.
+Requirements: Docker Engine or Docker Desktop with Compose v2.
 
-## Live Deployment
-
-- **Frontend:** https://building-plan-compliance-frontend.onrender.com
-- **Backend API:** https://building-plan-compliance-agent-ops-mini.onrender.com
-- **API health check:** https://building-plan-compliance-agent-ops-mini.onrender.com/health
-- **Interactive API documentation:** https://building-plan-compliance-agent-ops-mini.onrender.com/docs
-
-The health endpoint reports whether the API process is responding. It does not by itself verify that the vector database, bye-law documents, or the full compliance workflow are ready.
-
-## Technology Stack
-
-- Python
-- FastAPI and Uvicorn
-- Pydantic
-- LangGraph
-- ChromaDB
-- Pytest
-- HTML, CSS, and JavaScript frontend
-
-## Project Setup
-
-### 1. Clone the repository
-
-```bash
+~~~bash
 git clone https://github.com/bhuvzzs24-spec/building-plan-compliance-agent-ops-mini-project.git
 cd building-plan-compliance-agent-ops-mini-project
-```
+docker compose up --build
+~~~
 
-If Git creates a directory with a different name, enter the directory it created.
+Compose uses the checked-in .env.example as runtime configuration. It builds the API/worker image, indexes the included PDF corpus into a named volume, starts Redis, the API, one worker, the frontend, Prometheus, and Grafana. Stop with Ctrl+C. To scale workers:
 
-### 2. Create a virtual environment
+~~~bash
+docker compose up --build --scale agent-worker=3
+~~~
 
-**Windows PowerShell**
+Open the frontend on port 5500, API documentation on port 8000/docs, Prometheus on port 9090, and Grafana on port 3000. Grafana is configured for anonymous read-only access for this local demonstration stack; do not expose these ports to an untrusted network.
 
-```powershell
+The stack keeps queued jobs in Redis and run/feedback records in a shared SQLite volume. With Redis unavailable in a local non-Compose run, the API falls back to a bounded in-process worker pool. That fallback is not durable across process restarts.
+
+## Local development
+
+Create and activate a Python virtual environment, then install dependencies:
+
+~~~bash
 python -m venv .venv
+~~~
+
+Windows PowerShell:
+
+~~~powershell
 .\.venv\Scripts\Activate.ps1
-```
-
-**macOS/Linux**
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
 python -m pip install -r requirements.txt
-```
+~~~
 
-If installation fails, check the Python version and platform compatibility of the packages listed in `requirements.txt`.
+macOS/Linux:
 
-## Index Building Bye-Law PDFs
+~~~bash
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+~~~
 
-Place the source PDF files in the input directory expected by the indexing script, then run:
+Index the local PDFs, then start the API:
 
-```bash
+~~~bash
 python -m agents.rag.index_pdfs
-```
+python -m uvicorn backend.app.main:app --reload
+~~~
 
-The indexing process extracts PDF text, splits it into chunks, and stores indexed passages in ChromaDB.
+Serve the static frontend separately:
 
-The verified Windows development environment previously contained a ChromaDB collection named `building_bye_laws` with 1,243 chunks. The configured persistent database path is `data/chroma_db`. These are local-environment observations and do not guarantee that the same collection or documents exist in the deployed service.
+~~~bash
+python -m http.server 5500 --directory frontend
+~~~
 
-## Run the API Locally
+For local runs, set REDIS_URL to a reachable Redis instance to use the queue. Without it, runs execute in the API process pool. Local run state defaults to data/run_state.sqlite3; the vector index defaults to data/chroma_db.
 
-From the project root, run:
+## Proposal contract
 
-```bash
-uvicorn backend.app.main:app --reload
-```
+POST /runs accepts JSON with:
 
-The API should be available at:
+- building_use: residential, commercial, mixed-use, or institutional
+- plot_area: positive square metres, at most 2,000,000
+- road_width: positive metres, at most 200
+- proposed_height: positive metres, at most 300
+- zone: non-empty label, at most 100 characters
+- site_width, site_depth: optional positive metres; both are needed for setback-table review
+- proposed_coverage_percent: optional value from 0 through 100
+- proposed_far: optional value from 0 through 50
 
-- API root: http://127.0.0.1:8000/
-- Health check: http://127.0.0.1:8000/health
-- Interactive API documentation: http://127.0.0.1:8000/docs
+Unknown fields, missing required fields, invalid categories, out-of-range values, and impossible site dimensions are rejected at ingestion. The API returns HTTP 422, a quarantine ID, field-level errors, and agent_started=false. The quarantine record stores only a payload hash and error fields, not the original proposal body.
 
-## API Endpoints
+Example:
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/` | Check that the API is responding |
-| GET | `/health` | Return API health status |
-| POST | `/check` | Validate proposal input and return findings; this endpoint does not itself perform a full regulatory compliance check |
-| POST | `/runs` | Queue a background workflow run and return a run ID |
-| GET | `/runs/{run_id}` | Retrieve a run's status and results |
-
-### Example proposal
-
-```json
+~~~json
 {
-  "building_use": "Residential",
-  "plot_area": 240,
-  "road_width": 9,
-  "proposed_height": 12,
-  "zone": "Residential"
+  "building_use": "residential",
+  "plot_area": 200,
+  "road_width": 6,
+  "proposed_height": 9,
+  "zone": "A - intensely developed area",
+  "site_width": 10,
+  "site_depth": 20,
+  "proposed_coverage_percent": 60,
+  "proposed_far": 0.7
 }
-```
+~~~
 
-Send this JSON body to `POST /check` or `POST /runs`.
+This is the historical-corpus scenario documented in docs/reference_case.md. It tests multi-rule retrieval and is not a current legal determination.
 
-The values are illustrative only. They do not represent verified limits or compliance with any particular building regulation.
+## API
 
-### Background runs
+- GET /health: API process health
+- GET /health/ready: readiness check for indexed Chroma chunks
+- GET /metrics: Prometheus-compatible request/run counters and latency histogram
+- POST /check: validate proposal fields only
+- POST /runs: enqueue a run and return its ID immediately
+- GET /runs/{run_id}: poll status, findings, citations, verification limits, and tool trace
+- GET /quarantine/{quarantine_id}: retrieve hashed rejection metadata and field errors
+- POST /runs/{run_id}/feedback: persist caller feedback and a reason
+- GET /feedback/summary: aggregated feedback counts
 
-`POST /runs` returns a run ID. Use that ID with `GET /runs/{run_id}` to retrieve the current status and any available findings, clauses, or citations. A run may initially be `pending` or `running`, and may later complete or fail.
+Completed responses include an evidence item per searched provision, citation records, a correlation ID, call/step limits, and a trace of query text, tool calls, result counts, timings, and citation re-resolution.
 
-## Run Tests
+## Agent/workflow design
 
-Run the complete test suite from the project root:
+The LangGraph workflow has separate responsibilities and explicit hand-offs:
 
-```bash
-python -m pytest tests -q
-```
+1. retrieval_planner_agent inspects request fields and plans targeted searches.
+2. provision_discovery_agent chooses the corpus-search tool for distinct obligations and looks up citation locations. It is capped at six tool calls; the whole workflow has a 30-second timeout.
+3. evidence_verification_agent checks each citation against exact stored source, page, and text, then routes the run.
 
-For the Windows virtual environment used during development:
+Available tools are lookup_request_fields, search_corpus, and lookup_clauses_by_location. Chroma uses a deterministic offline hashed word/bigram/trigram embedding named local_hash_ngrams_v1; it does not download or call an embedding provider. This is a low-cost lexical baseline and its relevance must be measured.
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest tests -q
-```
+Citation resolution proves only that cited text exists in the indexed collection. The system does not verify legal currentness or semantic support, detect every conflicting provision, or assess all site-specific plan dimensions. It therefore never returns compliance clearance from the current corpus. Missing evidence, incomplete site dimensions, and unverified applicability are routed to specialist review.
 
-Individual test files can be run with:
+## Indexing and freshness
 
-```bash
-python -m pytest tests/test_api.py -q
-python -m pytest tests/test_rag.py -q
-python -m pytest tests/test_evaluation.py -q
-```
+Place authority-issued PDFs under data/bye_laws, then run:
 
-**Latest recorded test result during development:** 23 tests passed. Run the suite again after making changes to confirm the current result.
+~~~bash
+python -m agents.rag.index_pdfs
+~~~
 
-## Evaluation
+The pipeline parses pages, chunks with source/page metadata, embeds locally, replaces stale chunks for each source, removes sources no longer present, and writes data/index_manifest.json with source SHA-256 hashes, pages/chunks, build time, elapsed time, throughput, and failures. Re-embedding uses the same idempotent CLI. The manifest describes indexed bytes; it does not establish that a source is legally current.
 
-The evaluation configuration defines:
+## Evaluation and tests
 
-- At least 20 unique scenarios.
-- Two prompt variants, A and B.
-- Five metrics: retrieval hit rate at 5, citation completeness, evidence support rate, abstention accuracy, and scenario pass rate.
-- A protocol specifying 40 prompt runs across 20 scenarios.
+Run automated checks:
 
-These are configured evaluation requirements. Completion of all 40 runs and calculation of every metric must be verified separately.
+~~~bash
+python -m pytest -q
+~~~
 
-## Reliability and Safety Notes
+Run the existing retrieval evaluation:
 
-- The workflow retrieval node is configured with a retry policy of up to three attempts.
-- Unexpected workflow exceptions are returned as a generic failure message rather than exposing internal exception details.
-- Workflow waiting is bounded by a 30-second timeout in the background-run handler. A Python worker thread may continue running after the wait times out; this timeout is not hard cancellation.
-- Run records are held in process memory and may be lost when the API restarts. They are not backed by a durable job queue or persistent run database.
-- The `/health` endpoint checks API responsiveness, not full dependency readiness.
-- Citation metadata checks do not, by themselves, prove that a cited passage legally supports a compliance conclusion.
-- Regulatory rules, retrieved evidence, and citations require domain review before results can be relied upon for real building decisions.
-- A basic smoke test previously recorded 20 sequential successful `GET /health` responses (`200 OK`). This was not a concurrent load test or a production performance test.
+~~~bash
+python evaluation/run_evaluation.py
+~~~
 
-## Current Limitations
+The current evaluation runner is retrieval/citation-metadata only. It does not run an LLM, execute the two prompt variants, or compute groundedness, faithfulness, semantic support, or hallucination rate. No A/B score or accuracy claim is made.
 
-- This is a prototype for pre-checking proposals, not a replacement for review by qualified professionals or the relevant authority.
-- The `/check` endpoint validates the proposal fields but does not itself run the full regulatory workflow.
-- Background run state is in memory and is not durable across process restarts.
-- Timed-out workflow threads may continue executing in the background.
-- Retrieval relevance, evidence support, and legal accuracy need further evaluation.
-- Deployment URLs are provided above, but deployed data availability and full workflow readiness must be checked independently.
+The load test measures submit-to-terminal-result time, not just submission latency:
 
-## Contributors
+~~~bash
+python -m pip install locust
+locust -f evaluation/locustfile.py --host http://localhost:8000
+~~~
 
-This is a collaborative college project. Contributions include frontend development, FastAPI backend implementation, RAG and ChromaDB indexing, workflow integration, citation verification, evaluation, testing, and deployment.
+Declared SLO: p95 below 45 seconds end to end. The workflow timeout is 30 seconds; the remainder allows queue wait and polling. No Locust result or worker-scaling result is claimed until Docker is run and the load test is recorded. This application has no external LLM provider, so provider token/cost measurements and an LLM-stub comparison are not applicable to the current implementation.
+
+## Observability and operations
+
+API requests emit JSON logs with correlation ID, normalized route, status, and duration. Run records persist the correlation ID and tool trace. Prometheus scrapes API and worker health/metrics. The Grafana dashboard is provisioned from observability/grafana/dashboards.
+
+See docs/runbook.md for failure procedures and the development incident log. docker-compose.yml defines API, worker, Redis, corpus indexer, frontend, Prometheus, and Grafana services with health checks and shared state volumes.
+
+## Regulatory source status
+
+The local PDF is Bangalore Mahanagara Palike Building Bye-Laws 2003, not the 2017 Karnataka Model Building Bye-Laws claimed in older project notes. The source register records official links and the need to ingest/review the zoning corpus and subsequent amendments before current-property use. See docs/regulation_sources.md.
+
+## Deliberately unimplemented requirements
+
+This is an improved pre-check prototype, not an implementation of all 22 rubric requirements. It does not yet provide an LLM prompt A/B run, TruLens-equivalent semantic metrics, toxicity screening, token/cost attribution, a provider circuit breaker, OpenTelemetry export, per-container resource dashboard, measured load-test/scaling results, or measured caching/rate-limit effects. Do not present these as complete. The assignment says all 22 are not expected; prioritize a stable valid-request demo, evidence trace, difficult multi-rule case, honest escalation, and clear report.
+
+## Project structure
+
+- backend/app/: FastAPI, persistent run/quarantine/feedback store, queue, worker
+- agents/workflow.py: LangGraph planning, retrieval, and evidence verification
+- agents/rag/: offline embeddings, PDF parsing/chunking, Chroma indexing/retrieval
+- data/bye_laws/: source PDFs
+- evaluation/: 20-scenario configuration, retrieval runner, load test
+- observability/: Prometheus configuration and Grafana dashboard
+- docs/: source register, reference case, runbook, final report
+- tests/: API, workflow, evaluation-configuration, and RAG tests

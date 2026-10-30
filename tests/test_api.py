@@ -1,159 +1,149 @@
+import time
 
 from fastapi.testclient import TestClient
 
-import backend.app.main as main
-from backend.app.main import app, runs
+from backend.app.main import app
 
 client = TestClient(app)
 
 VALID_PROPOSAL = {
     "building_use": "residential",
-    "plot_area": 1200,
-    "road_width": 9,
-    "proposed_height": 12,
-    "zone": "residential",
+    "plot_area": 200,
+    "road_width": 6,
+    "proposed_height": 9,
+    "zone": "A - intensely developed area",
+    "site_width": 10,
+    "site_depth": 20,
 }
 
 
-def test_home_endpoint():
-    response = client.get("/")
+class FakeWorkflow:
+    def invoke(self, state):
+        return {
+            **state,
+            "status": "completed",
+            "recommendation": "specialist-review",
+            "findings": [{"provision": "setbacks", "evidence_status": "evidence-found"}],
+            "citations": [],
+            "tool_trace": [],
+            "verification": {
+                "verified": False,
+                "semantic_support_checked": False,
+                "currentness_checked": False,
+            },
+        }
 
-    assert response.status_code == 200
-    assert response.json() == {
-        "message": "Building Plan Compliance API is running"
-    }
+
+def wait_for_terminal(run_id):
+    terminal = {"completed", "failed"}
+    for _ in range(100):
+        response = client.get(f"/runs/{run_id}")
+        assert response.status_code == 200
+        data = response.json()
+        if data["status"] in terminal:
+            return data
+        time.sleep(0.02)
+    raise AssertionError("Run did not reach a terminal status")
 
 
-def test_health_endpoint():
-    response = client.get("/health")
-
-    assert response.status_code == 200
-    assert response.json() == {"status": "healthy"}
+def test_home_and_health_endpoints():
+    assert client.get("/").status_code == 200
+    assert client.get("/health").json()["status"] == "healthy"
 
 
-def test_check_valid_proposal():
+def test_check_valid_proposal_is_validation_only():
     response = client.post("/check", json=VALID_PROPOSAL)
 
     assert response.status_code == 200
+    assert response.json()["recommendation"] == "specialist-review"
+    assert response.json()["status"] == "validated"
 
+
+def test_rejects_invalid_proposal_and_quarantines_without_agent():
+    proposal = {**VALID_PROPOSAL, "plot_area": -10}
+    response = client.post("/runs", json=proposal)
+
+    assert response.status_code == 422
     data = response.json()
-    assert data["building_details"] == VALID_PROPOSAL
-    assert data["findings"] == []
-    assert data["status"] == "pending_rules_check"
+    assert data["agent_started"] is False
+    assert data["quarantine_id"]
+    assert any("plot_area" in error["field"] for error in data["field_errors"])
+
+    quarantine = client.get(f"/quarantine/{data['quarantine_id']}")
+    assert quarantine.status_code == 200
+    assert quarantine.json()["field_errors"]
+    assert client.get(f"/runs/{data['quarantine_id']}").status_code == 404
 
 
-def test_check_rejects_missing_required_field():
-    proposal = VALID_PROPOSAL.copy()
-    proposal.pop("plot_area")
-
-    response = client.post("/check", json=proposal)
-
-    assert response.status_code == 422
-
-
-def test_check_rejects_non_numeric_plot_area():
-    proposal = VALID_PROPOSAL.copy()
-    proposal["plot_area"] = "not-a-number"
-
-    response = client.post("/check", json=proposal)
-
-    assert response.status_code == 422
-
-
-def test_cors_preflight_for_frontend():
-    response = client.options(
+def test_rejects_unknown_fields_and_invalid_categories():
+    assert client.post(
         "/check",
-        headers={
-            "Origin": "http://127.0.0.1:5500",
-            "Access-Control-Request-Method": "POST",
-            "Access-Control-Request-Headers": "content-type",
-        },
+        json={**VALID_PROPOSAL, "debug": True},
+    ).status_code == 422
+    assert client.post(
+        "/check",
+        json={**VALID_PROPOSAL, "building_use": "warehouse"},
+    ).status_code == 422
+
+
+def test_cross_field_site_area_validation():
+    response = client.post(
+        "/check",
+        json={**VALID_PROPOSAL, "site_width": 5, "site_depth": 10},
     )
-
-    assert response.status_code == 200
-    assert (
-        response.headers["access-control-allow-origin"]
-        == "http://127.0.0.1:5500"
-    )
+    assert response.status_code == 422
+    assert response.json()["agent_started"] is False
 
 
-def test_start_run_and_retrieve_result(monkeypatch):
-    def workflow_without_evidence(state):
-        return {
-            **state,
-            "status": "needs_review",
-            "findings": [
-                "Insufficient regulatory evidence; manual review required."
-            ],
-            "clauses": [],
-            "citations": [],
-        }
+def test_start_run_persists_result_and_feedback(monkeypatch):
+    import agents.workflow
 
-    monkeypatch.setattr(
-        main.compliance_workflow,
-        "invoke",
-        workflow_without_evidence,
-    )
-
+    monkeypatch.setattr(agents.workflow, "compliance_workflow", FakeWorkflow())
     response = client.post("/runs", json=VALID_PROPOSAL)
 
     assert response.status_code == 202
+    submitted = response.json()
+    assert submitted["run_id"]
+    assert submitted["correlation_id"]
+    assert submitted["queue_mode"] == "local"
 
-    data = response.json()
-    run_id = data["run_id"]
+    result = wait_for_terminal(submitted["run_id"])
+    assert result["recommendation"] == "specialist-review"
+    assert result["verification"]["semantic_support_checked"] is False
 
-    assert data["status"] == "pending"
-    assert run_id in runs
-
-    # TestClient executes background tasks before the request completes.
-    result = client.get(f"/runs/{run_id}")
-
-    assert result.status_code == 200
-
-    result_data = result.json()
-    assert result_data["run_id"] == run_id
-    assert result_data["status"] == "completed"
-    assert result_data["workflow_status"] == "needs_review"
-
-    assert any(
-        "evidence" in finding.lower()
-        or "retrieval" in finding.lower()
-        for finding in result_data["findings"]
+    feedback = client.post(
+        f"/runs/{submitted['run_id']}/feedback",
+        json={"satisfactory": True, "reason": "Citations are clear."},
     )
+    assert feedback.status_code == 201
+    assert feedback.json()["satisfactory"] is True
+    assert client.get("/feedback/summary").json()["satisfactory"] == 1
 
-    assert result_data["clauses"] == []
-    assert result_data["citations"] == []
+
+def test_failed_workflow_is_not_returned_as_answer(monkeypatch):
+    import agents.workflow
+
+    class BrokenWorkflow:
+        def invoke(self, state):
+            raise RuntimeError("internal detail")
+
+    monkeypatch.setattr(agents.workflow, "compliance_workflow", BrokenWorkflow())
+    response = client.post("/runs", json=VALID_PROPOSAL)
+    result = wait_for_terminal(response.json()["run_id"])
+
+    assert response.status_code == 202
+    assert result["status"] == "failed"
+    assert result["recommendation"] == "specialist-review"
+    assert "internal detail" not in response.text
 
 
 def test_unknown_run_returns_404():
-    response = client.get("/runs/unknown-run-id")
-
-    assert response.status_code == 404
+    assert client.get("/runs/not-a-run").status_code == 404
 
 
-def test_failed_run_does_not_expose_internal_error(monkeypatch):
-    def failing_workflow(state):
-        raise RuntimeError("Sensitive internal details")
-
-    monkeypatch.setattr(
-        main.compliance_workflow,
-        "invoke",
-        failing_workflow,
-    )
-
-    response = client.post("/runs", json=VALID_PROPOSAL)
-
-    assert response.status_code == 202
-
-    run_id = response.json()["run_id"]
-    result = client.get(f"/runs/{run_id}")
-
-    assert result.status_code == 200
-
-    result_data = result.json()
-
-    assert result_data["run_id"] == run_id
-    assert result_data["status"] == "failed"
-
-    # Failed runs may omit workflow_status; internal errors must stay private.
-    assert "Sensitive internal details" not in result.text
+def test_correlation_id_is_preserved_and_metrics_render():
+    response = client.get("/health", headers={"X-Correlation-ID": "demo-case-01"})
+    assert response.headers["X-Correlation-ID"] == "demo-case-01"
+    metrics = client.get("/metrics")
+    assert metrics.status_code == 200
+    assert "building_compliance_up 1" in metrics.text

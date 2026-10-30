@@ -1,0 +1,1 @@
+window.BUILDING_COMPLIANCE_CONFIG = {};

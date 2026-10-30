@@ -7,6 +7,7 @@
     <meta name="description" content="Pre-check building proposals against applicable building regulations.">
     <title>Building Plan Compliance Pre-Check</title>
     <link rel="stylesheet" href="style.css">
+    <script src="runtime-config.js"></script>
     <script src="app.js" defer></script>
 </head>
 <body>
@@ -63,6 +64,18 @@
                     required
                 >
 
+                <label for="site_width">Site width / frontage (metres, optional)</label>
+                <input type="number" id="site_width" name="site_width" min="0.01" step="any" placeholder="Needed for setback review">
+
+                <label for="site_depth">Site depth (metres, optional)</label>
+                <input type="number" id="site_depth" name="site_depth" min="0.01" step="any" placeholder="Needed for setback review">
+
+                <label for="proposed_coverage_percent">Proposed ground coverage % (optional)</label>
+                <input type="number" id="proposed_coverage_percent" name="proposed_coverage_percent" min="0" max="100" step="any">
+
+                <label for="proposed_far">Proposed FAR (optional)</label>
+                <input type="number" id="proposed_far" name="proposed_far" min="0" step="any">
+
                 <label for="zone">Zone</label>
                 <input
                     type="text"
@@ -91,3 +104,4 @@
     </footer>
 </body>
 </html>
+

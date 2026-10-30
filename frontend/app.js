@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = window.BUILDING_COMPLIANCE_CONFIG?.apiBaseUrl || (window.location.protocol + "//" + window.location.hostname + ":8000");
 
 const proposalForm = document.getElementById("proposal-form");
 const resultsSection = document.getElementById("results-section");
@@ -224,9 +224,13 @@ function displayResults(data, proposal) {
         addResultRow(resultsContent, "Zone", details.zone);
     }
 
+    if (data.recommendation) {
+        addResultRow(resultsContent, "Recommendation", data.recommendation);
+    }
     displayFindings(resultsContent, data.findings);
     displayClauses(resultsContent, data.clauses);
     displayCitations(resultsContent, data.citations);
+    displayVerification(resultsContent, data.verification, data.tool_trace);
 
     const disclaimer = document.createElement("p");
     disclaimer.className = "result-disclaimer";
@@ -238,6 +242,27 @@ function displayResults(data, proposal) {
     resultsContent.appendChild(disclaimer);
 }
 
+function displayVerification(container, verification, trace) {
+    if (verification) {
+        addHeading(container, "Evidence Verification");
+        addResultRow(container, "Citations resolve to retrieved text", verification.citations_resolved_to_retrieved_text);
+        addResultRow(container, "Semantic support checked", verification.semantic_support_checked ? "Yes" : "No — human review required");
+        addResultRow(container, "Currentness checked", verification.currentness_checked ? "Yes" : "No — human review required");
+    }
+    if (Array.isArray(trace) && trace.length) {
+        addHeading(container, "Run Trace");
+        const list = document.createElement("ol");
+        trace.forEach((step) => {
+            const item = document.createElement("li");
+            item.textContent = (step.step || "step") + " / " + (step.tool || "workflow") +
+                (step.topic ? " / " + step.topic : "") +
+                (step.duration_seconds !== undefined ? " / " + step.duration_seconds + "s" : "") +
+                (step.error_type ? " / error: " + step.error_type : "");
+            list.appendChild(item);
+        });
+        container.appendChild(list);
+    }
+}
 function sleep(milliseconds) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
@@ -256,7 +281,11 @@ proposalForm.addEventListener("submit", async (event) => {
         plot_area: Number(formData.get("plot_area")),
         road_width: Number(formData.get("road_width")),
         proposed_height: Number(formData.get("proposed_height")),
-        zone: String(formData.get("zone") || "").trim()
+        zone: String(formData.get("zone") || "").trim(),
+        site_width: formData.get("site_width") ? Number(formData.get("site_width")) : null,
+        site_depth: formData.get("site_depth") ? Number(formData.get("site_depth")) : null,
+        proposed_coverage_percent: formData.get("proposed_coverage_percent") ? Number(formData.get("proposed_coverage_percent")) : null,
+        proposed_far: formData.get("proposed_far") ? Number(formData.get("proposed_far")) : null
     };
 
     if (
@@ -266,7 +295,9 @@ proposalForm.addEventListener("submit", async (event) => {
         proposal.plot_area <= 0 ||
         proposal.road_width <= 0 ||
         proposal.proposed_height <= 0 ||
-        !proposal.zone
+        !proposal.zone ||
+        (proposal.site_width !== null && !Number.isFinite(proposal.site_width)) ||
+        (proposal.site_depth !== null && !Number.isFinite(proposal.site_depth))
     ) {
         showMessage("Enter valid positive measurements and a zone.", "error");
         return;
@@ -363,7 +394,7 @@ proposalForm.addEventListener("submit", async (event) => {
 
         showMessage(
             `Could not complete the workflow: ${error.message}. ` +
-            "Check that the local backend is running at http://127.0.0.1:8000.",
+            "Check that the API is reachable at the configured runtime address.",
             "error"
         );
     } finally {
@@ -371,3 +402,4 @@ proposalForm.addEventListener("submit", async (event) => {
         submitButton.textContent = "Check Building Proposal";
     }
 });
+

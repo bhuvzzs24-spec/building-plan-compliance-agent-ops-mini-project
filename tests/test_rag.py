@@ -162,7 +162,12 @@ def test_retriever_returns_empty_for_empty_collection(tmp_path):
 
     db_path = str(tmp_path / "empty_db")
     client = chromadb.PersistentClient(path=db_path)
-    client.get_or_create_collection("building_bye_laws")
+    from agents.rag.local_embeddings import LocalHashEmbeddingFunction
+    client.get_or_create_collection(
+        "building_bye_laws",
+        embedding_function=LocalHashEmbeddingFunction(),
+        metadata={"embedding_strategy": "local_hash_ngrams_v1"},
+    )
 
     results = retrieve_clauses(
         "What are the building setback rules?",
@@ -199,3 +204,4 @@ def test_retrieved_clauses_include_source_and_page(tmp_path):
     assert results[0]["source"] == "official_test.pdf"
     assert results[0]["page"] == 7
     assert results[0]["text"]
+

@@ -1,34 +1,24 @@
-
-# Python cache files
 __pycache__/
 *.py[cod]
-*.pyo
-
-# Python virtual environments
+.pytest_cache/
+.coverage
+htmlcov/
 .venv/
 venv/
 env/
-
-# Environment variables and secrets
 .env
 .env.*
 !.env.example
-
-# Local Chroma vector databases
 data/chroma_db/
 data/chroma_test/
 data/chroma_validation_test/
 data/nonexistent_test_db/
-
-# Local building regulation PDFs
+data/run_state.sqlite3
+data/run_state.sqlite3-shm
+data/run_state.sqlite3-wal
+data/index_manifest.json
 data/bye_laws/*.pdf
-
-# Test and coverage artifacts
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Editor and operating-system files
+!data/bye_laws/Bangalore-Building-Byelaws.pdf
 .vscode/
 .idea/
 .DS_Store
