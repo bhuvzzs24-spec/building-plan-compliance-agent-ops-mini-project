@@ -123,10 +123,9 @@ This reflects the authoritative allocation supplied for the project, not Git aut
 
 ## 9. Git delivery
 
-- Commit: pending final verification and push in this task.
-- Remote branch: `origin/main`.
-- Push: pending.
-- The final commit SHA will be recorded here after remote verification.
+- Verified implementation, tests, and report updates: commit `8112a9acf01e37da4e08840c1f94d1e414d332bc` (`Complete compliance workflow reliability and ops`).
+- Final acceptance-report correction: committed immediately after that implementation commit on `main`.
+- Remote branch: `origin/main`; push and remote SHA verification are performed as the final delivery step for this task.
 
 ## 10. Final verdict
 
