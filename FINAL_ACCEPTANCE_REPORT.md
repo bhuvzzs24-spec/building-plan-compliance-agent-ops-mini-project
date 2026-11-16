@@ -151,7 +151,7 @@ This follows the authoritative team responsibility correction. Ownership records
 
 ## 9. Git details
 
-Commit/push for the current verified edits: pending. No force-push is permitted. The final remote SHA must be filled after push verification.
+Verified implementation commit: `df10925c732faa2d417383adbc7599ff5a0f002b` (`Complete local compliance demo workflow`). It was pushed without force to `origin/main`; `git ls-remote origin refs/heads/main` returned the same SHA. A following report-only commit records this verification. No force-push was used.
 
 ## 10. Final verdict
 
