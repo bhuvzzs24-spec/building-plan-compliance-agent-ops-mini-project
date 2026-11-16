@@ -4,7 +4,7 @@
 **Repository baseline:** `main` at `f6f94a24eba6e575f1576165175c7fce511f9710`
 **Final readiness verdict:** **NOT READY**
 
-The backend API, local corpus index, and local workflow-to-result path were exercised. The official assignment PDF was not available, so the exact criterion titles cannot be verified. Docker is unavailable, and browser/Redis/load paths remain unverified. The reference API case was rerun after a retrieval reranker fix and returned both required historical table pages. End-to-end readiness therefore is not established.
+The backend API, local corpus index, and local workflow-to-result path were exercised. The official assignment PDF was not available, so the exact criterion titles cannot be verified. Docker Desktop is installed, but the daemon is inaccessible and its logs confirm disk-full shutdown; browser/Redis/load paths remain unverified. The reference API case was rerun after a retrieval reranker fix and returned both required historical table pages. End-to-end readiness therefore is not established.
 
 ## 1. Requirement matrix
 
@@ -51,9 +51,9 @@ The PDF is the source of exact F1–F8/A1–A8/L1–L6/D1–D8 definitions, but 
 
 | ID | Provisional area | Status | Evidence / gap |
 |---|---|---|---|
-| D1 | Containerized services/startup | BLOCKED | Compose defines API, worker, Redis, indexer, frontend, Prometheus and Grafana; Docker unavailable for startup. |
+| D1 | Containerized services/startup | BLOCKED | Compose defines API, worker, Redis, indexer, frontend, Prometheus and Grafana; Docker Desktop daemon stopped after host disk-full errors. |
 | D2 | Corpus indexing/evaluation | PARTIAL | Index completed; evaluation 20/20 retrieval results with no errors, but no labeled outcomes/accuracy. |
-| D3 | Health/readiness/dependencies | BLOCKED | Compose health checks configured; live container health cannot be observed without Docker. |
+| D3 | Health/readiness/dependencies | BLOCKED | Compose health checks configured; no containers could be started or inspected. |
 | D4 | Monitoring/dashboard | BLOCKED | Prometheus/Grafana config present; runtime scrape/dashboard unverified. |
 | D5 | Scaling/load/performance | BLOCKED | Locust workload and 45-second p95 SLO declared; no measurements. |
 | D6 | Cache/rate limit | PARTIAL | Process cache and per-client limiter code exists; no cache effect or rate-limit load test recorded. |
@@ -80,7 +80,7 @@ Executed from repository root on 16 November 2026:
 
 ```text
 python3 -m pytest -q
-29 passed in 1.48s (after adding retrieval ranking and evaluation fail-closed regressions)
+29 passed in 1.68s (after adding retrieval ranking and evaluation fail-closed regressions)
 
 python3 -m agents.rag.index_pdfs
 PASS: 84 pages, 243 chunks, zero failures; 0.809385 seconds; 300.228 chunks/second
@@ -90,21 +90,27 @@ PASS for execution only: 20/20 scenarios returned retrieval results, 0 runtime e
 Accuracy: unavailable; dataset has no labeled expected outcomes or sources
 
 docker --version
-BLOCKED: command not found
+Docker version 29.9.3, context desktop-linux
 
 docker compose version
-BLOCKED: command not found
+Docker Compose version v5.7.0
+
+docker compose config --quiet
+PASS: exit 0; all seven services resolve
+
+docker compose ps --all
+BLOCKED: exit 1, permission denied connecting to the Docker API socket
 ```
 
 The full test suite was rerun after the source/test edits. The evaluation artifact is retrieval metadata only; no A/B prompt or semantic-quality result is claimed.
 
 ## 4. Docker service health and startup
 
-**BLOCKED.** Docker CLI/Engine is absent. No `docker compose config`, clean startup, service health, worker-scale, Redis recovery, or Grafana runtime result is claimed. The API/worker/Redis/indexer/frontend/Prometheus/Grafana service definitions and health checks are present in `docker-compose.yml`.
+**BLOCKED.** `docker compose config --quiet` passed, but no clean startup, service health, worker-scale, Redis recovery, or Grafana runtime result is claimed. The host had 3.2 GiB available at 99% usage; Docker Desktop logs report `no space left on device` writing its VM logs and explicitly report disk full. `docker info`, `docker system df`, and `docker compose ps --all` could not access the local socket. No image build was attempted in this low-storage state. Image inventory and Docker-internal free space are unknown. Storage-conscious Dockerfile/context/image-tag changes are described in [DOCKER_VERIFICATION_REPORT.md](DOCKER_VERIFICATION_REPORT.md).
 
 ## 5. Browser interaction results
 
-**BLOCKED / NOT RUN.** No browser-based form, polling, result, feedback, error, navigation, or responsive-layout interaction was executed. The end-to-end API test does not establish browser functionality.
+**BLOCKED / NOT RUN in Docker.** No browser-based form, polling, result, feedback, error, navigation, or responsive-layout interaction was executed in this turn. The previously verified API-only run does not establish browser functionality.
 
 ## 6. Ten demonstration outcomes
 
@@ -130,7 +136,7 @@ Corpus indexing throughput was 300.228 chunks/second for one local run. Retrieva
 ## 8. Remaining blockers and limitations
 
 1. Official assignment PDF absent, preventing verified exact requirement titles and complete five-page audit.
-2. Docker Engine absent, blocking clean startup, multi-service health, Redis worker/recovery, scaling, monitoring runtime, and Locust.
+2. Docker Desktop daemon unavailable after disk-full failure (only 3.2 GiB free), blocking image build, clean startup, multi-service health, Redis worker/recovery, scaling, monitoring runtime, and Locust. The Docker socket is also inaccessible to this execution process.
 3. Browser interaction not tested.
 4. Substantive regulatory rule comparisons, semantic verification, adaptive recovery search, and supported violated/satisfied outcomes are missing.
 5. Reference retrieval now finds both required pages in the local API run. It still only retrieves historical evidence; rule comparison, semantic support, and legal applicability are absent.
@@ -140,10 +146,8 @@ Corpus indexing throughput was 300.228 chunks/second for one local run. Retrieva
 
 ## 9. Git commit details
 
-- Verified source/documentation commit: `1243e100424170f52222fb4bde940017c58154f3` — `Improve table retrieval and document acceptance evidence`.
-- Pushed directly to `origin/main`; `git ls-remote origin refs/heads/main` returned the same SHA after push.
-- The report update recording this verification is committed in the subsequent documentation commit on `main`.
+The prior verified source/documentation commit `1243e100424170f52222fb4bde940017c58154f3` was on `origin/main` before this Docker supplement. Current Docker changes and reports are being prepared for a follow-up push.
 
 ## 10. Final verdict
 
-**NOT READY.** A local backend run, malformed-input quarantine, and narrow-road retrieval succeeded, but the rubric source is missing, Docker/browser/load evidence is blocked, and substantive compliance reasoning is incomplete. The system must not be presented as a compliance approval tool.
+**NOT READY.** A local backend run, malformed-input quarantine, and narrow-road retrieval succeeded. Compose configuration is valid, but the daemon disk-full failure prevents container execution, and browser/load evidence and substantive compliance reasoning remain incomplete. The system must not be presented as a compliance approval tool.
