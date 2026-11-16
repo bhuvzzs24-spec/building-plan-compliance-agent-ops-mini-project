@@ -17,7 +17,7 @@ The PDF is the source of exact F1–F8/A1–A8/L1–L6/D1–D8 definitions, but 
 | F1 | Proposal/API contract | PARTIAL | `backend/app/main.py`, `tests/test_api.py`; local API health and submit exercised. Exact rubric title unverified. |
 | F2 | Input validation and quarantine | PARTIAL | Strict Pydantic types/ranges/cross-field checks; local invalid POST returned 422 and `agent_started=false`; broader boundary suite passed. |
 | F3 | Async run submission and state | PARTIAL | 202 response, SQLite persistence and polling are implemented; tested in local fallback, not Redis runtime. |
-| F4 | Regulatory corpus/RAG | PARTIAL | Historical PDF indexed with metadata; current official zoning/amendments absent. |
+| F4 | Regulatory corpus/RAG | PARTIAL | Historical PDF indexed with metadata; official zoning PDF/amendment sources identified but not acquired/verified for current applicability. |
 | F5 | Citation and retrieval quality | PARTIAL | Exact citation resolution plus lexical reranking; unit test and local API reference flow retrieved pages 22 and 24 separately. Semantic support remains absent. |
 | F6 | Run results and feedback | PARTIAL | Run result and feedback endpoints/storage exist; feedback behavior and aggregation not separately exercised here. |
 | F7 | Frontend integration | BLOCKED | Static client exists; no browser execution or full frontend-to-backend run available. |
@@ -140,7 +140,9 @@ Corpus indexing throughput was 300.228 chunks/second for one local run. Retrieva
 
 ## 9. Git commit details
 
-Not committed yet. This report must be updated with the final commit SHA and remote verification after tests and push.
+- Verified source/documentation commit: `1243e100424170f52222fb4bde940017c58154f3` — `Improve table retrieval and document acceptance evidence`.
+- Pushed directly to `origin/main`; `git ls-remote origin refs/heads/main` returned the same SHA after push.
+- The report update recording this verification is committed in the subsequent documentation commit on `main`.
 
 ## 10. Final verdict
 
