@@ -146,7 +146,10 @@ Corpus indexing throughput was 300.228 chunks/second for one local run. Retrieva
 
 ## 9. Git commit details
 
-The prior verified source/documentation commit `1243e100424170f52222fb4bde940017c58154f3` was on `origin/main` before this Docker supplement. Current Docker changes and reports are being prepared for a follow-up push.
+- Prior verified retrieval/documentation commit: `1243e100424170f52222fb4bde940017c58154f3`.
+- Docker supplement commit: `eabefe0a8eb6042ea61f3a965d083a17e5312283` — `Trim Docker image inputs and document storage blocker`.
+- Docker supplement was pushed directly to `origin/main`; `git ls-remote origin refs/heads/main` returned `eabefe0a8eb6042ea61f3a965d083a17e5312283` after push.
+- This acceptance-report update is a subsequent documentation-only commit on `main`.
 
 ## 10. Final verdict
 
