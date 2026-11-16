@@ -76,6 +76,7 @@ function displayFindings(container, findings) {
     if (finding.threshold !== undefined) addResultRow(item, "Regulatory threshold", finding.threshold);
     if (finding.comparison) addResultRow(item, "Comparison", finding.comparison);
     if (finding.justification) addResultRow(item, "Why", finding.justification);
+    if (finding.semantic_verification_reason) addResultRow(item, "Semantic verification", finding.semantic_verification_reason);
     if (finding.finding) addResultRow(item, "Evidence result", finding.finding);
     if (finding.evidence_excerpt) addResultRow(item, "Evidence excerpt", finding.evidence_excerpt);
     list.appendChild(item);
@@ -136,14 +137,26 @@ function displayCitations(container, citations) {
   container.appendChild(list);
 }
 
-function displayVerification(container, verification, trace) {
+function displayVerification(container, verification, trace, llmUsage) {
   if (verification) {
     addHeading(container, "Evidence verification");
     addResultRow(container, "Citations resolve to retrieved text", verification.citations_resolved_to_retrieved_text);
     if (verification.numeric_rules_compared !== undefined) addResultRow(container, "Numeric rule comparisons", verification.numeric_rules_compared);
     if (verification.numeric_findings_unresolved !== undefined) addResultRow(container, "Numeric checks unresolved", verification.numeric_findings_unresolved);
+    if (verification.prompt_version) addResultRow(container, "Prompt version", verification.prompt_version);
+    if (verification.semantic_support_checked) addResultRow(container, "Groundedness / context relevance / faithfulness / hallucination", `${verification.groundedness ?? "n/a"} / ${verification.context_relevance ?? "n/a"} / ${verification.faithfulness ?? "n/a"} / ${verification.hallucination_rate ?? "n/a"}`);
     addResultRow(container, "Semantic support checked", verification.semantic_support_checked ? "Yes" : "No — human review required");
     addResultRow(container, "Currentness checked", verification.currentness_checked ? "Yes" : "No — human review required");
+  }
+  const verifierUsage = llmUsage?.semantic_verifier;
+  if (verifierUsage) {
+    addHeading(container, "Model usage and cost");
+    addResultRow(container, "Verifier status", verifierUsage.status);
+    if (verifierUsage.prompt_version) addResultRow(container, "Prompt version", verifierUsage.prompt_version);
+    addResultRow(container, "Token usage source", verifierUsage.usage_source || "unavailable");
+    addResultRow(container, "Prompt / completion tokens", `${verifierUsage.prompt_tokens ?? "n/a"} / ${verifierUsage.completion_tokens ?? "n/a"}`);
+    addResultRow(container, "Cost estimate source", verifierUsage.cost_source || "unavailable");
+    addResultRow(container, "Estimated cost (USD)", verifierUsage.cost_estimate_usd ?? "unavailable");
   }
   if (Array.isArray(trace) && trace.length) {
     addHeading(container, "Workflow run trace");
@@ -195,7 +208,7 @@ function displayResults(data, proposal) {
   displayFindings(resultsContent, data.findings);
   displayClauses(resultsContent, data.clauses);
   displayCitations(resultsContent, data.citations);
-  displayVerification(resultsContent, data.verification, data.tool_trace);
+  displayVerification(resultsContent, data.verification, data.tool_trace, data.llm_usage);
   const disclaimer = document.createElement("p");
   disclaimer.className = "result-disclaimer";
   disclaimer.textContent = "These results show retrieved regulatory text, not a verified legal compliance decision. The applicable jurisdiction, current regulations, amendments and site-specific requirements must be independently verified by a qualified professional or the relevant authority.";

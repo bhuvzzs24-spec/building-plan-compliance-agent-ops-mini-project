@@ -13,9 +13,16 @@ class ComplianceUser(HttpUser):
             "plot_area": 200,
             "road_width": 6,
             "proposed_height": 9,
-            "zone": "A - intensely developed area",
+            "zone": "Residential R1",
+            "development_area": "A",
             "site_width": 10,
             "site_depth": 20,
+            "proposed_left_setback": 1.5,
+            "proposed_right_setback": 1.5,
+            "proposed_front_setback": 4,
+            "proposed_rear_setback": 3,
+            "proposed_coverage_percent": 60,
+            "proposed_far": 0.7,
         }
         correlation_id = str(uuid.uuid4())
         started = time.perf_counter()

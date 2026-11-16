@@ -24,6 +24,10 @@ Open the frontend on port 5500, API documentation on port 8000/docs, Prometheus 
 
 The stack keeps queued jobs in Redis and run/feedback records in a shared SQLite volume. With Redis unavailable in a local non-Compose run, the API falls back to a bounded in-process worker pool. That fallback is not durable across process restarts.
 
+For provider-backed semantic verification, configure `LLM_BASE_URL`, `LLM_MODEL`, and `LLM_API_KEY` in an untracked `.env` file or the shell environment before starting Compose. The provider must implement the OpenAI-compatible `/chat/completions` API. The application uses bounded retries, a process-local circuit breaker, strict JSON output validation, and specialist-review fallback. Provider token counts are recorded only when returned by the provider. Cost is labeled as an estimate and is emitted only when both `LLM_INPUT_USD_PER_MILLION` and `LLM_OUTPUT_USD_PER_MILLION` are supplied. Never commit provider credentials.
+
+The delayed deterministic model stub is only for fault injection/load-test plumbing. It deliberately omits token counts and price data, so it cannot produce model quality, token, or cost results.
+
 ## Lightweight local demo on macOS (no Docker)
 
 The local launcher uses already-installed Python packages when available, reuses an unchanged local Chroma index, and starts the API plus static frontend. It does not install dependencies unless explicitly requested.
@@ -163,16 +167,18 @@ Run the existing retrieval evaluation:
 python evaluation/run_evaluation.py
 ~~~
 
-The current evaluation runner is retrieval/citation-metadata only. It does not run an LLM, execute the two prompt variants, or compute groundedness, faithfulness, semantic support, or hallucination rate. No A/B score or accuracy claim is made.
+`python evaluation/run_evaluation.py` measures retrieval execution and citation metadata, not labeled compliance accuracy. `python evaluation/run_prompt_ab.py` executes both configured prompt variants and a model-as-judge score for groundedness, context relevance, faithfulness and hallucination rate. It requires an actual configured provider and reports provider usage plus rate-based cost estimates when available. With no credentials/provider it exits without publishing scores. Judge scores are model estimates, not human gold labels. No provider is configured in this checkout, so prompt A/B quality scores and model token/cost totals have not been measured.
 
 The load test measures submit-to-terminal-result time, not just submission latency:
 
 ~~~bash
-python -m pip install locust
-locust -f evaluation/locustfile.py --host http://localhost:8000
+python -m pip install -r requirements-loadtest.txt
+./evaluation/run_locust_compare.sh
 ~~~
 
-Declared SLO: p95 below 45 seconds end to end. The workflow timeout is 30 seconds; the remainder allows queue wait and polling. No Locust result or worker-scaling result is claimed until Docker is run and the load test is recorded. This application has no external LLM provider, so provider token/cost measurements and an LLM-stub comparison are not applicable to the current implementation.
+The comparison script builds and starts the optional delayed-stub Compose profile, then runs the same Locust workload with one and three workers. It writes raw CSV files to ignored `evaluation/artifacts/`. It does not tear down or remove volumes. Locust is optional and separate from the local app dependencies.
+
+Declared SLO: p95 below 45 seconds end to end. The workflow timeout is 30 seconds; the remainder allows queue wait and polling. No Locust result or worker-scaling result is claimed until Docker is run and the load test is recorded. The application supports an optional OpenAI-compatible provider. No provider credentials are configured in this checkout, so model prompt A/B scores, provider token counts and cost remain unmeasured. The delayed stub is for queue/load plumbing only and intentionally reports no usage or quality scores.
 
 ## Observability and operations
 
@@ -184,9 +190,9 @@ See docs/runbook.md for failure procedures and the development incident log. doc
 
 The local PDF is Bangalore Mahanagara Palike Building Bye-Laws 2003, not the 2017 Karnataka Model Building Bye-Laws claimed in older project notes. The source register records official links and the need to ingest/review the zoning corpus and subsequent amendments before current-property use. See docs/regulation_sources.md.
 
-## Deliberately unimplemented requirements
+## Remaining verification limits
 
-This is an improved pre-check prototype, not an implementation of all 22 rubric requirements. It does not yet provide an LLM prompt A/B run, TruLens-equivalent semantic metrics, toxicity screening, token/cost attribution, a provider circuit breaker, OpenTelemetry export, per-container resource dashboard, measured load-test/scaling results, or measured caching/rate-limit effects. Do not present these as complete. The assignment says all 22 are not expected; prioritize a stable valid-request demo, evidence trace, difficult multi-rule case, honest escalation, and clear report.
+Provider-backed A/B and semantic evaluation require credentials and have not been executed in this environment. Docker Compose configuration is validated without starting containers; Docker runtime, Redis-backed processing, scaled workers, Prometheus/Grafana runtime, and Locust measurements still require a Docker-capable machine. Browser-driven interactions have not been executed. The historical corpus remains incomplete for current-property decisions, and the app always preserves specialist escalation for unresolved currentness/applicability.
 
 ## Project structure
 

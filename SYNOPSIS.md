@@ -67,7 +67,7 @@ The workflow uses tools for looking up request fields, searching the indexed cor
 
 ### 6.4 Result Generation and Review Routing
 
-After retrieval and verification, the service records the findings, evidence items, citations, workflow trace, correlation ID, and verification limitations. Results are routed to specialist review. Missing evidence, incomplete site information, and uncertain applicability are not treated as approval.
+After retrieval and verification, the service records findings, evidence items, citations, workflow trace, correlation ID, and verification limits. Supported historical numerical violations can recommend revision; missing evidence, incomplete site information, and uncertain current applicability are routed for specialist review. No route is municipal approval.
 
 ### 6.5 Feedback and Monitoring
 
@@ -120,7 +120,7 @@ The current prototype has several important limitations:
 6. The current evaluation runner focuses on retrieval and citation metadata; it does not establish semantic groundedness, faithfulness, or hallucination rates.
 7. Load-test and worker-scaling outcomes must be measured before performance claims can be made.
 
-Consequently, every run is routed for specialist review, and the application must not be used as a substitute for official regulatory verification or approval.
+Accordingly, the application must not be used as a substitute for official regulatory verification or approval. A supported historical comparison may identify a likely revision, while unresolved scope, jurisdiction, or currentness requires specialist review.
 
 ## 10. Future Enhancements
 
@@ -141,7 +141,7 @@ These are proposed enhancements and should not be described as completed feature
 
 The Building Plan Compliance Pre-Check Service demonstrates an AgentOps-oriented approach to preliminary building-rule evidence retrieval. By combining structured input validation, PDF indexing, a LangGraph workflow, citation verification, persistent run records, feedback, and monitoring, the prototype aims to make preliminary regulatory research more organised and traceable.
 
-Its central design principle is to distinguish evidence retrieval from a legal compliance decision. The system provides supporting information and explicitly routes results for specialist review, helping avoid unsupported automated approvals. With an updated regulatory corpus, stronger retrieval evaluation, and further validation, the prototype can serve as a foundation for a more comprehensive building-plan review support system.
+Its central design principle is to distinguish an evidence-grounded historical pre-check from a legal compliance decision. Supported comparisons can identify potential violations, and uncertain applicability is explicitly routed for specialist review. With an authoritative current corpus and further deployment validation, the prototype can serve as a foundation for a more comprehensive building-plan review support system.
 
 ---
 

@@ -1,0 +1,31 @@
+services:
+  llm-stub:
+    build:
+      context: .
+      dockerfile: evaluation/Dockerfile.llm-stub
+    profiles: [load-test]
+    environment:
+      LLM_STUB_DELAY_MS: ${LLM_STUB_DELAY_MS:-350}
+      LLM_STUB_MODE: ${LLM_STUB_MODE:-normal}
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8081/health', timeout=2)"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
+  api:
+    environment:
+      LLM_BASE_URL: http://llm-stub:8081/v1
+      LLM_MODEL: delayed-test-stub
+      LLM_API_KEY: stub-no-secret
+      LLM_MAX_RETRIES: "0"
+      RUNS_PER_MINUTE: ${BPC_LOAD_RUNS_PER_MINUTE:-2000}
+
+  agent-worker:
+    environment:
+      LLM_BASE_URL: http://llm-stub:8081/v1
+      LLM_MODEL: delayed-test-stub
+      LLM_API_KEY: stub-no-secret
+      LLM_MAX_RETRIES: "0"

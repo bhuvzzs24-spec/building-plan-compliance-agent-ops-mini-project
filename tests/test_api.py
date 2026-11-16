@@ -108,6 +108,7 @@ def test_start_run_persists_result_and_feedback(monkeypatch):
     assert submitted["queue_mode"] == "local"
 
     result = wait_for_terminal(submitted["run_id"])
+    assert result["status"] == "completed", result.get("error", result)
     assert result["recommendation"] == "specialist-review"
     assert result["verification"]["semantic_support_checked"] is False
 
@@ -146,4 +147,4 @@ def test_correlation_id_is_preserved_and_metrics_render():
     assert response.headers["X-Correlation-ID"] == "demo-case-01"
     metrics = client.get("/metrics")
     assert metrics.status_code == 200
-    assert "building_compliance_up 1" in metrics.text
+    assert "building_compliance_api_up 1" in metrics.text

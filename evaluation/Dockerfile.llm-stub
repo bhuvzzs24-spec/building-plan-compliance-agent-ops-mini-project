@@ -1,0 +1,8 @@
+FROM python:3.12-alpine
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /stub
+COPY evaluation/llm_stub.py /stub/llm_stub.py
+RUN addgroup -S stub && adduser -S -G stub stub
+USER stub
+EXPOSE 8081
+CMD ["python", "/stub/llm_stub.py"]

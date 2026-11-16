@@ -9,7 +9,8 @@ __pycache__
 .agents
 docs
 tests
-evaluation
+evaluation/*
+!evaluation/llm_stub.py
 observability
 outputs
 work

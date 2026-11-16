@@ -134,6 +134,30 @@ def test_adaptive_retrieval_searches_for_missing_reference_tables(monkeypatch):
     assert sum(step.get("adaptive", False) for step in result["tool_trace"]) == 2
 
 
+def test_transient_retrieval_error_retries_once_within_tool_cap(monkeypatch):
+    calls = {}
+    def flaky_search(query, top_k):
+        calls[query] = calls.get(query, 0) + 1
+        if calls[query] == 1:
+            raise TimeoutError("transient")
+        return [sample_clause("test.pdf", 22, "Table 4 residential setback")]
+
+    monkeypatch.setattr(workflow, "search_corpus", flaky_search)
+    monkeypatch.setattr(workflow, "lookup_clauses_by_location", lambda locations: [
+        sample_clause(location["source"], location["page"], "Table 4 residential setback")
+        for location in locations
+    ])
+    result = workflow.retrieve_provisions({
+        "building_details": {"site_width": 10, "site_depth": 20},
+        "planned_queries": [("setbacks", "setback query")],
+        "tool_calls": 1,
+    })
+    assert calls["setback query"] == 2
+    assert result["tool_calls"] <= workflow.MAX_TOOL_CALLS
+    assert any(step.get("step") == "retry" for step in result["tool_trace"])
+    assert result["obligations"][0]["status"] == "evidence-found"
+
+
 def test_historical_numeric_comparisons_use_source_table_cells():
     from hashlib import sha256
     from pathlib import Path
@@ -193,3 +217,22 @@ def test_historical_numeric_comparisons_use_source_table_cells():
     assert any(item["status"] == "VIOLATED" for item in route["numerical_findings"])
     assert route["recommendation"] == "revise-and-recheck"
     assert any("current regulatory version" in reason.lower() for reason in route["review_reasons"])
+
+
+def test_out_of_corpus_zone_does_not_claim_historical_table_applicability(monkeypatch):
+    from agents import compliance
+    details = {
+        "building_use": "residential", "plot_area": 200, "road_width": 6,
+        "proposed_height": 9, "zone": "Outside Bengaluru jurisdiction",
+        "site_width": 10, "site_depth": 20, "proposed_left_setback": 1.5,
+        "proposed_right_setback": 1.5, "proposed_front_setback": 4,
+        "proposed_rear_setback": 3, "proposed_coverage_percent": 60,
+        "proposed_far": 0.7,
+    }
+    clauses = [
+        {"source": "historic.pdf", "page": 22, "clause_id": "p22-test", "text": "TABLE 4 historical setback data"},
+        {"source": "historic.pdf", "page": 24, "clause_id": "p24-test", "text": "TABLE 6 historical FAR and coverage data"},
+    ]
+    findings = compliance.evaluate_historical_rules(details, clauses)
+    assert all(item["status"] == "UNRESOLVED" for item in findings[-2:])
+    assert all("category is not explicitly known" in item["comparison"] for item in findings[-2:])

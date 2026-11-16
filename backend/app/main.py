@@ -17,7 +17,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from backend.app import storage
 from backend.app.jobs import enqueue_run, run_sync
-from backend.app.metrics import metrics
+from backend.app.metrics import metrics, refresh_process_metrics
 from backend.app.rate_limiter import SlidingWindowRateLimiter
 from backend.app.run_service import execute_run
 
@@ -162,6 +162,7 @@ def readiness():
 
 @app.get("/metrics", response_class=PlainTextResponse)
 def prometheus_metrics():
+    refresh_process_metrics()
     return metrics.render()
 
 

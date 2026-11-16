@@ -87,6 +87,46 @@ def update_run(run_id: str, status: str, result: dict[str, Any]) -> None:
         )
 
 
+def claim_run(run_id: str, stale_after_seconds: float = 60.0) -> bool:
+    """Atomically claim pending work or recover an expired running lease."""
+    from datetime import timedelta
+
+    now = datetime.now(timezone.utc)
+    stale_before = (now - timedelta(seconds=max(1.0, stale_after_seconds))).isoformat()
+    with connect() as conn:
+        cursor = conn.execute(
+            """UPDATE runs SET status='running', updated_at=?
+            WHERE run_id=? AND (
+                status IN ('pending', 'queued')
+                OR (status='running' AND updated_at < ?)
+            )""",
+            (now.isoformat(), run_id, stale_before),
+        )
+    return cursor.rowcount == 1
+
+
+def recoverable_runs(stale_after_seconds: float = 60.0) -> list[dict[str, Any]]:
+    """Return pending work and runs whose worker lease expired."""
+    from datetime import timedelta
+
+    stale_before = (datetime.now(timezone.utc) - timedelta(
+        seconds=max(1.0, stale_after_seconds)
+    )).isoformat()
+    with connect() as conn:
+        rows = conn.execute(
+            """SELECT run_id, proposal_json, correlation_id FROM runs
+            WHERE status IN ('pending', 'queued')
+               OR (status='running' AND updated_at < ?)
+            ORDER BY created_at ASC""",
+            (stale_before,),
+        ).fetchall()
+    return [{
+        "run_id": row["run_id"],
+        "proposal": json.loads(row["proposal_json"]),
+        "correlation_id": row["correlation_id"] or "recovered",
+    } for row in rows]
+
+
 def get_run(run_id: str) -> dict[str, Any] | None:
     initialize()
     with connect() as conn:

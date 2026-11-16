@@ -13,6 +13,7 @@ from langgraph.types import RetryPolicy
 from agents.rag.retriever import retrieve_clauses
 from agents.compliance import evaluate_historical_rules
 from backend.app.metrics import metrics
+from backend.app.llm import prompt_injection_detected, toxicity_detected, verify_findings
 
 
 MAX_STEPS = 3
@@ -36,6 +37,9 @@ class ComplianceState(TypedDict, total=False):
     review_reasons: list[str]
     retry_count: int
     numerical_findings: list[dict[str, Any]]
+    llm_metrics: dict[str, Any] | None
+    llm_usage: dict[str, Any]
+    prompt_version: str | None
 
 
 def lookup_request_fields(details: dict[str, Any], names: list[str]) -> dict[str, Any]:
@@ -145,18 +149,41 @@ def retrieve_provisions(state: ComplianceState) -> dict[str, Any]:
     for topic, query in state.get("planned_queries", []):
         if calls >= MAX_TOOL_CALLS - 1:
             break
-        calls += 1
-        try:
+        results = None
+        for attempt in range(2):
+            if calls >= MAX_TOOL_CALLS - 1:
+                break
+            calls += 1
             call_started = time.perf_counter()
-            results = search_corpus(query, SEARCH_TOP_K)
-            trace.append({
-                "step": "provision-discovery",
-                "tool": "search_corpus",
-                "topic": topic,
-                "query": query,
-                "returned": len(results),
-                "duration_seconds": round(time.perf_counter() - call_started, 6),
-            })
+            try:
+                results = search_corpus(query, SEARCH_TOP_K)
+                trace.append({
+                    "step": "provision-discovery",
+                    "tool": "search_corpus",
+                    "topic": topic,
+                    "query": query,
+                    "returned": len(results),
+                    "attempt": attempt + 1,
+                    "duration_seconds": round(time.perf_counter() - call_started, 6),
+                })
+                break
+            except Exception as exc:
+                metrics.increment("workflow_retrieval_errors_total")
+                trace.append({
+                    "step": "provision-discovery",
+                    "tool": "search_corpus",
+                    "topic": topic,
+                    "attempt": attempt + 1,
+                    "error_type": type(exc).__name__,
+                })
+                if attempt == 0 and calls < MAX_TOOL_CALLS - 2:
+                    metrics.increment("workflow_retries_total")
+                    trace.append({"step": "retry", "topic": topic, "attempt": 1, "delay_seconds": 0.1})
+                    time.sleep(0.1)
+                else:
+                    results = None
+                    break
+        if results is not None:
             for item in results:
                 item = dict(item)
                 item["topic"] = topic
@@ -166,18 +193,8 @@ def retrieve_provisions(state: ComplianceState) -> dict[str, Any]:
                 "evidence_count": len(results),
                 "status": "evidence-found" if results else "evidence-missing",
             })
-        except Exception as exc:
-            trace.append({
-                "step": "provision-discovery",
-                "tool": "search_corpus",
-                "topic": topic,
-                "error_type": type(exc).__name__,
-            })
-            obligations.append({
-                "provision": topic,
-                "evidence_count": 0,
-                "status": "retrieval-failed",
-            })
+        else:
+            obligations.append({"provision": topic, "evidence_count": 0, "status": "retrieval-failed"})
 
     details = state.get("building_details", {})
     # One bounded adaptive pass targets the two table pages needed for the
@@ -345,28 +362,54 @@ def verify_evidence_and_route(state: ComplianceState) -> dict[str, Any]:
     numerical_findings = evaluate_historical_rules(
         state.get("building_details", {}), citations
     )
+    llm_metrics, model_usage = verify_findings(
+        numerical_findings, state.get("building_details", {})
+    )
+    if model_usage.get("status") == "verified" and llm_metrics is not None:
+        for check in llm_metrics["checks"]:
+            finding = numerical_findings[check["finding_index"]]
+            finding["semantic_supported"] = check["supported"]
+            finding["semantic_verification_reason"] = check["reason"]
+            if not check["supported"]:
+                finding["status"] = "UNRESOLVED"
+                finding["outcome"] = "UNRESOLVED"
+                finding["justification"] += " Model verification did not support the full claim; routed for specialist review."
     findings.extend(numerical_findings)
     numeric_violations = any(item["status"] == "VIOLATED" for item in numerical_findings)
     numeric_unresolved = any(item["status"] == "UNRESOLVED" for item in numerical_findings)
     # A supported historical violation gets a concrete revision route only
     # when the selected numeric checks are complete and citation-resolved.
     # Currentness still remains a separate specialist-review limitation.
+    injection_blocked = prompt_injection_detected(state.get("building_details", {}))
+    unsafe_input_blocked = toxicity_detected(state.get("building_details", {}))
+    guardrail_blocked = str(model_usage.get("status", "")).startswith("blocked_")
+    if injection_blocked:
+        reasons.append("Prompt-injection-like proposal text was detected and treated as untrusted data; model reasoning was skipped.")
+    if unsafe_input_blocked:
+        reasons.append("Unsafe or abusive proposal text was detected; model reasoning was skipped.")
+    provider_failed = model_usage.get("provider_configured") and model_usage.get("status") != "verified"
+    if provider_failed:
+        reasons.append("Configured model verification was unavailable; specialist review is required.")
     recommendation = (
         "revise-and-recheck"
         if numeric_violations and not numeric_unresolved
         and not missing_topics
         and bool(citations) and len(citations) == len(retrieved)
+        and not injection_blocked and not unsafe_input_blocked and not guardrail_blocked and not provider_failed
         else "specialist-review"
     )
     verification = {
         "verified": bool(citations) and len(citations) == len(retrieved),
         "retrieved_passages": len(retrieved),
         "citations_resolved_to_retrieved_text": len(citations),
-        "semantic_support_checked": False,
+        "semantic_support_checked": model_usage.get("status") == "verified",
+        "prompt_version": model_usage.get("prompt_version"),
         "numeric_rules_compared": len(numerical_findings),
         "numeric_findings_unresolved": sum(item["status"] == "UNRESOLVED" for item in numerical_findings),
         "currentness_checked": False,
     }
+    if llm_metrics:
+        verification.update({key: llm_metrics[key] for key in ("groundedness", "context_relevance", "faithfulness", "hallucination_rate")})
     return {
         "citations": citations,
         "findings": findings,
@@ -374,6 +417,9 @@ def verify_evidence_and_route(state: ComplianceState) -> dict[str, Any]:
         "review_reasons": list(dict.fromkeys(reasons)),
         "recommendation": recommendation,
         "numerical_findings": numerical_findings,
+        "llm_metrics": llm_metrics,
+        "llm_usage": {"semantic_verifier": model_usage},
+        "prompt_version": model_usage.get("prompt_version"),
         "status": "completed",
     }
 
