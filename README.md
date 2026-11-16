@@ -2,7 +2,7 @@
 
 A FastAPI and LangGraph prototype for evidence retrieval from building-rule PDFs. It validates structured proposals, runs targeted searches for setback, road-width/height, FAR/coverage, and permitted-use evidence, checks that citations resolve to stored passages, and routes results for professional review.
 
-> This service is not an approval system and does not certify compliance. Its indexed corpus snapshot is historical and has not been confirmed as the complete current rule set for a property. The application therefore routes every run to specialist-review.
+> This service is not an approval system and does not certify compliance. The checked-in Bangalore corpus is historical and is not confirmed as the current complete rule set. It can compare supported values against retrieved historical table cells, but current legal applicability remains for a specialist to confirm.
 
 ## Run from a clean clone
 
@@ -23,6 +23,18 @@ docker compose up --build --scale agent-worker=3
 Open the frontend on port 5500, API documentation on port 8000/docs, Prometheus on port 9090, and Grafana on port 3000. Grafana is configured for anonymous read-only access for this local demonstration stack; do not expose these ports to an untrusted network.
 
 The stack keeps queued jobs in Redis and run/feedback records in a shared SQLite volume. With Redis unavailable in a local non-Compose run, the API falls back to a bounded in-process worker pool. That fallback is not durable across process restarts.
+
+## Lightweight local demo on macOS (no Docker)
+
+The local launcher uses already-installed Python packages when available, reuses an unchanged local Chroma index, and starts the API plus static frontend. It does not install dependencies unless explicitly requested.
+
+~~~bash
+./scripts/start_local.sh
+~~~
+
+Open [http://localhost:5500](http://localhost:5500); API docs are at [http://localhost:8000/docs](http://localhost:8000/docs). The launcher binds to loopback, disables Redis, checks both ports, and stops both processes with Ctrl+C. It indexes `data/bye_laws/` before startup; an unchanged source/index manifest is reused. If packages are missing, the script exits with the missing-import notice and no download. To opt into a project-local install only, run `INSTALL_LOCAL_DEPS=1 ./scripts/start_local.sh`; this uses `.venv` and `requirements-local.txt`.
+
+Local mode uses a four-thread in-process queue and SQLite run state. Jobs are asynchronous while the process is alive, but queued work is not durable across process crashes and this mode does not verify Redis, independent worker scaling, Docker health, Prometheus/Grafana, or container networking. Keep Compose files for those deployment checks on a Docker-capable host; local mode is not evidence that Docker requirements passed. See [docs/local_mode.md](docs/local_mode.md).
 
 ## Local development
 
@@ -73,6 +85,8 @@ POST /runs accepts JSON with:
 - site_width, site_depth: optional positive metres; both are needed for setback-table review
 - proposed_coverage_percent: optional value from 0 through 100
 - proposed_far: optional value from 0 through 50
+- development_area: optional historical Table 6 category A, B or C
+- proposed_left_setback, proposed_right_setback, proposed_front_setback, proposed_rear_setback: optional metres
 
 Unknown fields, missing required fields, invalid categories, out-of-range values, and impossible site dimensions are rejected at ingestion. The API returns HTTP 422, a quarantine ID, field-level errors, and agent_started=false. The quarantine record stores only a payload hash and error fields, not the original proposal body.
 
@@ -87,6 +101,11 @@ Example:
   "zone": "A - intensely developed area",
   "site_width": 10,
   "site_depth": 20,
+  "development_area": "A",
+  "proposed_left_setback": 1.5,
+  "proposed_right_setback": 1.5,
+  "proposed_front_setback": 4,
+  "proposed_rear_setback": 3,
   "proposed_coverage_percent": 60,
   "proposed_far": 0.7
 }
@@ -113,12 +132,12 @@ Completed responses include an evidence item per searched provision, citation re
 The LangGraph workflow has separate responsibilities and explicit hand-offs:
 
 1. retrieval_planner_agent inspects request fields and plans targeted searches.
-2. provision_discovery_agent chooses the corpus-search tool for distinct obligations and looks up citation locations. It is capped at six tool calls; the whole workflow has a 30-second timeout.
+2. provision_discovery_agent searches distinct obligations, performs up to two targeted table searches when evidence is missing, and resolves citation locations. The graph is capped at eight tool calls; the whole workflow has a 30-second timeout.
 3. evidence_verification_agent checks each citation against exact stored source, page, and text, then routes the run.
 
 Available tools are lookup_request_fields, search_corpus, and lookup_clauses_by_location. Chroma uses a deterministic offline hashed word/bigram/trigram embedding named local_hash_ngrams_v1; it does not download or call an embedding provider. This is a low-cost lexical baseline and its relevance must be measured.
 
-Citation resolution proves only that cited text exists in the indexed collection. The system does not verify legal currentness or semantic support, detect every conflicting provision, or assess all site-specific plan dimensions. It therefore never returns compliance clearance from the current corpus. Missing evidence, incomplete site dimensions, and unverified applicability are routed to specialist review.
+Citation resolution proves only that cited text exists in the indexed collection. For supported residential/commercial proposals up to 9.5m, the workflow extracts matching historical Table 4 setback cells and Table 6 coverage/FAR cells from verified passages, compares supplied proposal measurements, and reports SATISFIED, VIOLATED or UNRESOLVED findings. A supported violation can recommend revise-and-recheck. Missing dimensions or table evidence remain unresolved; currentness and property-specific applicability are always stated as limitations. No route represents municipal approval or legal clearance.
 
 ## Indexing and freshness
 

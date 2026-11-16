@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f7fb">
   <meta name="description" content="Review a building proposal against applicable building regulations with an evidence-led pre-check.">
+  <link rel="icon" href="data:,">
   <title>Buildwise — Building Plan Review</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,6 +86,16 @@
                   <small>Use the zone stated in your planning documents.</small>
                 </div>
                 <div class="field">
+                  <label for="development_area">Historical development area <small class="optional">OPTIONAL</small></label>
+                  <select id="development_area" name="development_area">
+                    <option value="">Unknown / not available</option>
+                    <option value="A">A — Intensely developed</option>
+                    <option value="B">B — Moderately developed</option>
+                    <option value="C">C — Sparsely developed</option>
+                  </select>
+                  <small>Separate from land-use zone. Used only for the historical 2003 reference table.</small>
+                </div>
+                <div class="field">
                   <label for="plot_area">Plot area <span>*</span></label>
                   <div class="input-unit"><input type="number" id="plot_area" name="plot_area" min="0.01" step="any" placeholder="e.g. 1200" required><span>m²</span></div>
                 </div>
@@ -113,7 +124,30 @@
 
             <div class="form-divider"></div>
             <div class="form-section">
-              <div class="form-section-head"><span class="section-icon">⌂</span><div><h3>Building parameters</h3><p>Enter the proposed building envelope.</p></div><span class="step-number">03</span></div>
+              <div class="form-section-head"><span class="section-icon">↔</span><div><h3>Proposed setbacks</h3><p>Optional measurements for a historical table comparison.</p></div><span class="step-number">03</span></div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="proposed_left_setback">Left setback <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="proposed_left_setback" name="proposed_left_setback" min="0" step="any" placeholder="e.g. 1.5"><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="proposed_right_setback">Right setback <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="proposed_right_setback" name="proposed_right_setback" min="0" step="any" placeholder="e.g. 1.5"><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="proposed_front_setback">Front setback <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="proposed_front_setback" name="proposed_front_setback" min="0" step="any" placeholder="e.g. 4"><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="proposed_rear_setback">Rear setback <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="proposed_rear_setback" name="proposed_rear_setback" min="0" step="any" placeholder="e.g. 3"><span>m</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="form-section">
+              <div class="form-section-head"><span class="section-icon">⌂</span><div><h3>Building parameters</h3><p>Enter the proposed building envelope.</p></div><span class="step-number">04</span></div>
               <div class="field-grid">
                 <div class="field">
                   <label for="proposed_height">Proposed building height <span>*</span></label>

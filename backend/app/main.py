@@ -65,6 +65,11 @@ class BuildingProposal(BaseModel):
     site_depth: float | None = Field(default=None, gt=0, le=1000, allow_inf_nan=False)
     proposed_coverage_percent: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
     proposed_far: float | None = Field(default=None, ge=0, le=50, allow_inf_nan=False)
+    development_area: Literal["A", "B", "C"] | None = None
+    proposed_left_setback: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    proposed_right_setback: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    proposed_front_setback: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
+    proposed_rear_setback: float | None = Field(default=None, ge=0, le=100, allow_inf_nan=False)
 
     @model_validator(mode="after")
     def validate_site_dimensions(self):

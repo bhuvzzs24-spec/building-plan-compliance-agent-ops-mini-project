@@ -1,156 +1,158 @@
 # Final Acceptance Report
 
 **Verification date:** 16 November 2026
-**Repository baseline:** `main` at `f6f94a24eba6e575f1576165175c7fce511f9710`
-**Final readiness verdict:** **NOT READY**
+**Repository:** `bhuvzzs24-spec/building-plan-compliance-agent-ops-mini-project`
+**Local mode:** macOS, Python 3.13, no Docker
+**Readiness verdict:** **READY WITH LIMITATIONS for local demonstration; NOT READY for Docker/deployment acceptance**
 
-The backend API, local corpus index, and local workflow-to-result path were exercised. The official assignment PDF was not available, so the exact criterion titles cannot be verified. Docker Desktop is installed, but the daemon is inaccessible and its logs confirm disk-full shutdown; browser/Redis/load paths remain unverified. The reference API case was rerun after a retrieval reranker fix and returned both required historical table pages. End-to-end readiness therefore is not established.
+The central local API-to-LangGraph-to-Chroma-to-result path was executed successfully, including evidence-grounded historical numerical comparisons, citations, polling, a violation route, incomplete-data escalation and malformed-input quarantine. The static frontend server returned HTTP 200. Browser-driven interactions were not completed. Docker Engine, Redis workers, worker scaling, container health, Prometheus/Grafana runtime and load tests were not run. Local execution does not satisfy those requirements. This is a historical pre-check only and must not be represented as municipal approval or current legal compliance.
+
+The official assignment PDF was not present in this checkout/task workspace. Requirement labels below use the user-supplied task descriptions provisionally; exact rubric wording remains unverified.
 
 ## 1. Requirement matrix
 
-The PDF is the source of exact F1–F8/A1–A8/L1–L6/D1–D8 definitions, but it was not found in the checkout or task workspace. The statuses below are implementation evidence against the supplied task description and code, not a verified transcription of the assignment rubric. **PARTIAL** means there is some corresponding code but full functionality/acceptance evidence is missing. **BLOCKED** means the environment or missing source prevented verification. The detailed descriptions in the task prompt are used as provisional labels.
+### Functional requirements
 
-### Functional requirements (F1–F8)
-
-| ID | Provisional area | Status | Evidence / gap |
+| ID | Provisional area | Status | Evidence / remaining gap |
 |---|---|---|---|
-| F1 | Proposal/API contract | PARTIAL | `backend/app/main.py`, `tests/test_api.py`; local API health and submit exercised. Exact rubric title unverified. |
-| F2 | Input validation and quarantine | PARTIAL | Strict Pydantic types/ranges/cross-field checks; local invalid POST returned 422 and `agent_started=false`; broader boundary suite passed. |
-| F3 | Async run submission and state | PARTIAL | 202 response, SQLite persistence and polling are implemented; tested in local fallback, not Redis runtime. |
-| F4 | Regulatory corpus/RAG | PARTIAL | Historical PDF indexed with metadata; official zoning PDF/amendment sources identified but not acquired/verified for current applicability. |
-| F5 | Citation and retrieval quality | PARTIAL | Exact citation resolution plus lexical reranking; unit test and local API reference flow retrieved pages 22 and 24 separately. Semantic support remains absent. |
-| F6 | Run results and feedback | PARTIAL | Run result and feedback endpoints/storage exist; feedback behavior and aggregation not separately exercised here. |
-| F7 | Frontend integration | BLOCKED | Static client exists; no browser execution or full frontend-to-backend run available. |
-| F8 | Observability/API operations | PARTIAL | Structured request logs, correlation IDs, metrics and health endpoints exist; runtime dashboards/traces unverified. |
+| F1 | Proposal API and request/response contract | PASS (local path) | `backend/app/main.py`; live HTTP 202 submit and polling completed. |
+| F2 | Strict validation and quarantine | PASS (tested) | Pydantic schema; malformed live request returned 422, field errors, quarantine ID, `agent_started=false`; quarantine metadata lookup succeeded. |
+| F3 | Async runs and persistent state | PASS locally / PARTIAL overall | Local bounded thread pool, SQLite and polling worked. Local jobs are not crash-durable; Redis not run. |
+| F4 | Regulatory corpus and RAG | PARTIAL | Historical Bangalore 2003 PDF indexed locally; no verified current zoning/amendment corpus. |
+| F5 | Evidence retrieval and citations | PASS for reference pages / PARTIAL overall | Exact retrieved-text citation resolution; live reference returned Table 4 PDF page 22 and Table 6 page 24. Semantic support is not measured. |
+| F6 | Findings and routing | PASS for supported historical numeric rules / PARTIAL overall | Six source-derived numeric comparisons; observed SATISFIED and VIOLATED outcomes. Currentness remains specialist-reviewed; feedback endpoints were not exercised here. |
+| F7 | Frontend | PARTIAL | Frontend HTTP 200 and static form/assets checked. Browser-driven submission/display was unavailable. |
+| F8 | Health, logs and metrics | PARTIAL | Live health/readiness and API metrics route available; local structured logs observed. Dashboard/trace runtime not tested. |
 
-### Agent requirements (A1–A8)
+### Agent requirements
 
-| ID | Provisional area | Status | Evidence / gap |
+| ID | Provisional area | Status | Evidence / remaining gap |
 |---|---|---|---|
-| A1 | Multi-agent stages and hand-offs | PARTIAL | `agents/workflow.py` has planning, retrieval and verification graph nodes; agents are deterministic functions, not separately reasoning LLM agents. |
-| A2 | Agent-selectable tools | PARTIAL | Request-field lookup, corpus search and location lookup exist; no model chooses tools. |
-| A3 | Bounded workflow | PARTIAL | Six-call and 30-second caps plus retry policy exist; cancellation/recovery behavior not fully verified. |
-| A4 | Persistent queue and worker operation | BLOCKED | Redis queue/worker configured; Docker unavailable, distributed integration and crash recovery not run. |
-| A5 | Evidence verification and routing | PARTIAL | Exact source/page/text re-resolution; semantic support absent and specialist review is unconditional. |
-| A6 | Rule comparisons/findings | NOT IMPLEMENTED | No verified regulatory thresholds compared against proposal inputs; no SATISFIED/VIOLATED outcomes. |
-| A7 | Reliability/fallback | PARTIAL | Local fallback and bounded retry code exist; provider breaker absent; worker recovery not tested. |
-| A8 | Safety/escalation | PARTIAL | Specialist routing and no-clearance posture reduce unsupported approval claims; injection/toxicity controls and conflict analysis absent. |
+| A1 | Distinct workflow stages and hand-offs | PARTIAL | LangGraph planner, discovery and verification nodes execute in sequence; not autonomous LLM agents. |
+| A2 | Agent-selectable tools | PARTIAL | Proposal-field lookup, corpus search and citation-location lookup are distinct tools; no model selects tools. |
+| A3 | Bounded/adaptive workflow | PASS locally / PARTIAL overall | Eight-call cap, 30-second timeout and up to two targeted table searches; adaptive recovery unit test passed. Crash cancellation and all timeout/retry cases not exercised. |
+| A4 | Redis queue and independent workers | BLOCKED | Local mode only; Docker/Redis unavailable for this verification. |
+| A5 | Evidence verification and routing | PARTIAL | Citation text re-resolved; semantic claim support is false/unavailable. Supported historical violations route to revise-and-recheck; incomplete cases to specialist-review. |
+| A6 | Regulatory numeric findings | PASS for supported historical cells | Extracts Table 4 and Table 6 values from verified retrieved passages and compares supplied setbacks, coverage and FAR. Scope is limited to supported categories and historical pages. |
+| A7 | Reliability/fallback | PARTIAL | In-process queue and bounded retrieval are present; worker crash recovery/provider breaker not verified or configured. |
+| A8 | Safety/escalation | PARTIAL | Historical/currentness caveat and conservative routing are present; full injection/toxicity and conflict-analysis controls are unavailable without model path. |
 
-### LLMOps requirements (L1–L6)
+### LLMOps requirements
 
-| ID | Provisional area | Status | Evidence / gap |
+| ID | Provisional area | Status | Evidence / remaining gap |
 |---|---|---|---|
-| L1 | Versioned prompts/provider | NOT IMPLEMENTED | No LLM provider or prompt execution. |
-| L2 | Prompt A/B evaluation | NOT IMPLEMENTED | Two variant definitions exist in dataset, but neither is executed. |
-| L3 | Groundedness/faithfulness/hallucination | NOT IMPLEMENTED | Retrieval-only runner does not measure semantic quality. |
-| L4 | Model token/cost attribution | NOT APPLICABLE / NOT IMPLEMENTED | No model calls; no actual or estimated token/cost data. |
-| L5 | Prompt/output safeguards | PARTIAL | No LLM path; no explicit prompt-injection, toxicity, or unsupported-claim filters. |
-| L6 | Feedback quality monitoring | PARTIAL | Feedback persistence and aggregate endpoint exist; sampled scoring/trend monitoring not implemented or measured. |
+| L1 | Versioned prompts/provider | NOT IMPLEMENTED | No model provider configured or called. |
+| L2 | Executed prompt A/B | NOT IMPLEMENTED | No prompt variants executed. |
+| L3 | Groundedness/faithfulness/hallucination metrics | NOT IMPLEMENTED | Retrieval-only evaluation cannot measure semantic support. |
+| L4 | Token/cost attribution | NOT APPLICABLE / UNAVAILABLE | No model calls; no tokens or costs fabricated. |
+| L5 | Prompt safeguards | PARTIAL | No LLM input path; explicit toxicity/injection filter is not implemented. |
+| L6 | Feedback quality monitoring | PARTIAL | Feedback storage/aggregation exists; sampled scoring and trend evaluation not measured. |
 
-### Deployment requirements (D1–D8)
+### Deployment requirements
 
-| ID | Provisional area | Status | Evidence / gap |
+| ID | Provisional area | Status | Evidence / remaining gap |
 |---|---|---|---|
-| D1 | Containerized services/startup | BLOCKED | Compose defines API, worker, Redis, indexer, frontend, Prometheus and Grafana; Docker Desktop daemon stopped after host disk-full errors. |
-| D2 | Corpus indexing/evaluation | PARTIAL | Index completed; evaluation 20/20 retrieval results with no errors, but no labeled outcomes/accuracy. |
-| D3 | Health/readiness/dependencies | BLOCKED | Compose health checks configured; no containers could be started or inspected. |
-| D4 | Monitoring/dashboard | BLOCKED | Prometheus/Grafana config present; runtime scrape/dashboard unverified. |
-| D5 | Scaling/load/performance | BLOCKED | Locust workload and 45-second p95 SLO declared; no measurements. |
-| D6 | Cache/rate limit | PARTIAL | Process cache and per-client limiter code exists; no cache effect or rate-limit load test recorded. |
-| D7 | Browser UX/responsive behavior | BLOCKED | No browser test. |
-| D8 | Runbook/incidents/recovery | PARTIAL | Runbook and historical incident note exist; current deployment recovery and worker recovery not exercised. |
+| D1 | Dockerized startup | BLOCKED | No Docker containers started in this local-mode verification. Prior Docker audit found daemon/socket unavailable and disk-full logs. |
+| D2 | Corpus indexing/evaluation | PASS for execution / PARTIAL for quality | Index reuse succeeded; 20/20 retrieval scenarios ran without runtime errors. Labeled accuracy is unavailable. |
+| D3 | Container health/dependencies | BLOCKED | Compose config was previously validated, but container readiness/health was not executed. |
+| D4 | Prometheus/Grafana monitoring | BLOCKED | Local API `/metrics` answered; Prometheus/Grafana containers/dashboards were not run. |
+| D5 | SLO, load and scaling | BLOCKED | No Locust, measured p95, concurrency limit, or one-vs-three-worker results. |
+| D6 | Cache and rate limiting | PARTIAL | Retrieval cache and API limiter code exist; effect and load behavior not measured. |
+| D7 | Browser UX/responsiveness | BLOCKED | No browser automation package was installed; sandbox Chromium debugging endpoint could not be started. |
+| D8 | Runbook/recovery | PARTIAL | Runbook exists; container incident recovery and independent worker recovery not verified in this environment. |
 
-Exact individual titles and status assignments above require correction against the official brief when supplied; responsibility identifiers are transcribed exactly from the final team correction.
+## 2. Main implementation and evidence
 
-## 2. Implementation files and evidence
+- `scripts/start_local.sh`, `requirements-local.txt`, `docs/local_mode.md`: low-download local launcher, dependency import check, optional project-only install, index reuse, API/frontend startup and local-vs-Compose limitations.
+- `agents/compliance.py`, `agents/workflow.py`: historical Table 4/Table 6 parsing and numeric comparisons, bounded adaptive retrieval, evidence citation association and conservative routing.
+- `agents/rag/index_pdfs.py`: source-hash/index-presence reuse and opt-in `--force` re-index.
+- `backend/app/main.py`: optional area category and proposed setback fields added to the API contract.
+- `frontend/index.html`, `frontend/app.js`, `frontend/style.css`: area/setback inputs and structured findings/citations/verification rendering.
+- `tests/test_compliance_workflow.py`, `tests/test_rag.py`: historical numeric outcomes, violation route, adaptive retrieval and index-reuse coverage.
+- `README.md`, `docs/demo_guide.md`, `docs/reference_case.md`, `docs/local_mode.md`: local workflow and limits.
 
-- API, validation, quarantine, runs, feedback: `backend/app/main.py`, `storage.py`, `jobs.py`, `run_service.py`.
-- Worker/queue: `backend/app/worker.py`, `jobs.py` (local mode verified; Redis mode not).
-- Workflow and limits: `agents/workflow.py`.
-- RAG/index: `agents/rag/pdf_loader.py`, `text_chunker.py`, `local_embeddings.py`, `retriever.py`, `indexer.py`, `vector_store.py`.
-- Client: `frontend/index.html`, `app.js`, `style.css`; browser unverified.
-- Operations/deployment: `docker-compose.yml`, `Dockerfile`, `observability/`, `docs/runbook.md`.
-- Evaluation: `evaluation/run_evaluation.py`, `evaluation/sloka_evaluation.json`, generated results JSON.
-- Team allocation: `docs/contributions.md`, `README.md`, `SYNOPSIS.md`.
-- Demonstration outcomes: `docs/demo_guide.md`.
+## 3. Exact commands and results
 
-## 3. Exact test commands and results
-
-Executed from repository root on 16 November 2026:
+Commands executed from the repository root on 16 November 2026:
 
 ```text
 python3 -m pytest -q
-29 passed in 1.68s (after adding retrieval ranking and evaluation fail-closed regressions)
+32 passed in 1.67s
 
 python3 -m agents.rag.index_pdfs
-PASS: 84 pages, 243 chunks, zero failures; 0.809385 seconds; 300.228 chunks/second
+PASS: unchanged source reused; 84 pages, 243 indexed chunks, 243 reused, 0 rebuilt, 0 failures
 
 python3 evaluation/run_evaluation.py
-PASS for execution only: 20/20 scenarios returned retrieval results, 0 runtime errors
-Accuracy: unavailable; dataset has no labeled expected outcomes or sources
+PASS for execution: 20/20 scenarios returned retrieval results, 0 runtime errors
+Outcome accuracy: unavailable (the dataset does not provide verified labeled outcomes)
 
-docker --version
-Docker version 29.9.3, context desktop-linux
+node --check frontend/app.js
+PASS
 
-docker compose version
-Docker Compose version v5.7.0
+bash -n scripts/start_local.sh
+PASS
 
-docker compose config --quiet
-PASS: exit 0; all seven services resolve
-
-docker compose ps --all
-BLOCKED: exit 1, permission denied connecting to the Docker API socket
+./scripts/start_local.sh
+PASS: API readiness returned 200; frontend and API processes stayed running locally
 ```
 
-The full test suite was rerun after the source/test edits. The evaluation artifact is retrieval metadata only; no A/B prompt or semantic-quality result is claimed.
+Additional live HTTP checks against the running local stack:
 
-## 4. Docker service health and startup
+- `GET /health`: HTTP 200.
+- `GET /health/ready`: HTTP 200, 243 indexed chunks.
+- `GET http://localhost:5500/`: HTTP 200.
+- Valid reference proposal: HTTP 202, `queue_mode=local`, polling reached `completed`; 17 passages resolved to citations; six numerical findings: left/right/front/rear setbacks SATISFIED against 1.5/1.5/4/3 m on page 22, coverage SATISFIED against 65% and FAR SATISFIED against 0.75 on page 24. Route was `specialist-review` because regulatory currentness/applicability is unchecked.
+- Violating proposal: polling reached `completed`; below-minimum left setback and above-limit coverage/FAR were VIOLATED; route was `revise-and-recheck`.
+- Incomplete proposal: polling reached `completed`; missing numeric proposal values were UNRESOLVED and route was `specialist-review`.
+- Malformed proposal: HTTP 422; field-level errors, quarantine identifier and `agent_started=false`. `GET /quarantine/{id}` returned the payload hash and error metadata.
+- `GET /metrics`: HTTP 200.
 
-**BLOCKED.** `docker compose config --quiet` passed, but no clean startup, service health, worker-scale, Redis recovery, or Grafana runtime result is claimed. The host had 3.2 GiB available at 99% usage; Docker Desktop logs report `no space left on device` writing its VM logs and explicitly report disk full. `docker info`, `docker system df`, and `docker compose ps --all` could not access the local socket. No image build was attempted in this low-storage state. Image inventory and Docker-internal free space are unknown. Storage-conscious Dockerfile/context/image-tag changes are described in [DOCKER_VERIFICATION_REPORT.md](DOCKER_VERIFICATION_REPORT.md).
+No tests were weakened or deleted. No Docker data or personal files were removed.
 
-## 5. Browser interaction results
+## 4. Docker and service health
 
-**BLOCKED / NOT RUN in Docker.** No browser-based form, polling, result, feedback, error, navigation, or responsive-layout interaction was executed in this turn. The previously verified API-only run does not establish browser functionality.
+**BLOCKED / NOT RUN for the current local-mode verification.** No API/worker/Redis/indexer/frontend/Prometheus/Grafana containers were started. This report makes no Compose health, clean-clone container startup, Redis durability, worker scaling, or Docker storage recovery claim. The earlier Docker audit recorded daemon/socket unavailability and Docker Desktop disk-full errors; see `DOCKER_VERIFICATION_REPORT.md`. Dockerfiles and Compose files remain in the repository.
 
-## 6. Ten demonstration outcomes
+## 5. Browser verification
 
-See `docs/demo_guide.md` for reproducible commands and detail.
+**BLOCKED.** The frontend static server returned HTTP 200, JavaScript syntax passed, and HTML contains the proposal fields and result UI. Playwright and Puppeteer were not installed. An existing cached Chromium binary was tried but did not expose a CDP debugging endpoint from this sandbox. No claim is made that browser form submission or result rendering passed.
 
-| # | Outcome |
-|---:|---|
-| 1 | BLOCKED — Docker unavailable. |
-| 2 | PASS (limited pre-check) — updated local API run completed with four obligations/ten citations and specialist-review due to source limits; no legal pass/fail comparison. |
-| 3 | PARTIAL — trace/timing/citations reconstructable; model prompt and cost unavailable. |
-| 4 | PASS — 422 quarantine, field errors, `agent_started=false`. |
-| 5 | PARTIAL — dedicated out-of-jurisdiction request escalated, but returned irrelevant passages and lacked a robust corpus-mismatch reason. |
-| 6 | BLOCKED — semantic support retry/research behavior is absent. |
-| 7 | PARTIAL — no model invocation; explicit injection/toxicity safeguards absent. |
-| 8 | NOT APPLICABLE / PARTIAL — no configured provider, therefore no breaker demonstration. |
-| 9 | BLOCKED — Docker/Locust load and scaling evidence unavailable. |
-| 10 | PASS (retrieval scope) — source pages 22/24 verified; API returned page 22 in setback finding and page 24 in FAR/coverage finding after reranking. No compliance determination. |
+## 6. Ten required demonstrations
 
-## 7. Evaluation and load-test results
+| # | Scenario | Status | Recorded result |
+|---:|---|---|---|
+| 1 | Clean-clone Docker Compose startup | BLOCKED | Docker Engine/container startup not run. |
+| 2 | Valid proposal, citations and justified recommendation | PASS (local historical pre-check) | HTTP 202 and completed run; source-derived findings cite pages 22/24; specialist route due to currentness limitation. |
+| 3 | Reconstruct run including tools, passages, prompt, latency and cost | PARTIAL | Run ID returns trace, passages, citations, verification and duration. Prompt version/tokens/cost unavailable because no model is configured. |
+| 4 | Malformed data quarantined before agent | PASS | HTTP 422, field errors, quarantine metadata, `agent_started=false`. |
+| 5 | Out-of-corpus proposal escalates | PARTIAL | General specialist routing exists; robust corpus-mismatch classification was not live-verified. |
+| 6 | Unsupported evidence triggers re-search/escalation | PARTIAL | Unit test forced missing table pages and observed adaptive re-search. Semantic support fault injection and verification remain unavailable. |
+| 7 | Prompt injection guardrail | PARTIAL | No model call can consume retrieved text as instructions, but explicit input/output injection safeguards were not implemented/tested. |
+| 8 | Provider outage breaker/fallback | NOT APPLICABLE / PARTIAL | No provider configured; no breaker demonstration. |
+| 9 | Locust SLO, bottleneck and worker scaling | BLOCKED | No Docker/Redis load run or measured load results. |
+| 10 | Narrow-road small-plot case retrieves separate provisions | PASS (local historical numeric demo) | Live run retrieved Table 4 page 22 and Table 6 page 24, compared setbacks/coverage/FAR to parsed historical cells, and routed specialist review. |
 
-Corpus indexing throughput was 300.228 chunks/second for one local run. Retrieval evaluation produced 20 successful retrieval executions and no errors, but outcome accuracy, hit rate against ground truth, semantic support, and prompt comparison are unavailable. The declared p95 under 45-second end-to-end SLO is unmeasured. Locust, request throughput, p50/p95, error rate under load, concurrency failure point, one-vs-three-worker throughput, cache effect, and cost per 100 runs are unmeasured.
+## 7. Evaluation, SLO and limitations
 
-## 8. Remaining blockers and limitations
+The declared target remains end-to-end p95 below 45 seconds. It was not measured. The 20-scenario evaluation measures retrieval execution, not expected-outcome accuracy or semantic evidence support. RPS, p50/p95, error rate under load, concurrency failure point, one-vs-three-worker throughput, cache benefit and cost per 100 runs are unavailable and must not be inferred from the local smoke run.
 
-1. Official assignment PDF absent, preventing verified exact requirement titles and complete five-page audit.
-2. Docker Desktop daemon unavailable after disk-full failure (only 3.2 GiB free), blocking image build, clean startup, multi-service health, Redis worker/recovery, scaling, monitoring runtime, and Locust. The Docker socket is also inaccessible to this execution process.
-3. Browser interaction not tested.
-4. Substantive regulatory rule comparisons, semantic verification, adaptive recovery search, and supported violated/satisfied outcomes are missing.
-5. Reference retrieval now finds both required pages in the local API run. It still only retrieves historical evidence; rule comparison, semantic support, and legal applicability are absent.
-6. Official RMP 2015 zoning source and amendment directory were identified and recorded in `docs/regulation_sources.md`; local PDF acquisition timed out, the amendment page could not be fetched, and neither is indexed. The current applicable amendment set is therefore unresolved; findings must remain historical and specialist-routed.
-7. LLM prompt execution/A-B, quality metrics, injection/toxicity safeguards, provider circuit breaker, and token/cost telemetry are absent.
-8. Load/SLO/scaling/cache/rate-limit measurements are unavailable.
+Historical numerical comparisons are deliberately limited: Table 4 page 22 only covers up to 9.5 m and supported uses; Table 6 page 24 requires an explicitly supported development-area category, use, plot band and road band. Conflicting rules, current amendments, zoning applicability and semantic support are not established. Unresolved values route to a specialist. No municipal approval is issued.
 
-## 9. Git commit details
+## 8. Team ownership
 
-- Prior verified retrieval/documentation commit: `1243e100424170f52222fb4bde940017c58154f3`.
-- Docker supplement commit: `eabefe0a8eb6042ea61f3a965d083a17e5312283` — `Trim Docker image inputs and document storage blocker`.
-- Docker supplement was pushed directly to `origin/main`; `git ls-remote origin refs/heads/main` returned `eabefe0a8eb6042ea61f3a965d083a17e5312283` after push.
-- This acceptance-report update is a subsequent documentation-only commit on `main`.
+This follows the authoritative team responsibility correction. Ownership records responsibility areas only and does not invent authorship or claim who wrote a particular commit.
+
+| Contributor | Assigned responsibility |
+|---|---|
+| Bhuvana | Platform, deployment and operations: A4, A7, D1, D3, D4, D5, D6, D8, L5, L6 |
+| Harshitha | Agent workflow and backend logic: F3, F6, F7, A1, A2, A3, A5, L4 |
+| Sloka | RAG, corpus and evaluation: F4, F5, L1, L2, L3, D2; demonstrations 2 and 10 |
+| Saanvi | Frontend, testing and integration; remaining shared demonstrations and QA |
+
+## 9. Git details
+
+Commit/push for the current verified edits: pending. No force-push is permitted. The final remote SHA must be filled after push verification.
 
 ## 10. Final verdict
 
-**NOT READY.** A local backend run, malformed-input quarantine, and narrow-road retrieval succeeded. Compose configuration is valid, but the daemon disk-full failure prevents container execution, and browser/load evidence and substantive compliance reasoning remain incomplete. The system must not be presented as a compliance approval tool.
+**READY WITH LIMITATIONS for local demonstration only. NOT READY for full assignment/deployment acceptance.** The local valid-request-to-agent-to-cited-result path and historical reference comparisons passed. Browser interaction remains blocked, and Docker/Redis/worker scaling/monitoring/load acceptance remains unverified. Do not describe local mode as satisfying Docker deployment or worker-scaling criteria.

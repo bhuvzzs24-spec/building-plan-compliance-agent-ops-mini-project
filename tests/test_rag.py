@@ -156,6 +156,27 @@ def test_reindexing_removes_stale_chunks(tmp_path):
     assert count == 1
     assert collection.count() == 1
     assert collection.get()["documents"] == ["Updated single chunk."]
+
+
+def test_local_index_reuses_only_matching_hash_with_indexed_source(tmp_path):
+    from hashlib import sha256
+    from agents.rag.index_pdfs import source_is_current
+    from agents.rag.vector_store import build_vector_store
+
+    source = tmp_path / "source.pdf"
+    source.write_bytes(b"source fixture bytes")
+    db_dir = tmp_path / "index"
+    entry = {"sha256": sha256(source.read_bytes()).hexdigest()}
+
+    assert not source_is_current(source, db_dir, entry)
+    build_vector_store([{
+        "source": source.name, "page": 1,
+        "text": "fixture passage about residential setbacks",
+    }], str(db_dir))
+    assert source_is_current(source, db_dir, entry)
+
+    source.write_bytes(b"changed source fixture")
+    assert not source_is_current(source, db_dir, entry)
 def test_retriever_returns_empty_for_empty_collection(tmp_path):
     import chromadb
     from agents.rag.retriever import retrieve_clauses

@@ -31,7 +31,7 @@ def execute_run(run_id: str, details: dict[str, Any], correlation_id: str) -> No
         result = future.result(timeout=float(os.getenv("WORKFLOW_TIMEOUT_SECONDS", "30")))
         result["correlation_id"] = correlation_id
         result["duration_seconds"] = round(time.perf_counter() - started, 6)
-        result["limits"] = {"max_steps": 3, "max_tool_calls": 6}
+        result["limits"] = {"max_steps": 3, "max_tool_calls": 8}
         storage.update_run(run_id, "completed", result)
         logger.info(json.dumps({
             "event": "workflow_completed",

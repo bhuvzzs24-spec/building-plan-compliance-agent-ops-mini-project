@@ -52,10 +52,32 @@ function displayFindings(container, findings) {
     container.appendChild(message);
     return;
   }
-  const list = document.createElement("ul");
+  const list = document.createElement("div");
+  list.className = "finding-list";
   findings.forEach((finding) => {
-    const item = document.createElement("li");
-    item.textContent = typeof finding === "string" ? finding : (finding.message || finding.description || JSON.stringify(finding));
+    const item = document.createElement("article");
+    item.className = "result-clause finding-card";
+    if (typeof finding === "string") {
+      item.textContent = finding;
+      list.appendChild(item);
+      return;
+    }
+    const label = finding.provision || finding.rule || "Finding";
+    addHeading(item, label.replaceAll("_", " "));
+    const status = finding.status || finding.outcome || finding.evidence_status || "UNRESOLVED";
+    const badge = document.createElement("span");
+    badge.className = `finding-status finding-${String(status).toLowerCase().replaceAll("_", "-")}`;
+    badge.textContent = status;
+    item.appendChild(badge);
+    if (finding.rule) addResultRow(item, "Rule", finding.rule);
+    if (finding.source) addResultRow(item, "Source", finding.source);
+    if (finding.page !== undefined && finding.page !== null) addResultRow(item, "PDF page", finding.page);
+    if (finding.inputs) addResultRow(item, "Submitted inputs", JSON.stringify(finding.inputs));
+    if (finding.threshold !== undefined) addResultRow(item, "Regulatory threshold", finding.threshold);
+    if (finding.comparison) addResultRow(item, "Comparison", finding.comparison);
+    if (finding.justification) addResultRow(item, "Why", finding.justification);
+    if (finding.finding) addResultRow(item, "Evidence result", finding.finding);
+    if (finding.evidence_excerpt) addResultRow(item, "Evidence excerpt", finding.evidence_excerpt);
     list.appendChild(item);
   });
   container.appendChild(list);
@@ -103,9 +125,10 @@ function displayCitations(container, citations) {
     const label = document.createElement("strong");
     label.textContent = page !== undefined && page !== null ? `${source}, PDF page ${page}` : source;
     item.appendChild(label);
-    if (citation.text) {
+    const excerptText = citation.text || citation.excerpt;
+    if (excerptText) {
       const excerpt = document.createElement("p");
-      excerpt.textContent = citation.text;
+      excerpt.textContent = excerptText;
       item.appendChild(excerpt);
     }
     list.appendChild(item);
@@ -117,6 +140,8 @@ function displayVerification(container, verification, trace) {
   if (verification) {
     addHeading(container, "Evidence verification");
     addResultRow(container, "Citations resolve to retrieved text", verification.citations_resolved_to_retrieved_text);
+    if (verification.numeric_rules_compared !== undefined) addResultRow(container, "Numeric rule comparisons", verification.numeric_rules_compared);
+    if (verification.numeric_findings_unresolved !== undefined) addResultRow(container, "Numeric checks unresolved", verification.numeric_findings_unresolved);
     addResultRow(container, "Semantic support checked", verification.semantic_support_checked ? "Yes" : "No — human review required");
     addResultRow(container, "Currentness checked", verification.currentness_checked ? "Yes" : "No — human review required");
   }
@@ -156,6 +181,15 @@ function displayResults(data, proposal) {
     addResultRow(resultsContent, "Site width (m)", details.site_width);
     addResultRow(resultsContent, "Site depth (m)", details.site_depth);
     addResultRow(resultsContent, "Zone", details.zone);
+    addResultRow(resultsContent, "Historical development area", details.development_area);
+    addResultRow(resultsContent, "Proposed coverage (%)", details.proposed_coverage_percent);
+    addResultRow(resultsContent, "Proposed FAR", details.proposed_far);
+    addResultRow(resultsContent, "Proposed setbacks left/right/front/rear (m)", [
+      details.proposed_left_setback,
+      details.proposed_right_setback,
+      details.proposed_front_setback,
+      details.proposed_rear_setback
+    ].join(" / "));
   }
   if (data.recommendation) addResultRow(resultsContent, "Recommendation", data.recommendation);
   displayFindings(resultsContent, data.findings);
@@ -176,6 +210,10 @@ proposalForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!proposalForm.reportValidity()) return;
   const formData = new FormData(proposalForm);
+  const optionalNumber = (name) => {
+    const value = formData.get(name);
+    return value === null || String(value).trim() === "" ? null : Number(value);
+  };
   const proposal = {
     building_use: formData.get("building_use"),
     plot_area: Number(formData.get("plot_area")),
@@ -184,13 +222,20 @@ proposalForm.addEventListener("submit", async (event) => {
     zone: String(formData.get("zone") || "").trim(),
     site_width: formData.get("site_width") ? Number(formData.get("site_width")) : null,
     site_depth: formData.get("site_depth") ? Number(formData.get("site_depth")) : null,
-    proposed_coverage_percent: formData.get("proposed_coverage_percent") ? Number(formData.get("proposed_coverage_percent")) : null,
-    proposed_far: formData.get("proposed_far") ? Number(formData.get("proposed_far")) : null
+    proposed_coverage_percent: optionalNumber("proposed_coverage_percent"),
+    proposed_far: optionalNumber("proposed_far"),
+    development_area: formData.get("development_area") || null,
+    proposed_left_setback: optionalNumber("proposed_left_setback"),
+    proposed_right_setback: optionalNumber("proposed_right_setback"),
+    proposed_front_setback: optionalNumber("proposed_front_setback"),
+    proposed_rear_setback: optionalNumber("proposed_rear_setback")
   };
   const requiredNumbers = [proposal.plot_area, proposal.road_width, proposal.proposed_height];
   if (requiredNumbers.some((value) => !Number.isFinite(value) || value <= 0) || !proposal.zone ||
       (proposal.site_width !== null && (!Number.isFinite(proposal.site_width) || proposal.site_width <= 0)) ||
-      (proposal.site_depth !== null && (!Number.isFinite(proposal.site_depth) || proposal.site_depth <= 0))) {
+      (proposal.site_depth !== null && (!Number.isFinite(proposal.site_depth) || proposal.site_depth <= 0)) ||
+      [proposal.proposed_left_setback, proposal.proposed_right_setback, proposal.proposed_front_setback, proposal.proposed_rear_setback]
+        .some((value) => value !== null && (!Number.isFinite(value) || value < 0))) {
     showMessage("Enter valid positive measurements and a zone before starting the review.", "error", true);
     return;
   }

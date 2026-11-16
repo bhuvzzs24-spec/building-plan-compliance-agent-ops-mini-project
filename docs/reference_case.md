@@ -13,6 +13,8 @@ This case tests whether retrieval finds separate setback and road-width-dependen
 - Abutting road width: 6 m
 - Proposed height: 9 m
 - Historical development-area assumption for Table 6: A, intensely developed
+- Proposed left/right/front/rear setbacks: 1.5 / 1.5 / 4 / 3 m
+- Proposed coverage: 60%; proposed FAR: 0.7
 
 ## Corpus passages to show
 
@@ -25,8 +27,8 @@ The example shows why the setback table alone is insufficient: separate Table 6 
 
 1. Search setback and road-width/FAR provisions as separate obligations.
 2. Return both exact source/page citations and retrieved text.
-3. Do not claim the proposal passes or fails a current regulation. The example lacks a validated current source set and authority confirmation.
-4. Route to specialist-review and explain that evidence is historical and the area-category assumption must be confirmed.
+3. For a fully supplied historical test proposal, compare the values to the extracted table cells and label each outcome as a historical comparison (SATISFIED in the values above). A below-minimum setback or above-maximum FAR/coverage should be labeled VIOLATED and can recommend revise-and-recheck.
+4. Route to specialist-review for the currentness and property applicability limitation. Never claim that the proposal passes or fails current regulation; the example lacks a validated current source set and authority confirmation.
 
 ## Source
 

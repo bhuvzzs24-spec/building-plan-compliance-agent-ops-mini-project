@@ -103,6 +103,12 @@ button[type=submit]:disabled{opacity:.68;cursor:wait;transform:none}
 .result-clause{background:#fff;border:1px solid #e7ecf3;border-radius:12px;padding:17px 19px;box-shadow:0 5px 18px #253e5d08}
 .result-clause h4{font:700 11px Manrope,sans-serif;color:#2d4567;margin:0 0 10px}
 .result-clause p{font-size:10px;color:#65738a;line-height:1.7;margin:8px 0 0;white-space:pre-wrap}
+.finding-list{display:grid;gap:10px;margin:12px 0}
+.finding-status{display:inline-flex;border-radius:99px;padding:5px 9px;margin:2px 0 6px;font-size:9px;font-weight:800;letter-spacing:.04em}
+.finding-satisfied{background:#eaf8f2;color:#237a60}
+.finding-violated{background:#fff0ef;color:#a43c43}
+.finding-unresolved{background:#fff6df;color:#8a681e}
+.finding-not-applicable{background:#eff2f6;color:#66758a}
 #results-content p strong{color:#394a62}
 #results-content ul,#results-content ol{padding-left:21px;margin:0;color:#63728a;font-size:10px;line-height:1.8}
 #results-content li{margin:5px 0}
