@@ -48,3 +48,23 @@ def test_evaluation_protocol_expects_forty_runs():
     assert protocol["total_cases"] == 20
     assert protocol["total_prompt_runs"] == 40
     assert protocol["run_each_scenario_with"] == ["A", "B"]
+
+
+def test_evaluation_fails_closed_when_scenarios_error_or_are_skipped():
+    from evaluation.run_evaluation import evaluation_failed
+
+    assert evaluation_failed({
+        "scenarios_with_errors": 1,
+        "scenarios_processed": 20,
+        "total_scenarios_in_dataset": 20,
+    })
+    assert evaluation_failed({
+        "scenarios_with_errors": 0,
+        "scenarios_processed": 19,
+        "total_scenarios_in_dataset": 20,
+    })
+    assert not evaluation_failed({
+        "scenarios_with_errors": 0,
+        "scenarios_processed": 20,
+        "total_scenarios_in_dataset": 20,
+    })

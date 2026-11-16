@@ -15,6 +15,15 @@ DATASET_PATH = ROOT / "evaluation" / "sloka_evaluation.json"
 RESULTS_PATH = ROOT / "evaluation" / "sloka_evaluation_results.json"
 
 
+def evaluation_failed(report):
+    """Return whether a run omitted or errored on any configured scenario."""
+    return (
+        report.get("scenarios_with_errors", 0) > 0
+        or report.get("scenarios_processed", 0)
+        != report.get("total_scenarios_in_dataset", 0)
+    )
+
+
 def load_dataset():
     """Load and validate the evaluation scenarios."""
     with DATASET_PATH.open("r", encoding="utf-8") as file:
@@ -216,6 +225,9 @@ def main():
         "dataset": str(DATASET_PATH.relative_to(ROOT)),
         "total_scenarios_in_dataset": total,
         "scenarios_processed": len(results),
+        "scenarios_with_retrieval_results": sum(
+            result.get("error") is None for result in results
+        ),
         "scenarios_with_errors": sum(
             result.get("error") is not None for result in results
         ),
@@ -234,8 +246,16 @@ def main():
     print()
     print("Evaluation finished.")
     print(f"Scenarios processed: {len(results)}/{total}")
+    print(f"Scenarios with retrieval results: {report['scenarios_with_retrieval_results']}/{total}")
     print(f"Scenarios with errors: {report['scenarios_with_errors']}")
+    print("Outcome accuracy: unavailable (dataset has no labeled expected outcomes)")
+    print("Semantic evidence support: not measured by this retrieval-only runner")
     print(f"Results saved to: {RESULTS_PATH}")
+
+    # A completed report file is not a successful evaluation if scenarios were
+    # skipped or errored. Make automation fail closed for either condition.
+    if evaluation_failed(report):
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

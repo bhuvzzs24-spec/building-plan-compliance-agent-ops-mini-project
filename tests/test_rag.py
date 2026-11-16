@@ -205,3 +205,34 @@ def test_retrieved_clauses_include_source_and_page(tmp_path):
     assert results[0]["page"] == 7
     assert results[0]["text"]
 
+
+def test_retriever_reranks_exact_table_terms_for_separate_rules(tmp_path):
+    from agents.rag.vector_store import build_vector_store
+    from agents.rag.retriever import retrieve_clauses
+
+    db_path = str(tmp_path / "table_ranking_db")
+    build_vector_store([
+        {
+            "source": "historical.pdf", "page": 22,
+            "text": "TABLE 4 exterior open spaces setbacks in metres for residential buildings up to 9.5 m. Width of site and depth of site determine left right front rear setbacks.",
+        },
+        {
+            "source": "historical.pdf", "page": 24,
+            "text": "TABLE 6 coverage and FAR for residential buildings. In A intensely developed area, plot up to 240 square metres and road width up to 6 metres: plot coverage 65 percent and maximum FAR 0.75.",
+        },
+        {
+            "source": "historical.pdf", "page": 61,
+            "text": "General notes about construction materials and safety requirements.",
+        },
+    ], db_path)
+
+    setback = retrieve_clauses(
+        "residential setbacks site width depth height 9", db_path, top_k=1
+    )
+    road = retrieve_clauses(
+        "residential road width plot area FAR coverage intensely developed", db_path, top_k=1
+    )
+
+    assert setback[0]["page"] == 22
+    assert road[0]["page"] == 24
+

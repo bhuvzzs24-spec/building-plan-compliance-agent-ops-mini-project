@@ -148,3 +148,12 @@ Its central design principle is to distinguish evidence retrieval from a legal c
 **Repository:** https://github.com/bhuvzzs24-spec/building-plan-compliance-agent-ops-mini-project
 
 **Project category:** AgentOps / AI-assisted regulatory evidence retrieval and decision support
+
+## Team responsibility allocation
+
+- **Bhuvana:** Platform, deployment and operations — A4, A7, D1, D3, D4, D5, D6, D8, L5 and L6.
+- **Harshitha:** Agent workflow and backend logic — F3, F6, F7, A1, A2, A3, A5 and L4.
+- **Sloka:** RAG, corpus and evaluation — F4, F5, L1, L2, L3, D2, and demonstrations 2 and 10.
+- **Saanvi:** Frontend, testing and integration, and remaining shared demonstrations and QA.
+
+This is the authoritative responsibility allocation provided for the project. It does not attribute commits or assert personal implementation history. The official assignment PDF was not available in the checkout used for the current verification; rubric identifier titles therefore need confirmation against that source. See `docs/contributions.md` and `FINAL_ACCEPTANCE_REPORT.md`.

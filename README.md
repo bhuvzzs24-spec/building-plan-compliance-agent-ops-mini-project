@@ -179,3 +179,16 @@ This is an improved pre-check prototype, not an implementation of all 22 rubric 
 - observability/: Prometheus configuration and Grafana dashboard
 - docs/: source register, reference case, runbook, final report
 - tests/: API, workflow, evaluation-configuration, and RAG tests
+
+## Team responsibility allocation
+
+The authoritative assignment supplied for this project allocates responsibility as follows. This records responsibility areas only; it does not assert individual Git authorship or that each person completed every item.
+
+| Contributor | Assigned areas |
+|---|---|
+| Bhuvana | Platform, deployment and operations: A4, A7, D1, D3, D4, D5, D6, D8, L5, L6 |
+| Harshitha | Agent workflow and backend logic: F3, F6, F7, A1, A2, A3, A5, L4 |
+| Sloka | RAG, corpus and evaluation: F4, F5, L1, L2, L3, D2, demonstrations 2 and 10 |
+| Saanvi | Frontend, testing and integration; remaining shared demonstrations and QA |
+
+See [docs/contributions.md](docs/contributions.md). The official assignment PDF was not present in the checkout or task workspace, so exact rubric wording for F/A/L/D identifiers remains unverified; see `FINAL_ACCEPTANCE_REPORT.md`.
