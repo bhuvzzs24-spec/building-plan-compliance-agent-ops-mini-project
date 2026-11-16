@@ -1,107 +1,154 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pre-check building proposals against applicable building regulations.">
-    <title>Building Plan Compliance Pre-Check</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="runtime-config.js"></script>
-    <script src="app.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="Review a building proposal against applicable building regulations with an evidence-led pre-check.">
+  <title>Buildwise — Building Plan Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="runtime-config.js"></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Building Plan Compliance</h1>
-        <p>Pre-check your building proposal against applicable regulations.</p>
-    </header>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Buildwise home">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26V13.5L16 5l11 8.5V26H5Z"/><path d="M11 26V16h10v10M11 11h.01M21 11h.01"/></svg></span>
+        <span><strong>buildwise</strong><small>PLAN INTELLIGENCE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#proposal-section"><span class="nav-icon">⌂</span> Plan review <span class="nav-dot"></span></a>
+      <a class="nav-item" href="#results-section"><span class="nav-icon">◷</span> Review results</a>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <span class="help-icon">✦</span>
+          <strong>Evidence-led review</strong>
+          <p>Understand the rules behind every finding, with source references to guide your next step.</p>
+        </div>
+        <div class="sidebar-foot"><span class="status-dot"></span> Pre-check service <span class="live-label">READY</span></div>
+      </div>
+    </aside>
 
-    <main>
-        <section id="proposal-section">
-            <h2>Building Proposal Details</h2>
-            <p>Enter the details of your proposed building below.</p>
+    <div class="main-area" id="top">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="crumb-sep">/</span><strong>Plan review</strong></div>
+        <div class="topbar-right"><span class="secure-label"><span>◆</span> Evidence-based assessment</span><span class="avatar">BW</span></div>
+      </header>
 
-            <form id="proposal-form">
-                <label for="building_use">Building use</label>
-                <select id="building_use" name="building_use" required>
-                    <option value="">Select building use</option>
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="mixed-use">Mixed-use</option>
-                    <option value="institutional">Institutional</option>
-                </select>
-
-                <label for="plot_area">Plot area (square metres)</label>
-                <input
-                    type="number"
-                    id="plot_area"
-                    name="plot_area"
-                    min="0.01"
-                    step="any"
-                    placeholder="e.g. 1200"
-                    required
-                >
-
-                <label for="road_width">Abutting road width (metres)</label>
-                <input
-                    type="number"
-                    id="road_width"
-                    name="road_width"
-                    min="0.01"
-                    step="any"
-                    placeholder="e.g. 9"
-                    required
-                >
-
-                <label for="proposed_height">Proposed building height (metres)</label>
-                <input
-                    type="number"
-                    id="proposed_height"
-                    name="proposed_height"
-                    min="0.01"
-                    step="any"
-                    placeholder="e.g. 12"
-                    required
-                >
-
-                <label for="site_width">Site width / frontage (metres, optional)</label>
-                <input type="number" id="site_width" name="site_width" min="0.01" step="any" placeholder="Needed for setback review">
-
-                <label for="site_depth">Site depth (metres, optional)</label>
-                <input type="number" id="site_depth" name="site_depth" min="0.01" step="any" placeholder="Needed for setback review">
-
-                <label for="proposed_coverage_percent">Proposed ground coverage % (optional)</label>
-                <input type="number" id="proposed_coverage_percent" name="proposed_coverage_percent" min="0" max="100" step="any">
-
-                <label for="proposed_far">Proposed FAR (optional)</label>
-                <input type="number" id="proposed_far" name="proposed_far" min="0" step="any">
-
-                <label for="zone">Zone</label>
-                <input
-                    type="text"
-                    id="zone"
-                    name="zone"
-                    placeholder="Enter the applicable zone"
-                    required
-                >
-
-                <button type="submit">Check Building Proposal</button>
-            </form>
+      <main class="content">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> BUILDING PLAN PRE-CHECK</div>
+            <h1>Make your next build<br><em>compliance-ready.</em></h1>
+            <p>Review key building details against applicable regulations. Get structured findings, supporting clauses and clear next steps before professional review.</p>
+            <div class="hero-meta"><span class="meta-check">✓</span> Preliminary review <span class="meta-divider"></span> <span class="meta-check">✓</span> Traceable references <span class="meta-divider"></span> <span class="meta-check">✓</span> Human-in-the-loop</div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="blueprint-grid"></div>
+            <svg class="building-illustration" viewBox="0 0 360 260" fill="none">
+              <path d="M42 220h276M66 220V93l78-44 78 44v127M222 111l50-28 42 28v109" stroke="currentColor" stroke-width="2"/>
+              <path d="M83 105h122M83 120h122M83 135h122M83 150h122M83 165h122" stroke="currentColor" stroke-opacity=".3"/>
+              <path d="M94 220v-38h32v38M154 220v-38h32v38M236 220v-55h25v55M276 220v-55h25v55" stroke="currentColor" stroke-width="2"/>
+              <path d="M144 49V26h20v34M144 26h20M144 40h20" stroke="currentColor" stroke-width="2"/>
+              <path d="M31 220h300M50 231h280" stroke="currentColor" stroke-opacity=".35"/>
+              <path d="M66 93l78-44 78 44M222 111l50-28 42 28" stroke="#75A9FF" stroke-width="3"/>
+              <circle cx="280" cy="48" r="20" fill="#A8CBFF" fill-opacity=".16" stroke="#75A9FF"/>
+              <path d="m272 48 5 5 11-12" stroke="#75A9FF" stroke-width="2"/>
+            </svg>
+            <div class="art-note"><span class="art-note-dot"></span><span><b>Built around evidence</b><small>Rules · clauses · citations</small></span></div>
+          </div>
         </section>
 
-        <section id="results-section" aria-live="polite" hidden>
-            <h2>Pre-Check Results</h2>
-            <div id="results-content"></div>
-        </section>
-    </main>
+        <div class="section-heading" id="proposal-section">
+          <div><div class="eyebrow muted">01 / PROJECT INPUT</div><h2>Tell us about your project</h2><p>Share the essential site and building information to start your pre-check.</p></div>
+          <div class="required-note"><span>*</span> Required fields</div>
+        </div>
 
-    <footer>
-        <p>
-            This service provides preliminary findings only.
-            It does not certify legal compliance or replace review
-            by a licensed architect or engineer.
-        </p>
-    </footer>
+        <section class="form-card">
+          <form id="proposal-form">
+            <div class="form-section">
+              <div class="form-section-head"><span class="section-icon">▦</span><div><h3>Project profile</h3><p>What are you planning to build?</p></div><span class="step-number">01</span></div>
+              <div class="field-grid">
+                <div class="field full">
+                  <label for="building_use">Building use <span>*</span></label>
+                  <select id="building_use" name="building_use" required>
+                    <option value="">Choose a building category</option><option value="residential">Residential</option><option value="commercial">Commercial</option><option value="mixed-use">Mixed-use</option><option value="institutional">Institutional</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="zone">Zone / land-use classification <span>*</span></label>
+                  <input type="text" id="zone" name="zone" placeholder="e.g. Residential (R1)" required>
+                  <small>Use the zone stated in your planning documents.</small>
+                </div>
+                <div class="field">
+                  <label for="plot_area">Plot area <span>*</span></label>
+                  <div class="input-unit"><input type="number" id="plot_area" name="plot_area" min="0.01" step="any" placeholder="e.g. 1200" required><span>m²</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="form-section">
+              <div class="form-section-head"><span class="section-icon">⌖</span><div><h3>Site dimensions</h3><p>Help us understand the site context and access.</p></div><span class="step-number">02</span></div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="road_width">Abutting road width <span>*</span></label>
+                  <div class="input-unit"><input type="number" id="road_width" name="road_width" min="0.01" step="any" placeholder="e.g. 9" required><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="site_width">Site width / frontage <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="site_width" name="site_width" min="0.01" step="any" placeholder="e.g. 30"><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="site_depth">Site depth <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="site_depth" name="site_depth" min="0.01" step="any" placeholder="e.g. 40"><span>m</span></div>
+                </div>
+                <div class="field field-hint"><span class="hint-icon">ⓘ</span><p>Frontage and depth can support a more useful setback review. Leave blank when unknown.</p></div>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="form-section">
+              <div class="form-section-head"><span class="section-icon">⌂</span><div><h3>Building parameters</h3><p>Enter the proposed building envelope.</p></div><span class="step-number">03</span></div>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="proposed_height">Proposed building height <span>*</span></label>
+                  <div class="input-unit"><input type="number" id="proposed_height" name="proposed_height" min="0.01" step="any" placeholder="e.g. 12" required><span>m</span></div>
+                </div>
+                <div class="field">
+                  <label for="proposed_coverage_percent">Ground coverage <small class="optional">OPTIONAL</small></label>
+                  <div class="input-unit"><input type="number" id="proposed_coverage_percent" name="proposed_coverage_percent" min="0" max="100" step="any" placeholder="e.g. 45"><span>%</span></div>
+                </div>
+                <div class="field">
+                  <label for="proposed_far">Proposed FAR <small class="optional">OPTIONAL</small></label>
+                  <input type="number" id="proposed_far" name="proposed_far" min="0" step="any" placeholder="e.g. 2.0">
+                  <small>Floor Area Ratio, if available.</small>
+                </div>
+              </div>
+            </div>
+            <div class="form-footer">
+              <div class="privacy-note"><span>◈</span><span><b>Use verified project information.</b><small>Optional site details may be left blank.</small></span></div>
+              <button type="submit" id="submit-button"><span class="button-label">Run compliance pre-check</span><span class="button-arrow">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <section id="results-section" class="results-wrap" aria-live="polite" hidden>
+          <div class="section-heading results-title"><div><div class="eyebrow muted">02 / ASSESSMENT OUTPUT</div><h2>Your review results</h2><p>Evidence and workflow details from your submitted proposal.</p></div><span class="result-live"><span class="status-dot"></span> LIVE REVIEW</span></div>
+          <div id="results-content"></div>
+        </section>
+
+        <footer class="page-footer">
+          <div class="footer-brand"><span class="footer-mark">B</span><span><b>buildwise</b><small>BUILD WITH CLARITY.</small></span></div>
+          <p>This service provides preliminary findings only. It does not certify legal compliance or replace review by a licensed architect, engineer or relevant authority.</p>
+          <span class="footer-version">PRE-CHECK SERVICE</span>
+        </footer>
+      </main>
+    </div>
+  </div>
 </body>
 </html>
-
