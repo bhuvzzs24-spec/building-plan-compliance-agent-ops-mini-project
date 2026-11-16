@@ -41,6 +41,6 @@ The valid reference run retrieved separate Table 4 setback evidence (PDF page 22
 | 9 | Locust SLO, bottleneck, one vs. three workers | BLOCKED | Docker load comparison was not run. No RPS or p50/p95 figures are claimed. |
 | 10 | Narrow-road reference retrieves separate applicable provisions | PASS locally (historical) | Retrieved separate Table 4/page 22 and Table 6/page 24 evidence; comparisons used parsed historical table values. |
 
-Local API/frontend HTTP checks passed. Browser-driven form interaction is not executed because browser automation was unavailable; do not report the frontend as browser-tested.
+The frontend page, JavaScript, and stylesheet returned HTTP 200, but this is not a UI test. Browser-driven form interaction is **BLOCKED** in this environment: Playwright/Selenium are absent, installed Chrome 157 exits 134 in headless mode, and SafariDriver requires administrator authentication to enable. Do not report a browser-tested frontend until an actual browser submits the form and displays results.
 
 For Docker and Locust validation on a capable host, follow `DOCKER_VERIFICATION_REPORT.md` and `docs/performance.md`. Preserve actual outputs and do not replace blocked/not-executed statuses with assumptions.

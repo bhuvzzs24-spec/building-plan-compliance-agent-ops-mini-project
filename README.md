@@ -192,7 +192,7 @@ The local PDF is Bangalore Mahanagara Palike Building Bye-Laws 2003, not the 201
 
 ## Remaining verification limits
 
-Provider-backed A/B and semantic evaluation require credentials and have not been executed in this environment. Docker Compose configuration is validated without starting containers; Docker runtime, Redis-backed processing, scaled workers, Prometheus/Grafana runtime, and Locust measurements still require a Docker-capable machine. Browser-driven interactions have not been executed. The historical corpus remains incomplete for current-property decisions, and the app always preserves specialist escalation for unresolved currentness/applicability.
+Provider-backed A/B and semantic evaluation require credentials and have not been executed in this environment. Docker Compose configuration is validated without starting containers; Docker runtime, Redis-backed processing, scaled workers, Prometheus/Grafana runtime, and Locust measurements still require a Docker-capable machine. Browser-driven interactions have not been executed: Playwright/Selenium are not installed, Chrome aborts in headless mode with exit 134, and SafariDriver requires administrator authentication to enable remote automation. No browser package or browser binary was downloaded. See [WEBSITE_VERIFICATION_REPORT.md](WEBSITE_VERIFICATION_REPORT.md) for the exact checks and blocker. The historical corpus remains incomplete for current-property decisions, and the app preserves specialist escalation for unresolved currentness/applicability.
 
 ## Project structure
 

@@ -57,7 +57,7 @@ The assignment PDF was not available in the repository or task workspace during 
 | D4 | Prometheus/Grafana monitoring | BLOCKED | Config and dashboard definitions parse; services and scraping not started. |
 | D5 | Worker scaling | BLOCKED | Compose scaling supported in config; three-worker runtime not executed. |
 | D6 | Load and SLO evidence | BLOCKED | Locust and comparison scripts exist; no measured results. Declared end-to-end SLO is p95 <45 seconds. |
-| D7 | Browser behavior | NOT EXECUTED | Frontend HTTP smoke passed; Playwright/Puppeteer unavailable and cached Chromium failed to launch with a debugging endpoint. |
+| D7 | Browser behavior | BLOCKED | Playwright/Selenium are absent; installed Chrome 157 aborts in headless mode (exit 134), GUI automation did not expose CDP, and SafariDriver requires administrator authentication to enable. No browser package was downloaded. |
 | D8 | Runbook and incident reporting | PARTIAL | `docs/runbook.md` documents failure recovery and recorded incidents; current Docker runtime remains unverified. |
 
 ## 2. Tests and exact results
@@ -76,7 +76,7 @@ The assignment PDF was not available in the repository or task workspace during 
 
 The local no-Docker path was exercised on loopback with the launcher, API and static frontend. Health/readiness and frontend returned HTTP 200. A valid reference proposal returned HTTP 202, completed asynchronously, retrieved historical setback evidence from PDF page 22 and coverage/FAR evidence from page 24, and produced six numeric findings with citations. A below-threshold proposal produced violation findings and `revise-and-recheck`. An injection-like proposal routed to specialist review with the input guard status. A malformed proposal returned HTTP 422, quarantine metadata, field-level errors, and `agent_started=false`; quarantine lookup succeeded. Prometheus text metrics returned HTTP 200.
 
-These checks cover API-to-local-worker-to-agent/RAG/result. Static frontend serving was checked, but a browser did not submit a form or render a completed result; frontend-to-backend browser acceptance is therefore **not executed**.
+These checks cover API-to-local-worker-to-agent/RAG/result. Static frontend serving and its JavaScript/stylesheet HTTP responses were checked, but a browser did not submit a form or render a completed result; frontend-to-backend browser acceptance is **BLOCKED**. At verification, `df -h .` reported 2.4 GiB free. Playwright, Selenium, Pyppeteer, ChromeDriver and GeckoDriver were not installed. Installed Google Chrome 157.0.8103.52 aborted when launched headless with exit 134; GUI launch did not provide a remote debugging endpoint. `safaridriver --port 4444` exited 1, and `safaridriver --enable` requested a password, so no privileged system setting was changed. No browser package or browser binary was downloaded.
 
 ## 4. Docker, service health, scaling and load
 
@@ -104,7 +104,7 @@ Retrieval execution completed on all 20 scenarios with zero runtime errors. This
 ## 7. Known limits and remaining blockers
 
 - Docker runtime acceptance is blocked until a Docker-capable environment with adequate storage is available.
-- Browser automation did not execute; use an installed browser automation environment for full UI interaction checks.
+- Browser automation is blocked in this environment: available Chrome aborts headless (exit 134), browser automation packages are absent, and SafariDriver requires administrator authentication to enable. See [`WEBSITE_VERIFICATION_REPORT.md`](WEBSITE_VERIFICATION_REPORT.md) for exact attempts and checks.
 - Provider-backed prompt A/B, model semantic scores, and token/cost accounting need configured endpoint/model and credentials.
 - The corpus is historical Bangalore Bye-Laws 2003; current zoning, amendments and property-specific applicability are not established.
 - Retrieval evaluation reports execution, not labeled compliance accuracy.
@@ -123,10 +123,10 @@ This reflects the authoritative allocation supplied for the project, not Git aut
 
 ## 9. Git delivery
 
-- Verified implementation, tests, and report updates: commit `8112a9acf01e37da4e08840c1f94d1e414d332bc` (`Complete compliance workflow reliability and ops`).
-- Final acceptance-report correction: committed immediately after that implementation commit on `main`.
-- Remote branch: `origin/main`; push and remote SHA verification are performed as the final delivery step for this task.
+- Verified implementation, tests, and reports: commit `8112a9acf01e37da4e08840c1f94d1e414d332bc` (`Complete compliance workflow reliability and ops`) and follow-up acceptance report commit `ad7ff9b640aa4114fc6d71e32ab1a2338b56d692`.
+- This website verification report is being committed as a further documentation-only follow-up; the final branch-tip SHA is reported in the task delivery.
+- Remote branch: `origin/main`; no force push is used.
 
 ## 10. Final verdict
 
-**READY WITH LIMITATIONS for a local historical demonstration. NOT READY for Docker runtime acceptance or a complete assignment sign-off.** The central local API-to-agent-to-evidence-to-result path and the numerical narrow-road case were exercised. Docker runtime, browser interaction, model quality measurement, and load/scaling measurements remain unverified and are clearly reported as such.
+**READY WITH LIMITATIONS for a local historical API demonstration. NOT READY for a browser-verified faculty demonstration, Docker runtime acceptance, or complete assignment sign-off.** The central local API-to-agent-to-evidence-to-result path and numerical narrow-road case were exercised, but the actual website form has not been browser-tested. Docker runtime, model quality measurement, and load/scaling measurements also remain unverified.
